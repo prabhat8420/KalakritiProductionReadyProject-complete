@@ -29,7 +29,7 @@ app.add_middleware(
 # Custom Middleware
 app.add_middleware(RequestTimingMiddleware)
 
-# Root Index & Health Endpoints
+# Root Index & Instant Healthcheck Endpoints for Railway / Load Balancers
 @app.get("/", tags=["Root"])
 async def root():
     return {
@@ -42,20 +42,10 @@ async def root():
 
 @app.get("/health", tags=["Root Health"])
 async def root_health():
-    from app.core.database import check_database_connection
-    from app.core.redis import check_redis_connection
-    
-    db_status = await check_database_connection()
-    cache_status = await check_redis_connection()
-    
     return {
-        "status": "healthy" if db_status.get("status") == "healthy" else "degraded",
+        "status": "healthy",
         "app": settings.APP_NAME,
-        "version": settings.APP_VERSION,
-        "dependencies": {
-            "database": db_status,
-            "cache": cache_status
-        }
+        "version": settings.APP_VERSION
     }
 
 # Mount API Routers
