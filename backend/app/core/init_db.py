@@ -74,13 +74,19 @@ async def init_and_seed_db():
 
             # States
             states_data = [
-                ("Bihar", "BR"), ("Rajasthan", "RJ"), ("Chhattisgarh", "CG"),
-                ("Odisha", "OD"), ("Gujarat", "GJ"), ("Uttar Pradesh", "UP"),
-                ("Karnataka", "KA"), ("Tamil Nadu", "TN"), ("West Bengal", "WB")
+                ("Bihar", "bihar", "BR"),
+                ("Rajasthan", "rajasthan", "RJ"),
+                ("Chhattisgarh", "chhattisgarh", "CG"),
+                ("Odisha", "odisha", "OD"),
+                ("Gujarat", "gujarat", "GJ"),
+                ("Uttar Pradesh", "uttar-pradesh", "UP"),
+                ("Karnataka", "karnataka", "KA"),
+                ("Tamil Nadu", "tamil-nadu", "TN"),
+                ("West Bengal", "west-bengal", "WB")
             ]
             state_objs = {}
-            for sname, scode in states_data:
-                st = State(name=sname, code=scode)
+            for sname, sslug, scode in states_data:
+                st = State(name=sname, slug=sslug, code=scode)
                 session.add(st)
                 state_objs[scode] = st
             await session.flush()
@@ -99,9 +105,9 @@ async def init_and_seed_db():
             await session.flush()
 
             # Traditions & Crafts
-            trad_madhubani = Tradition(name="Madhubani Painting", slug="madhubani", region="Mithila, Bihar", heritage_origin="8th Century BCE Mithila Kingdom", description="Geometric storytelling made with natural vegetable dyes.")
-            trad_bluepottery = Tradition(name="Jaipur Blue Pottery", slug="jaipur-blue-pottery", region="Jaipur, Rajasthan", heritage_origin="19th Century Sawai Ram Singh II", description="Glazed quartz-paste pottery with cobalt blue floral motifs.")
-            trad_dhokra = Tradition(name="Dhokra Lost-Wax Bronze", slug="dhokra", region="Bastar, Chhattisgarh", heritage_origin="Indus Valley Civilization (4000+ years)", description="Primitive lost-wax casting of non-ferrous bell metals.")
+            trad_madhubani = Tradition(name="Madhubani Painting", slug="madhubani", region="Mithila, Bihar", state_id=state_objs["BR"].id, heritage_origin="8th Century BCE Mithila Kingdom", description="Geometric storytelling made with natural vegetable dyes.")
+            trad_bluepottery = Tradition(name="Jaipur Blue Pottery", slug="jaipur-blue-pottery", region="Jaipur, Rajasthan", state_id=state_objs["RJ"].id, heritage_origin="19th Century Sawai Ram Singh II", description="Glazed quartz-paste pottery with cobalt blue floral motifs.")
+            trad_dhokra = Tradition(name="Dhokra Lost-Wax Bronze", slug="dhokra", region="Bastar, Chhattisgarh", state_id=state_objs["CG"].id, heritage_origin="Indus Valley Civilization (4000+ years)", description="Primitive lost-wax casting of non-ferrous bell metals.")
             session.add_all([trad_madhubani, trad_bluepottery, trad_dhokra])
             await session.flush()
 
@@ -144,8 +150,36 @@ async def init_and_seed_db():
             ])
 
             # Products & Provenance
-            p1 = Product(artisan_id=art1.id, category_id=cat_paintings.id, subcategory_id=subcat_madhubani.id, tradition_id=trad_madhubani.id, craft_id=craft_madhubani.id, title="Tree of Life Mithila Folk Art", slug="tree-of-life-mithila-art", description_en="Hand-painted on handmade treated paper using bamboo dip pens and organic mineral dyes.", base_price=2800.0, artisan_share=2380.0, platform_fee=280.0, delivery_fee=140.0, total_price=3220.0, status="published", is_gi_certified=True)
-            p2 = Product(artisan_id=art2.id, category_id=cat_pottery.id, subcategory_id=subcat_bluepottery.id, tradition_id=trad_bluepottery.id, craft_id=craft_pottery.id, title="Imperial Persian Cobalt Ceramic Urn", slug="imperial-persian-cobalt-urn", description_en="Hand-thrown quartz clay glazed with natural cobalt oxide and copper sulphate.", base_price=2500.0, artisan_share=2125.0, platform_fee=250.0, delivery_fee=125.0, total_price=2875.0, status="published", is_gi_certified=True)
+            p1 = Product(
+                artisan_id=art1.id,
+                category_id=cat_paintings.id,
+                subcategory_id=subcat_madhubani.id,
+                tradition_id=trad_madhubani.id,
+                title="Tree of Life Mithila Folk Art",
+                slug="tree-of-life-mithila-art",
+                description_en="Hand-painted on handmade treated paper using bamboo dip pens and organic mineral dyes.",
+                base_price=2800.0,
+                artisan_share=2380.0,
+                platform_fee=280.0,
+                delivery_fee=140.0,
+                ai_confidence_score=0.98,
+                status="published"
+            )
+            p2 = Product(
+                artisan_id=art2.id,
+                category_id=cat_pottery.id,
+                subcategory_id=subcat_bluepottery.id,
+                tradition_id=trad_bluepottery.id,
+                title="Imperial Persian Cobalt Ceramic Urn",
+                slug="imperial-persian-cobalt-urn",
+                description_en="Hand-thrown quartz clay glazed with natural cobalt oxide and copper sulphate.",
+                base_price=2500.0,
+                artisan_share=2125.0,
+                platform_fee=250.0,
+                delivery_fee=125.0,
+                ai_confidence_score=0.96,
+                status="published"
+            )
             session.add_all([p1, p2])
             await session.flush()
 
@@ -161,13 +195,13 @@ async def init_and_seed_db():
                 ProductImage(product_id=p2.id, image_url="https://images.unsplash.com/photo-1618220179428-22790b461013?w=800&q=80", is_primary=True, display_order=1)
             ])
 
-            cert1 = ProductCertification(product_id=p1.id, certificate_id=f"KLK-CERT-BR-MAD-202608-{p1.id[:8].upper()}", certificate_hash="d8f24a1b0c9e7f53a2b4e8c1d5f7a9b0c2e4f6a8b1c3d5e7f9a1b3c5d7e9f1a3", qr_code_url="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAQMAAACQAPgaAAAA", craft_tradition="Madhubani Painting", artisan_name="Ganesh Jha", origin_region="Mithila, Bihar", raw_materials="Handmade Paper, Natural Plant Dyes", heritage_registry_badge="GI Registered Lineage")
-            cert2 = ProductCertification(product_id=p2.id, certificate_id=f"KLK-CERT-RJ-POT-202608-{p2.id[:8].upper()}", certificate_hash="a1b2c3d4e5f60718293a4b5c6d7e8f901a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d", qr_code_url="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAQMAAACQAPgaAAAA", craft_tradition="Jaipur Blue Pottery", artisan_name="Ram Narayan Kumbhar", origin_region="Jaipur, Rajasthan", raw_materials="Quartz Powder, Natural Cobalt Glaze", heritage_registry_badge="GI Registered Lineage")
+            cert1 = ProductCertification(product_id=p1.id, certificate_id=f"KLK-CERT-BR-MAD-202608-{p1.id[:8].upper()}", certificate_hash="d8f24a1b0c9e7f53a2b4e8c1d5f7a9b0c2e4f6a8b1c3d5e7f9a1b3c5d7e9f1a3", qr_code_url="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAQMAAACQAPgaAAAA", craft_tradition="Madhubani Painting", artisan_name="Ganesh Jha", origin_region="Mithila, Bihar", raw_materials="Handmade Paper, Natural Plant Dyes", heritage_registry_badge="GI Certified Traditional Craft")
+            cert2 = ProductCertification(product_id=p2.id, certificate_id=f"KLK-CERT-RJ-POT-202608-{p2.id[:8].upper()}", certificate_hash="a1b2c3d4e5f60718293a4b5c6d7e8f901a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d", qr_code_url="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAQMAAACQAPgaAAAA", craft_tradition="Jaipur Blue Pottery", artisan_name="Ram Narayan Kumbhar", origin_region="Jaipur, Rajasthan", raw_materials="Quartz Powder, Natural Cobalt Glaze", heritage_registry_badge="GI Certified Traditional Craft")
             session.add_all([cert1, cert2])
 
             session.add_all([
-                RepairPartner(name="Jaipur Heritage Ceramic & Quartz Restoration Guild", contact_email="jaipur.repairs@kalakriti.in", service_region="Rajasthan & North India", specialization_traditions="Jaipur Blue Pottery, Terracotta, Glazed Ceramics", rating=4.95, is_verified=True),
-                RepairPartner(name="Eastern India Metal & Patina Care Guild", contact_email="eastern.metal@kalakriti.in", service_region="Odisha, Bihar, Chhattisgarh", specialization_traditions="Dhokra Bell Metal, Bronze Patina, Copper Casting", rating=4.88, is_verified=True)
+                RepairPartner(name="Jaipur Heritage Ceramic & Quartz Restoration Guild", region="North India / Rajasthan / NCR", pincode_prefix="30", specialties="Jaipur Blue Pottery, Terracotta, Glazed Ceramics", rating=4.95, active_repairs_count=0, contact_info="jaipur.repairs@kalakriti.in"),
+                RepairPartner(name="Eastern India Metal & Patina Care Guild", region="Odisha, Bihar, Chhattisgarh", pincode_prefix="84", specialties="Dhokra Bell Metal, Bronze Patina, Copper Casting", rating=4.88, active_repairs_count=0, contact_info="eastern.metal@kalakriti.in")
             ])
 
             await session.commit()
