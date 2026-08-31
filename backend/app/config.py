@@ -19,8 +19,9 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     
     # Database
-    DATABASE_URL: str = "sqlite+aiosqlite:///C:/Users/hp/kalakriti/database/kalakriti.db"
-    DATABASE_URL_SYNC: str = "sqlite:///C:/Users/hp/kalakriti/database/kalakriti.db"
+    DATABASE_URL: str = "sqlite+aiosqlite:///tmp/kalakriti.db"
+    DATABASE_URL_SYNC: str = "sqlite:///tmp/kalakriti.db"
+
     
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
