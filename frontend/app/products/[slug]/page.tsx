@@ -2,15 +2,19 @@ import { notFound } from 'next/navigation';
 import { ProductPriceBreakdown } from '@/components/products/ProductPrice';
 import { AuthenticityCertificate } from '@/components/products/AuthenticityCertificate';
 import { API_BASE_URL } from '@/lib/config';
+import { SEED_PRODUCTS } from '@/lib/catalog';
 
 async function getProduct(slug: string) {
   try {
     const res = await fetch(`${API_BASE_URL}/products/by-slug/${slug}`, { cache: 'no-store' });
-    if (!res.ok) return null;
-    return await res.json();
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.title) return data;
+    }
   } catch (err) {
-    return null;
+    // Fallback
   }
+  return SEED_PRODUCTS.find((p) => p.slug === slug) || null;
 }
 
 export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
