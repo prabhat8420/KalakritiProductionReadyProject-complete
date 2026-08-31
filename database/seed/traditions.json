@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Madhubani Painting",
+    "slug": "madhubani-painting",
+    "region": "Mithila, Bihar",
+    "description": "Ancient geometrical and nature-inspired paintings traditionally made using twigs, brushes, and natural vegetable dyes on treated cloth and handmade paper.",
+    "heritage_origin": "Mithila Kingdom (8th Century BCE)"
+  },
+  {
+    "name": "Jaipur Blue Pottery",
+    "slug": "jaipur-blue-pottery",
+    "region": "Jaipur, Rajasthan",
+    "description": "A unique style of glazed pottery using quartz powder and Egyptian paste rather than traditional clay, famed for cobalt blue floral motifs.",
+    "heritage_origin": "Turko-Persian origins adopted in 19th Century Jaipur"
+  },
+  {
+    "name": "Dhokra Bell Metal",
+    "slug": "dhokra-bell-metal",
+    "region": "Bastar, Chhattisgarh / Odisha",
+    "description": "Non-ferrous metal casting using the ancient lost-wax technique, known for rustic tribal motifs and timeless primitive minimalism.",
+    "heritage_origin": "Indus Valley Civilization (Mohenjo-daro Dancing Girl tradition)"
+  },
+  {
+    "name": "Pattachitra Scroll Painting",
+    "slug": "pattachitra-scroll-painting",
+    "region": "Raghurajpur, Odisha",
+    "description": "Intricate cloth-based scroll painting capturing mythological narratives, executed with mineral colors and palm leaf etchings.",
+    "heritage_origin": "Lord Jagannath Temple tradition (12th Century CE)"
+  }
+]

@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: kalakriti_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-kalakriti_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kalakriti_secure_password}
+      POSTGRES_DB: ${POSTGRES_DB:-kalakriti_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-kalakriti_user} -d ${POSTGRES_DB:-kalakriti_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - kalakriti_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: kalakriti_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./infrastructure/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - kalakriti_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../infrastructure/docker/backend.Dockerfile
+    container_name: kalakriti_backend
+    restart: unless-stopped
+    environment:
+      ENVIRONMENT: development
+      DEBUG: "True"
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-kalakriti_user}:${POSTGRES_PASSWORD:-kalakriti_secure_password}@postgres:5432/${POSTGRES_DB:-kalakriti_db}
+      DATABASE_URL_SYNC: postgresql://${POSTGRES_USER:-kalakriti_user}:${POSTGRES_PASSWORD:-kalakriti_secure_password}@postgres:5432/${POSTGRES_DB:-kalakriti_db}
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY:-development_secret_key_kalakriti_32_bytes_long}
+      CORS_ORIGINS: http://localhost:3000,http://frontend:3000
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - kalakriti_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../infrastructure/docker/frontend.Dockerfile
+    container_name: kalakriti_frontend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:8000/api/v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - kalakriti_network
+
+  nginx:
+    build:
+      context: ./infrastructure/nginx
+      dockerfile: ../docker/nginx.Dockerfile
+    container_name: kalakriti_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - kalakriti_network
+
+networks:
+  kalakriti_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

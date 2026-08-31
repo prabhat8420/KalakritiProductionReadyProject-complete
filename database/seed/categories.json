@@ -1,0 +1,60 @@
+[
+  {
+    "name": "Handloom & Textiles",
+    "slug": "handloom-textiles",
+    "description": "Exquisite handwoven silks, khadi, and traditional block prints.",
+    "icon_name": "Shirt",
+    "subcategories": [
+      "Banarasi Silk",
+      "Chanderi",
+      "Bandhani",
+      "Kalamkari"
+    ]
+  },
+  {
+    "name": "Pottery & Terracotta",
+    "slug": "pottery-terracotta",
+    "description": "Hand-turned earthenware, blue pottery, and clay decorative art.",
+    "icon_name": "Flame",
+    "subcategories": [
+      "Jaipur Blue Pottery",
+      "Bankura Terracotta",
+      "Black Clay Pottery"
+    ]
+  },
+  {
+    "name": "Folk Paintings & Art",
+    "slug": "folk-paintings-art",
+    "description": "Authentic regional paintings carrying centuries of folklore.",
+    "icon_name": "Palette",
+    "subcategories": [
+      "Madhubani",
+      "Pattachitra",
+      "Warli",
+      "Gond Art",
+      "Pichwai"
+    ]
+  },
+  {
+    "name": "Metal Craft & Dhokra",
+    "slug": "metal-craft-dhokra",
+    "description": "Lost-wax cast bell metal and brass handcrafted sculptures.",
+    "icon_name": "Sparkles",
+    "subcategories": [
+      "Dhokra Metal Casting",
+      "Moradabad Brass",
+      "Bidriware"
+    ]
+  },
+  {
+    "name": "Wooden Carvings & Inlay",
+    "slug": "wooden-carvings",
+    "description": "Intricate woodwork, temple carvings, and wood lacquer toys.",
+    "icon_name": "TreePine",
+    "subcategories": [
+      "Saharanpur Wood Craft",
+      "Channapatna Toys",
+      "Kashmiri Walnut Wood"
+    ]
+  }
+]

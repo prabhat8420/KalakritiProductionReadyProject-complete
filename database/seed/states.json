@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Rajasthan",
+    "slug": "rajasthan",
+    "code": "RJ"
+  },
+  {
+    "name": "Bihar",
+    "slug": "bihar",
+    "code": "BR"
+  },
+  {
+    "name": "Odisha",
+    "slug": "odisha",
+    "code": "OD"
+  },
+  {
+    "name": "Gujarat",
+    "slug": "gujarat",
+    "code": "GJ"
+  },
+  {
+    "name": "Uttar Pradesh",
+    "slug": "uttar-pradesh",
+    "code": "UP"
+  },
+  {
+    "name": "West Bengal",
+    "slug": "west-bengal",
+    "code": "WB"
+  },
+  {
+    "name": "Tamil Nadu",
+    "slug": "tamil-nadu",
+    "code": "TN"
+  },
+  {
+    "name": "Kashmir",
+    "slug": "kashmir",
+    "code": "JK"
+  }
+]
