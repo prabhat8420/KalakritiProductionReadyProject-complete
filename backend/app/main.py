@@ -1,17 +1,27 @@
+import asyncio
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.core.logging import setup_logging
 from app.core.middleware import RequestTimingMiddleware
 from app.api.v1.router import api_v1_router
+from app.core.init_db import init_and_seed_db
 
 # Setup Structured Logging
 setup_logging()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Auto-initialize and seed DB on container boot (runs asynchronously in background)
+    asyncio.create_task(init_and_seed_db())
+    yield
 
 app = FastAPI(
     title="Kalakriti Marketplace API",
     description="Scalable Multi-Vendor Artisan Marketplace Backend with AI-assisted cataloging and circular repair flows.",
     version=settings.APP_VERSION,
+    lifespan=lifespan,
     docs_url="/docs",
     redoc_url="/redoc"
 )
