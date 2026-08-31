@@ -4,6 +4,9 @@ import { AuthenticityCertificate } from '@/components/products/AuthenticityCerti
 import { API_BASE_URL } from '@/lib/config';
 import { SEED_PRODUCTS } from '@/lib/catalog';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 async function getProduct(slug: string) {
   try {
     const res = await fetch(`${API_BASE_URL}/products/by-slug/${slug}`, { cache: 'no-store' });

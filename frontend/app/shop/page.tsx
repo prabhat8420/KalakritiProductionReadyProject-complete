@@ -2,6 +2,9 @@ import Link from 'next/link';
 import { API_BASE_URL } from '@/lib/config';
 import { SEED_PRODUCTS } from '@/lib/catalog';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 async function getProducts() {
   try {
     const res = await fetch(`${API_BASE_URL}/products?status=published`, { cache: 'no-store' });
