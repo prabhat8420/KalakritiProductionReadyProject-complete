@@ -28,7 +28,6 @@ async def init_and_seed_db():
             logger.info("🌱 [Database Init] Seeding heritage craft catalog...")
             from app.models.role import Role
             from app.models.user import User
-            from app.models.user_role import UserRole
             from app.models.category import Category
             from app.models.subcategory import Subcategory
             from app.models.tradition import Tradition
@@ -58,7 +57,8 @@ async def init_and_seed_db():
                 password_hash=hash_password("Admin@Kalakriti2026"),
                 full_name="Kalakriti Heritage Admin",
                 is_active=True,
-                is_verified=True
+                is_verified=True,
+                roles=[admin_role]
             )
             cust_user = User(
                 email="patron.rajesh@example.com",
@@ -66,14 +66,11 @@ async def init_and_seed_db():
                 password_hash=hash_password("Patron@2026"),
                 full_name="Rajesh Kumar",
                 is_active=True,
-                is_verified=True
+                is_verified=True,
+                roles=[customer_role]
             )
             session.add_all([admin_user, cust_user])
             await session.flush()
-            session.add_all([
-                UserRole(user_id=admin_user.id, role_id=admin_role.id),
-                UserRole(user_id=cust_user.id, role_id=customer_role.id)
-            ])
 
             # States
             states_data = [
@@ -115,11 +112,26 @@ async def init_and_seed_db():
             await session.flush()
 
             # Artisans
-            artisan1_user = User(email="master.ganesh@mithila.in", phone="+919811122233", password_hash=hash_password("Artisan@2026"), full_name="Ganesh Jha", is_active=True, is_verified=True)
-            artisan2_user = User(email="master.kripal@jaipurpottery.in", phone="+919822233344", password_hash=hash_password("Artisan@2026"), full_name="Ram Narayan Kumbhar", is_active=True, is_verified=True)
+            artisan1_user = User(
+                email="master.ganesh@mithila.in",
+                phone="+919811122233",
+                password_hash=hash_password("Artisan@2026"),
+                full_name="Ganesh Jha",
+                is_active=True,
+                is_verified=True,
+                roles=[artisan_role]
+            )
+            artisan2_user = User(
+                email="master.kripal@jaipurpottery.in",
+                phone="+919822233344",
+                password_hash=hash_password("Artisan@2026"),
+                full_name="Ram Narayan Kumbhar",
+                is_active=True,
+                is_verified=True,
+                roles=[artisan_role]
+            )
             session.add_all([artisan1_user, artisan2_user])
             await session.flush()
-            session.add_all([UserRole(user_id=artisan1_user.id, role_id=artisan_role.id), UserRole(user_id=artisan2_user.id, role_id=artisan_role.id)])
 
             art1 = Artisan(user_id=artisan1_user.id, display_name="Mithila Heritage Guild (Ganesh Jha)", bio="Master artisan with 28 years of Madhubani lineage.", region="Madhubani, Bihar", craft_tradition="Madhubani Painting", verification_status="verified", years_active=28, avg_rating=4.9, review_count=42, state_id=state_objs["BR"].id)
             art2 = Artisan(user_id=artisan2_user.id, display_name="Jaipur Royal Blue Pottery Studio", bio="Preserving 5th-generation Turko-Persian quartz pottery.", region="Jaipur, Rajasthan", craft_tradition="Jaipur Blue Pottery", verification_status="verified", years_active=34, avg_rating=4.95, review_count=68, state_id=state_objs["RJ"].id)
