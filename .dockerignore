@@ -1,0 +1,9 @@
+node_modules/
+package.json
+package-lock.json
+frontend/
+.git/
+.next/
+*.log
+*.sqlite3
+database/*.db
