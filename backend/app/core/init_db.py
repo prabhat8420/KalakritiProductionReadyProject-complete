@@ -1,29 +1,31 @@
 import logging
+import asyncio
 from sqlalchemy import text
 from app.core.database import engine, Base, AsyncSessionLocal
-from app.core.security import get_password_hash
 
 logger = logging.getLogger("kalakriti.init_db")
 
 async def init_and_seed_db():
-    logger.info("📦 [Database Init] Checking database tables and running auto-migrations...")
+    # Run in background after small delay so healthcheck probe responds instantly
+    await asyncio.sleep(2)
+    logger.info("📦 [Database Init] Verifying database tables in background...")
     try:
         import app.models # Register all models
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
-        logger.info("✅ [Database Init] All database tables verified/created.")
+        logger.info("✅ [Database Init] Database schema verified.")
     except Exception as e:
-        logger.warning(f"⚠️ [Database Init] Table creation note: {e}")
+        logger.warning(f"⚠️ [Database Init] Schema note: {e}")
 
     try:
         async with AsyncSessionLocal() as session:
             r = await session.execute(text("SELECT count(*) FROM categories;"))
             count = r.scalar()
             if count > 0:
-                logger.info(f"ℹ️ [Database Init] Database already contains {count} categories. Skipping seed.")
+                logger.info(f"ℹ️ [Database Init] Database already contains {count} categories.")
                 return
 
-            logger.info("🌱 [Database Init] Empty database detected. Seeding heritage craft catalog...")
+            logger.info("🌱 [Database Init] Seeding heritage craft catalog...")
             from app.models.role import Role
             from app.models.user import User
             from app.models.user_role import UserRole
@@ -40,6 +42,7 @@ async def init_and_seed_db():
             from app.models.product_certification import ProductCertification
             from app.models.inventory import Inventory
             from app.models.repair_partner import RepairPartner
+            from app.core.security import hash_password
 
             # Roles
             admin_role = Role(name="admin", description="Platform Administrator")
@@ -52,7 +55,7 @@ async def init_and_seed_db():
             admin_user = User(
                 email="admin@kalakriti.in",
                 phone="+919876543210",
-                password_hash=get_password_hash("Admin@Kalakriti2026"),
+                password_hash=hash_password("Admin@Kalakriti2026"),
                 full_name="Kalakriti Heritage Admin",
                 is_active=True,
                 is_verified=True
@@ -60,7 +63,7 @@ async def init_and_seed_db():
             cust_user = User(
                 email="patron.rajesh@example.com",
                 phone="+919876500001",
-                password_hash=get_password_hash("Patron@2026"),
+                password_hash=hash_password("Patron@2026"),
                 full_name="Rajesh Kumar",
                 is_active=True,
                 is_verified=True
@@ -112,8 +115,8 @@ async def init_and_seed_db():
             await session.flush()
 
             # Artisans
-            artisan1_user = User(email="master.ganesh@mithila.in", phone="+919811122233", password_hash=get_password_hash("Artisan@2026"), full_name="Ganesh Jha", is_active=True, is_verified=True)
-            artisan2_user = User(email="master.kripal@jaipurpottery.in", phone="+919822233344", password_hash=get_password_hash("Artisan@2026"), full_name="Ram Narayan Kumbhar", is_active=True, is_verified=True)
+            artisan1_user = User(email="master.ganesh@mithila.in", phone="+919811122233", password_hash=hash_password("Artisan@2026"), full_name="Ganesh Jha", is_active=True, is_verified=True)
+            artisan2_user = User(email="master.kripal@jaipurpottery.in", phone="+919822233344", password_hash=hash_password("Artisan@2026"), full_name="Ram Narayan Kumbhar", is_active=True, is_verified=True)
             session.add_all([artisan1_user, artisan2_user])
             await session.flush()
             session.add_all([UserRole(user_id=artisan1_user.id, role_id=artisan_role.id), UserRole(user_id=artisan2_user.id, role_id=artisan_role.id)])
@@ -156,6 +159,6 @@ async def init_and_seed_db():
             ])
 
             await session.commit()
-            logger.info("🎉 [Database Init] Live Railway database successfully populated with Indian handicraft catalog!")
+            logger.info("🎉 [Database Init] Database successfully populated with Indian handicraft catalog!")
     except Exception as e:
         logger.error(f"❌ [Database Init] Seeding error: {e}")
