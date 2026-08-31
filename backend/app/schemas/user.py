@@ -1,6 +1,6 @@
 from typing import Optional, List
 from datetime import datetime
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 class RoleSchema(BaseModel):
     id: str
@@ -8,7 +8,7 @@ class RoleSchema(BaseModel):
 
 class UserSchema(BaseModel):
     id: str
-    email: EmailStr
+    email: str
     phone: Optional[str] = None
     full_name: str
     is_active: bool

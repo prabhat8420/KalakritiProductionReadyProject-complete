@@ -1,15 +1,15 @@
 from typing import Optional, List
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, Field
 
 class UserRegisterRequest(BaseModel):
-    email: EmailStr
+    email: str
     password: str = Field(min_length=6)
     full_name: str = Field(min_length=2, max_length=100)
     phone: Optional[str] = None
     role: str = "customer" # customer, artisan, admin
 
 class UserLoginRequest(BaseModel):
-    email: EmailStr
+    email: str
     password: str
 
 class TokenResponse(BaseModel):
