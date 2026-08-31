@@ -14,4 +14,4 @@ class RepairPartner(Base):
     rating = Column(Float, default=4.9, nullable=False)
     active_repairs_count = Column(Float, default=0, nullable=False)
     contact_info = Column(String(255), nullable=False) # Email/Phone
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)

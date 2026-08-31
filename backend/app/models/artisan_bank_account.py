@@ -14,6 +14,6 @@ class ArtisanBankAccount(Base):
     bank_name = Column(String(100), nullable=True)
     ifsc_code = Column(String(20), nullable=True)
     is_primary = Column(Boolean, default=True, nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     artisan = relationship("Artisan", back_populates="bank_accounts")

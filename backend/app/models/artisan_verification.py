@@ -12,7 +12,7 @@ class ArtisanVerification(Base):
     reviewed_by = Column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
     status = Column(String(20), nullable=False) # approved, rejected, requested_info
     notes = Column(Text, nullable=True)
-    reviewed_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    reviewed_at = Column(DateTime, default=datetime.utcnow)
 
     artisan = relationship("Artisan", back_populates="verifications")
     reviewer = relationship("User", foreign_keys=[reviewed_by])

@@ -14,8 +14,8 @@ class Shipment(Base):
     status = Column(String(30), default="manifested", nullable=False, index=True) # manifested, in_transit, out_for_delivery, delivered
     estimated_delivery = Column(DateTime, nullable=True)
     delivered_at = Column(DateTime, nullable=True)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     suborder = relationship("SubOrder", back_populates="shipment")
     tracking_history = relationship("ShipmentTracking", back_populates="shipment", cascade="all, delete-orphan", lazy="selectin")

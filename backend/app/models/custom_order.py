@@ -14,7 +14,7 @@ class CustomOrder(Base):
     requirements = Column(Text, nullable=False)
     budget_estimate = Column(Float, nullable=False)
     status = Column(String(30), default="inquiry", nullable=False) # inquiry, quoted, accepted, crafting, completed
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User")
     artisan = relationship("Artisan")

@@ -15,7 +15,7 @@ class Tradition(Base):
     state_id = Column(String(36), ForeignKey("states.id", ondelete="SET NULL"), nullable=True)
     heritage_origin = Column(String(255), nullable=True)
     cover_image_url = Column(String(512), nullable=True)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     state = relationship("State", back_populates="traditions")
     crafts = relationship("Craft", back_populates="tradition", cascade="all, delete-orphan", lazy="selectin")

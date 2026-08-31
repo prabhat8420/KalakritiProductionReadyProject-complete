@@ -26,8 +26,8 @@ class RepairTicket(Base):
     
     matched_repair_partner_id = Column(String(36), ForeignKey("repair_partners.id", ondelete="SET NULL"), nullable=True)
     status = Column(String(30), default="diagnosed", nullable=False, index=True) # diagnosed, matched, in_transit, repaired, resolved
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     order_item = relationship("OrderItem", back_populates="repair_tickets")
     product = relationship("Product", lazy="selectin")

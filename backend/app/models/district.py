@@ -10,6 +10,6 @@ class District(Base):
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     state_id = Column(String(36), ForeignKey("states.id", ondelete="CASCADE"), nullable=False, index=True)
     name = Column(String(100), nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     state = relationship("State", back_populates="districts")

@@ -19,7 +19,7 @@ class Review(Base):
     review_text = Column(Text, nullable=False)
     is_verified = Column(Boolean, default=True, nullable=False)
     status = Column(String(20), default="published", nullable=False, index=True)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     product = relationship("Product", lazy="selectin")
     user = relationship("User", lazy="selectin")

@@ -13,6 +13,6 @@ class PaymentTransaction(Base):
     amount = Column(Float, nullable=False)
     status = Column(String(30), nullable=False) # captured, failed, refunded
     raw_webhook_payload = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     payment = relationship("Payment", back_populates="transactions")

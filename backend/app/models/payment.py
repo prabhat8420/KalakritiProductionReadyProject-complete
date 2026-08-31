@@ -17,8 +17,8 @@ class Payment(Base):
     currency = Column(String(10), default="INR", nullable=False)
     status = Column(String(30), default="created", nullable=False, index=True) # created, authorized, captured, failed, refunded
     payment_method = Column(String(50), nullable=True) # upi, card, netbanking
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     order = relationship("Order", back_populates="payment")
     transactions = relationship("PaymentTransaction", back_populates="payment", cascade="all, delete-orphan", lazy="selectin")

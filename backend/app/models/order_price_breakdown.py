@@ -17,6 +17,6 @@ class OrderPriceBreakdown(Base):
     artisan_share = Column(Float, nullable=False)
     platform_fee = Column(Float, nullable=False)
     delivery_fee = Column(Float, nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     order_item = relationship("OrderItem", back_populates="price_breakdown")

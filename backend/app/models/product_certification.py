@@ -17,6 +17,6 @@ class ProductCertification(Base):
     origin_region = Column(String(100), nullable=False)
     raw_materials = Column(Text, nullable=True)
     heritage_registry_badge = Column(String(100), default="GI Certified Traditional Craft", nullable=False)
-    issued_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    issued_at = Column(DateTime, default=datetime.utcnow)
 
     product = relationship("Product", back_populates="certification")

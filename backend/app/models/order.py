@@ -19,8 +19,8 @@ class Order(Base):
     currency = Column(String(10), default="INR", nullable=False)
     status = Column(String(30), default="pending", nullable=False, index=True) # pending, paid, processing, completed, cancelled
     razorpay_order_id = Column(String(100), unique=True, nullable=True, index=True)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     user = relationship("User", lazy="selectin")
     address = relationship("Address", lazy="selectin")

@@ -21,8 +21,8 @@ class SubOrder(Base):
     platform_commission = Column(Float, nullable=False)
     delivery_fee = Column(Float, nullable=False)
     status = Column(String(30), default="placed", nullable=False, index=True) # placed, confirmed, in_crafting, shipped, delivered, cancelled
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     order = relationship("Order", back_populates="suborders")
     artisan = relationship("Artisan", lazy="selectin")

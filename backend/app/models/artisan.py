@@ -20,8 +20,8 @@ class Artisan(Base):
     profile_photo_url = Column(String(512), nullable=True)
     workshop_address = Column(String(255), nullable=True)
     state_id = Column(String(36), ForeignKey("states.id", ondelete="SET NULL"), nullable=True)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     user = relationship("User", back_populates="artisan_profile")
     documents = relationship("ArtisanDocument", back_populates="artisan", cascade="all, delete-orphan", lazy="selectin")

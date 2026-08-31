@@ -28,8 +28,8 @@ class Product(Base):
     certificate_hash = Column(String(64), nullable=True) # SHA-256 immutable digest
     
     status = Column(String(30), default="draft", nullable=False, index=True) # draft, pending_review, published, rejected
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # Relationships
     artisan = relationship("Artisan", lazy="selectin")

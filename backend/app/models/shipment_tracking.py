@@ -12,6 +12,6 @@ class ShipmentTracking(Base):
     status = Column(String(50), nullable=False) # manifested, picked_up, in_transit, out_for_delivery, delivered, delay
     location = Column(String(100), nullable=False)
     description = Column(Text, nullable=True)
-    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    timestamp = Column(DateTime, default=datetime.utcnow)
 
     shipment = relationship("Shipment", back_populates="tracking_history")

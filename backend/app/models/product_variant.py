@@ -13,7 +13,7 @@ class ProductVariant(Base):
     sku = Column(String(100), unique=True, nullable=True)
     price_delta = Column(Float, default=0.0, nullable=False)
     stock_quantity = Column(Integer, default=1, nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     product = relationship("Product", back_populates="variants")
     inventory = relationship("Inventory", back_populates="variant", uselist=False, cascade="all, delete-orphan", lazy="selectin")

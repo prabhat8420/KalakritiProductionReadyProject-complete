@@ -13,7 +13,7 @@ class Category(Base):
     description = Column(Text, nullable=True)
     icon_name = Column(String(50), nullable=True)
     parent_category_id = Column(String(36), ForeignKey("categories.id", ondelete="SET NULL"), nullable=True)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     parent = relationship("Category", remote_side=[id], back_populates="sub_nodes", lazy="selectin")
     sub_nodes = relationship("Category", back_populates="parent", cascade="all")

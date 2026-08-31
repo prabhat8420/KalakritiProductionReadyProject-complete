@@ -12,7 +12,7 @@ class OrderStatusHistory(Base):
     status = Column(String(30), nullable=False)
     notes = Column(Text, nullable=True)
     changed_by = Column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
-    changed_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    changed_at = Column(DateTime, default=datetime.utcnow)
 
     suborder = relationship("SubOrder", back_populates="status_history")
     actor = relationship("User")

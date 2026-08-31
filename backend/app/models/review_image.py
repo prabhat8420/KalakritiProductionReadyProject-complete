@@ -10,6 +10,6 @@ class ReviewImage(Base):
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     review_id = Column(String(36), ForeignKey("reviews.id", ondelete="CASCADE"), nullable=False, index=True)
     image_url = Column(String(512), nullable=False)
-    uploaded_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    uploaded_at = Column(DateTime, default=datetime.utcnow)
 
     review = relationship("Review", back_populates="images")

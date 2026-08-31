@@ -13,7 +13,7 @@ class ArtisanEarning(Base):
     amount = Column(Float, nullable=False)
     status = Column(String(20), default="pending", nullable=False) # pending, matured, paid
     matures_at = Column(DateTime, nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     suborder = relationship("SubOrder", back_populates="artisan_earning")
     artisan = relationship("Artisan")

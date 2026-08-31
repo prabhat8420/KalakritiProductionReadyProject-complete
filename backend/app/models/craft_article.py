@@ -12,6 +12,6 @@ class CraftArticle(Base):
     title = Column(String(255), nullable=False)
     content = Column(Text, nullable=False)
     author = Column(String(100), nullable=False)
-    published_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    published_at = Column(DateTime, default=datetime.utcnow)
 
     craft = relationship("Craft", back_populates="articles")

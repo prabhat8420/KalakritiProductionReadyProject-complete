@@ -17,6 +17,6 @@ class Address(Base):
     state = Column(String(100), nullable=False)
     pincode = Column(String(10), nullable=False, index=True)
     is_default = Column(Boolean, default=False, nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User")

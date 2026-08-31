@@ -13,6 +13,6 @@ class AuditLog(Base):
     target_resource = Column(String(100), nullable=False) # e.g. "Product:uuid", "Artisan:uuid"
     details = Column(Text, nullable=True)
     ip_address = Column(String(50), nullable=True)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), index=True)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
 
     actor = relationship("User")

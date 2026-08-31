@@ -18,7 +18,7 @@ class OrderItem(Base):
     quantity = Column(Integer, default=1, nullable=False)
     unit_price = Column(Float, nullable=False)
     total_price = Column(Float, nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     suborder = relationship("SubOrder", back_populates="items")
     variant = relationship("ProductVariant", lazy="selectin")

@@ -12,6 +12,6 @@ class ProductImage(Base):
     image_url = Column(String(512), nullable=False)
     display_order = Column(Integer, default=0, nullable=False)
     is_primary = Column(Boolean, default=False, nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     product = relationship("Product", back_populates="images")

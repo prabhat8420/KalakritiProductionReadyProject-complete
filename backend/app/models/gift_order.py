@@ -13,6 +13,6 @@ class GiftOrder(Base):
     recipient_email = Column(String(100), nullable=True)
     gift_message = Column(Text, nullable=True)
     include_handwritten_card = Column(Boolean, default=True, nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     order = relationship("Order")

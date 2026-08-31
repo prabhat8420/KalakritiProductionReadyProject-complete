@@ -11,7 +11,7 @@ class Inventory(Base):
     product_variant_id = Column(String(36), ForeignKey("product_variants.id", ondelete="CASCADE"), unique=True, nullable=False, index=True)
     quantity_available = Column(Integer, default=0, nullable=False)
     quantity_reserved = Column(Integer, default=0, nullable=False)
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     variant = relationship("ProductVariant", back_populates="inventory")
     transactions = relationship("InventoryTransaction", back_populates="inventory", cascade="all, delete-orphan")

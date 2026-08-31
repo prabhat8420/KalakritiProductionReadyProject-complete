@@ -12,7 +12,7 @@ class Craft(Base):
     name = Column(String(100), nullable=False)
     slug = Column(String(100), nullable=False, index=True)
     description = Column(Text, nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     tradition = relationship("Tradition", back_populates="crafts")
     articles = relationship("CraftArticle", back_populates="craft", cascade="all, delete-orphan", lazy="selectin")

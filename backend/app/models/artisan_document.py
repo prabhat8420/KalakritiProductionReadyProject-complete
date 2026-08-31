@@ -11,6 +11,6 @@ class ArtisanDocument(Base):
     artisan_id = Column(String(36), ForeignKey("artisans.id", ondelete="CASCADE"), nullable=False, index=True)
     document_type = Column(String(50), nullable=False) # aadhaar, artisan_card, craft_certificate, bank_passbook
     file_url = Column(String(512), nullable=False)
-    uploaded_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    uploaded_at = Column(DateTime, default=datetime.utcnow)
 
     artisan = relationship("Artisan", back_populates="documents")

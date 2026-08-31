@@ -13,6 +13,6 @@ class Session(Base):
     user_agent = Column(String(255), nullable=True)
     ip_address = Column(String(45), nullable=True)
     expires_at = Column(DateTime, nullable=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="sessions")

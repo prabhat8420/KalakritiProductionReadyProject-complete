@@ -12,6 +12,6 @@ class InventoryTransaction(Base):
     change_type = Column(String(50), nullable=False) # restock, sale, reservation, adjustment, release
     quantity_change = Column(Integer, nullable=False)
     reference_id = Column(String(100), nullable=True) # Order ID or note
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     inventory = relationship("Inventory", back_populates="transactions")

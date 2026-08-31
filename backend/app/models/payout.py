@@ -14,6 +14,6 @@ class Payout(Base):
     status = Column(String(30), default="processed", nullable=False, index=True) # pending, processing, processed, failed
     razorpay_payout_id = Column(String(100), unique=True, nullable=True, index=True)
     beneficiary_account = Column(String(100), nullable=True)
-    processed_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    processed_at = Column(DateTime, default=datetime.utcnow)
 
     artisan = relationship("Artisan")

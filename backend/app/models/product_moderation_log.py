@@ -12,7 +12,7 @@ class ProductModerationLog(Base):
     reviewed_by = Column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
     action = Column(String(50), nullable=False) # approved, rejected, flagged
     notes = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     product = relationship("Product", back_populates="moderation_logs")
     reviewer = relationship("User")
