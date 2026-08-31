@@ -183,8 +183,8 @@ async def init_and_seed_db():
             session.add_all([p1, p2])
             await session.flush()
 
-            v1 = ProductVariant(product_id=p1.id, sku="KLK-MAD-TOL-01", name="Framed 24x18 Canvas", price=3220.0)
-            v2 = ProductVariant(product_id=p2.id, sku="KLK-JBP-URN-01", name="14-inch Glazed Urn", price=2875.0)
+            v1 = ProductVariant(product_id=p1.id, sku="KLK-MAD-TOL-01", variant_name="Framed 24x18 Canvas", price_delta=0.0, stock_quantity=12)
+            v2 = ProductVariant(product_id=p2.id, sku="KLK-JBP-URN-01", variant_name="14-inch Glazed Urn", price_delta=0.0, stock_quantity=8)
             session.add_all([v1, v2])
             await session.flush()
 
