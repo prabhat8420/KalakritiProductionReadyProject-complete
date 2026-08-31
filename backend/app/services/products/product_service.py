@@ -47,7 +47,8 @@ class ProductService:
 
         # Generate SEO slug
         clean_title = re.sub(r'[^a-zA-Z0-9\s-]', '', payload["title"]).strip().lower()
-        slug = f"{re.sub(r'\s+', '-', clean_title)}-{str(uuid.uuid4())[:6]}"
+        slug_title = re.sub(r'\s+', '-', clean_title)
+        slug = f"{slug_title}-{str(uuid.uuid4())[:6]}"
 
         product_data = {
             "artisan_id": artisan.id,
