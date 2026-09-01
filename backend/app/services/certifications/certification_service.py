@@ -23,20 +23,8 @@ class CertificationService:
         # Dynamic QR Code URL pointing to public live frontend
         frontend_base = settings.FRONTEND_URL.rstrip('/')
         verify_url = f"{frontend_base}/authenticity?cert_id={cert_id}&hash={cert_hash}"
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_M,
-            box_size=8,
-            border=2,
-        )
-        qr.add_data(verify_url)
-        qr.make(fit=True)
-        img = qr.make_image(fill_color="#1b2d44", back_color="#faf8f5")
-        
-        buffered = io.BytesIO()
-        img.save(buffered, format="PNG")
-        qr_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
-        qr_code_url = f"data:image/png;base64,{qr_base64}"
+        import urllib.parse
+        qr_code_url = f"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={urllib.parse.quote(verify_url)}"
 
         return ProductCertification(
             product_id=product.id,
