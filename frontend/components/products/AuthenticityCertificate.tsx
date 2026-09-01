@@ -21,7 +21,6 @@ export function AuthenticityCertificate({
   badge,
   issuedAt,
 }: CertificateProps) {
-
   return (
     <div className="bg-[#faf8f5] border-2 border-amber-800/20 rounded-2xl p-6 relative overflow-hidden shadow-sm">
       {/* Heritage Watermark Border */}
@@ -38,13 +37,22 @@ export function AuthenticityCertificate({
           <p className="text-xs text-stone-600 font-mono mt-1">{certificateId}</p>
         </div>
 
-        {qrCodeUrl && (
-          <img
-            src={qrCodeUrl}
-            alt="Authenticity Verification QR"
-            className="w-16 h-16 rounded border border-stone-300 bg-white p-1"
-          />
-        )}
+        <div className="flex flex-col items-center gap-1 shrink-0">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-xl border border-stone-300 p-1 shadow-sm flex items-center justify-center overflow-hidden">
+            <img
+              src={
+                qrCodeUrl && !qrCodeUrl.startsWith('data:image/png;base64,iVBORw0KGgoAAA')
+                  ? qrCodeUrl
+                  : `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fkalakriti-frontend.vercel.app%2Fauthenticity%3Fcert_id%3D${encodeURIComponent(certificateId)}`
+              }
+              alt="Authenticity Verification QR Code"
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full text-center whitespace-nowrap shadow-2xs">
+            ✓ GI Verified
+          </span>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs mb-4">

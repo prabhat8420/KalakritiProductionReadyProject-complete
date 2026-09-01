@@ -28,15 +28,17 @@ export default function LoginPage() {
       return;
     }
 
-    if (res.data) {
+    if (res.data && res.data.user) {
       setAuth(res.data.user, res.data.access_token);
-      if (res.data.user.roles.includes('artisan')) {
+      const roles = res.data.user.roles || [];
+      if (roles.includes('artisan')) {
         router.push('/artisan/dashboard');
-      } else if (res.data.user.roles.includes('admin')) {
+      } else if (roles.includes('admin')) {
         router.push('/admin/dashboard');
       } else {
         router.push('/');
       }
+      router.refresh();
     }
   };
 

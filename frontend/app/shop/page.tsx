@@ -38,7 +38,7 @@ export default async function ShopPage() {
           >
             <div className="aspect-square bg-stone-100 relative overflow-hidden">
               <img
-                src={p.images?.[0]?.image_url || 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800&q=80'}
+                src={p.images?.[0]?.image_url || 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=800&q=80'}
                 alt={p.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
               />

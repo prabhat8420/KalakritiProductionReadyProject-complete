@@ -73,7 +73,7 @@ export const SEED_PRODUCTS: ProductData[] = [
       bio: "Master artisan with 28 years of hereditary Madhubani lineage, recognized for preserving ancient Kachni and Bharni line-art techniques."
     },
     images: [
-      { id: "img-1", image_url: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800&q=80", is_primary: true }
+      { id: "img-1", image_url: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=800&q=80", is_primary: true }
     ],
     variants: [
       { id: "var-1", name: "Framed 24x18 Canvas", sku: "KLK-MAD-TOL-01", price: 3220.0 }

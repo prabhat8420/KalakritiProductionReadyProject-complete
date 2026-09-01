@@ -31,7 +31,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
         <div>
           <div className="aspect-square bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm">
             <img
-              src={product.images?.[0]?.image_url || 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800&q=80'}
+              src={product.images?.[0]?.image_url || 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=800&q=80'}
               alt={product.title}
               className="w-full h-full object-cover"
             />

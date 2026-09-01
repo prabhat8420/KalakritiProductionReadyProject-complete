@@ -22,7 +22,10 @@ async def init_and_seed_db():
             r = await session.execute(text("SELECT count(*) FROM categories;"))
             count = r.scalar()
             if count > 0:
-                logger.info(f"ℹ️ [Database Init] Database already contains {count} categories.")
+                logger.info(f"ℹ️ [Database Init] Database already contains {count} categories. Synchronizing authentic craft image URLs...")
+                await session.execute(text("UPDATE product_images SET image_url = 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=800&q=80' WHERE product_id IN (SELECT id FROM products WHERE slug = 'tree-of-life-mithila-art');"))
+                await session.execute(text("UPDATE product_images SET image_url = 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80' WHERE product_id IN (SELECT id FROM products WHERE slug = 'imperial-persian-cobalt-urn');"))
+                await session.commit()
                 return
 
             logger.info("🌱 [Database Init] Seeding heritage craft catalog...")
@@ -191,8 +194,8 @@ async def init_and_seed_db():
             session.add_all([
                 Inventory(product_variant_id=v1.id, quantity_available=12, quantity_reserved=0),
                 Inventory(product_variant_id=v2.id, quantity_available=8, quantity_reserved=0),
-                ProductImage(product_id=p1.id, image_url="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800&q=80", is_primary=True, display_order=1),
-                ProductImage(product_id=p2.id, image_url="https://images.unsplash.com/photo-1618220179428-22790b461013?w=800&q=80", is_primary=True, display_order=1)
+                ProductImage(product_id=p1.id, image_url="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=800&q=80", is_primary=True, display_order=1),
+                ProductImage(product_id=p2.id, image_url="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80", is_primary=True, display_order=1)
             ])
 
             cert1 = ProductCertification(product_id=p1.id, certificate_id=f"KLK-CERT-BR-MAD-202608-{p1.id[:8].upper()}", certificate_hash="d8f24a1b0c9e7f53a2b4e8c1d5f7a9b0c2e4f6a8b1c3d5e7f9a1b3c5d7e9f1a3", qr_code_url="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAQMAAACQAPgaAAAA", craft_tradition="Madhubani Painting", artisan_name="Ganesh Jha", origin_region="Mithila, Bihar", raw_materials="Handmade Paper, Natural Plant Dyes", heritage_registry_badge="GI Certified Traditional Craft")
