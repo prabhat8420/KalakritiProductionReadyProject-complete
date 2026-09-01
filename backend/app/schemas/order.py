@@ -39,7 +39,7 @@ class SubOrderSchema(BaseModel):
         from_attributes = True
 
 class OrderCheckoutRequest(BaseModel):
-    address_id: str
+    address_id: Optional[str] = None
 
 class OrderSchema(BaseModel):
     id: str
