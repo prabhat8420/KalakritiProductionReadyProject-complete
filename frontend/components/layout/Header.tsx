@@ -64,9 +64,11 @@ export default function Header() {
           <Link href="/artisan/dashboard" className="text-[#a5402a] hover:text-orange-950">
             {lang === 'EN' ? 'Artisan Studio' : 'कारीगर मंच'}
           </Link>
-          <Link href="/admin/dashboard" className="text-stone-500 hover:text-stone-900">
-            {lang === 'EN' ? 'Admin Hub' : 'प्रशासन'}
-          </Link>
+          {isAuthenticated && user?.roles?.includes('admin') && (
+            <Link href="/admin/dashboard" className="text-amber-800 hover:text-amber-950 font-bold">
+              {lang === 'EN' ? '🛡️ Admin Hub' : '🛡️ प्रशासन'}
+            </Link>
+          )}
         </nav>
 
         {/* Right Actions: Lang Switcher, User Menu, Cart */}

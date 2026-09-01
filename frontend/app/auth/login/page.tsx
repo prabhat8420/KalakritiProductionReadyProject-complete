@@ -5,10 +5,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { authService } from '@/services/auth.service';
 import { useAuthStore } from '@/store/auth.store';
+import { useToast } from '@/components/ui/Toast';
 
 export default function LoginPage() {
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
+  const toast = useToast();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,11 +27,13 @@ export default function LoginPage() {
 
     if (res.error) {
       setError(res.error);
+      toast.error(res.error, 'Sign In Failed');
       return;
     }
 
     if (res.data && res.data.user) {
       setAuth(res.data.user, res.data.access_token);
+      toast.success(`Welcome back, ${res.data.user.full_name?.split(' ')[0] || 'Patron'}!`, 'Signed In');
       const roles = res.data.user.roles || [];
       if (roles.includes('artisan')) {
         router.push('/artisan/dashboard');

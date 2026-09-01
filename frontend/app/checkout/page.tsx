@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/store/cart.store';
 import { orderService } from '@/services/order.service';
 import { apiClient } from '@/services/api-client';
+import { useToast } from '@/components/ui/Toast';
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const toast = useToast();
   const { cart, fetchCart } = useCartStore();
 
   const [addresses, setAddresses] = useState<any[]>([]);
@@ -66,6 +68,7 @@ export default function CheckoutPage() {
 
     if (!addressId) {
       setError('Please provide a delivery address');
+      toast.error('Please provide a delivery address', 'Missing Address');
       setLoading(false);
       return;
     }
@@ -73,6 +76,7 @@ export default function CheckoutPage() {
     const orderRes = await orderService.checkout(addressId);
     if (orderRes.error) {
       setError(orderRes.error);
+      toast.error(orderRes.error, 'Checkout Failed');
       setLoading(false);
       return;
     }
@@ -90,7 +94,10 @@ export default function CheckoutPage() {
     setLoading(false);
 
     if (verifyRes.data) {
+      toast.success(`Order ${order.order_number || ''} placed successfully! Escrow secured.`, 'Payment Confirmed');
       router.push(`/orders/${order.id}`);
+    } else {
+      toast.error(verifyRes.error || 'Payment verification failed', 'Payment Error');
     }
   };
 
@@ -109,7 +116,7 @@ export default function CheckoutPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         {/* Delivery Address */}
-        <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm space-y-4">
+        <div className="bg-white border border-stone-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
           <h3 className="text-sm font-bold uppercase text-stone-800">1. Delivery Address</h3>
 
           <div>
@@ -142,7 +149,7 @@ export default function CheckoutPage() {
             />
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <div>
               <label className="block text-xs font-semibold uppercase text-stone-600 mb-1">City</label>
               <input
@@ -174,7 +181,7 @@ export default function CheckoutPage() {
         </div>
 
         {/* Payment & Split Preview */}
-        <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm space-y-4">
+        <div className="bg-white border border-stone-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
           <h3 className="text-sm font-bold uppercase text-stone-800">2. Payment & Suborder Splitting</h3>
 
           <div className="p-4 bg-orange-50 border border-orange-200 rounded-xl text-xs text-orange-950 space-y-1">

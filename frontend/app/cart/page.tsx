@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { useCartStore } from '@/store/cart.store';
+import { Skeleton } from '@/components/ui/Skeleton';
 
 export default function CartPage() {
   const { cart, loading, fetchCart } = useCartStore();
@@ -22,14 +23,52 @@ export default function CartPage() {
       </div>
 
       {loading ? (
-        <p className="text-stone-500 text-sm">Loading basket...</p>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start animate-pulse">
+          <div className="lg:col-span-2 space-y-6">
+            <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm space-y-4">
+              <div className="flex justify-between pb-4 border-b border-stone-100">
+                <div className="space-y-2">
+                  <Skeleton className="h-3 w-20" />
+                  <Skeleton className="h-5 w-40" />
+                </div>
+                <Skeleton className="h-6 w-28 rounded-full" />
+              </div>
+              <div className="flex gap-4 items-center">
+                <div className="w-16 h-16 bg-stone-200 rounded-lg" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-1/2" />
+                </div>
+                <Skeleton className="h-5 w-16" />
+              </div>
+            </div>
+          </div>
+          <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm space-y-4">
+            <Skeleton className="h-4 w-32" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-10 w-full rounded-xl pt-2" />
+          </div>
+        </div>
       ) : !cart || cart.groups.length === 0 ? (
-        <div className="bg-white border border-stone-200 rounded-2xl p-12 text-center shadow-sm">
-          <h3 className="text-lg font-bold text-stone-900 mb-2">Your basket is empty</h3>
-          <p className="text-xs text-stone-500 mb-6">Discover unique hand-turned ceramics, lost-wax bronzes, and heritage silks.</p>
-          <Link href="/shop" className="px-6 py-3 bg-[#c55337] text-white rounded-lg text-xs font-semibold hover:bg-[#a5402a]">
-            Explore Catalog
-          </Link>
+        <div className="bg-white border border-stone-200 rounded-2xl p-12 text-center shadow-sm max-w-lg mx-auto space-y-4">
+          <div className="w-16 h-16 bg-orange-50 text-[#c55337] rounded-full flex items-center justify-center text-2xl mx-auto shadow-2xs">
+            🧺
+          </div>
+          <div>
+            <h3 className="text-lg font-serif font-bold text-stone-900 mb-1">Your Cart is Empty</h3>
+            <p className="text-xs text-stone-600 max-w-sm mx-auto leading-relaxed">
+              Support verified hereditary artisans and discover authentic handcrafted treasures with digital provenance certificates.
+            </p>
+          </div>
+          <div className="pt-2">
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#c55337] text-white rounded-xl text-xs font-bold hover:bg-[#a5402a] transition shadow-sm"
+            >
+              <span>🏺</span> Browse Craft Catalog
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">

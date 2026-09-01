@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { productService } from '@/services/product.service';
 import { ProductPriceBreakdown } from '@/components/products/ProductPrice';
+import { useToast } from '@/components/ui/Toast';
 
 export default function NewProductPage() {
   const router = useRouter();
+  const toast = useToast();
 
   const [imageUrl, setImageUrl] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
@@ -41,6 +43,7 @@ export default function NewProductPage() {
 
     if (res.error) {
       setError(res.error);
+      toast.error(res.error, 'AI Cataloging Notice');
       return;
     }
 
@@ -53,6 +56,7 @@ export default function NewProductPage() {
       setTraditionId(res.data.tradition_id);
       setBasePrice(res.data.recommended_base_price);
       setConfidenceScore(res.data.ai_confidence_score);
+      toast.info('AI Vision populated bilingual descriptions and fair artisan pricing.', 'AI Curated');
     }
   };
 
@@ -63,10 +67,11 @@ export default function NewProductPage() {
 
     const res = await productService.createProduct({
       title,
+      title_hi: titleHi,
       description_en: descriptionEn,
       description_hi: descriptionHi,
-      category_id: categoryId,
-      tradition_id: traditionId,
+      category_id: categoryId || '786c3cc3-5bc3-422e-9056-b7d781ec62ce',
+      tradition_id: traditionId || '8e37f21b-ac1d-48fc-8e71-a045c5b47222',
       base_price: basePrice,
       image_urls: [imageUrl || sampleImages[0].url],
       ai_confidence_score: confidenceScore || 0.95
@@ -76,9 +81,11 @@ export default function NewProductPage() {
 
     if (res.error) {
       setError(res.error);
+      toast.error(res.error, 'Submission Failed');
       return;
     }
 
+    toast.success('Craft product submitted for master curator review!', 'Listing Submitted');
     router.push('/artisan/dashboard');
   };
 

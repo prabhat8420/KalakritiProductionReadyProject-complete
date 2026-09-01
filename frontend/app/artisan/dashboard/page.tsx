@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { artisanService } from '@/services/artisan.service';
+import { DashboardSkeleton } from '@/components/ui/Skeleton';
 
 export default function ArtisanDashboardPage() {
   const [profile, setProfile] = useState<any>(null);
@@ -14,6 +15,10 @@ export default function ArtisanDashboardPage() {
       setLoading(false);
     });
   }, []);
+
+  if (loading) {
+    return <DashboardSkeleton />;
+  }
 
   return (
     <div className="min-h-screen bg-[#faf8f5] p-6 max-w-6xl mx-auto">
@@ -74,7 +79,7 @@ export default function ArtisanDashboardPage() {
       </div>
 
       {/* Studio Quick Actions */}
-      <div className="bg-white border border-stone-200 rounded-xl p-6 shadow-sm">
+      <div className="bg-white border border-stone-200 rounded-xl p-6 shadow-sm mb-8">
         <h3 className="text-sm font-bold text-stone-800 uppercase tracking-wider mb-4">Quick Studio Actions</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Link
@@ -99,6 +104,23 @@ export default function ArtisanDashboardPage() {
             <p className="text-xs text-stone-500 mt-1">View transparent revenue breakdown and scheduled transfers.</p>
           </Link>
         </div>
+      </div>
+
+      {/* Studio Crafts Inventory Empty State */}
+      <div className="bg-white border border-stone-200 rounded-xl p-8 shadow-sm text-center">
+        <div className="w-14 h-14 bg-orange-50 text-[#c55337] rounded-full flex items-center justify-center text-2xl mx-auto mb-3 shadow-2xs">
+          🎨
+        </div>
+        <h3 className="font-serif font-bold text-stone-900 text-base mb-1">No Crafts Listed in Studio Yet</h3>
+        <p className="text-xs text-stone-600 max-w-md mx-auto mb-5 leading-relaxed">
+          Upload your handcrafted creations with AI-assisted cataloging. Automatic GI certification tags, bilingual descriptions, and 85% net earnings guarantee.
+        </p>
+        <Link
+          href="/artisan/products/new"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#c55337] text-white rounded-lg text-xs font-bold hover:bg-[#a5402a] transition shadow-sm"
+        >
+          <span>📸</span> + List First Heritage Craft
+        </Link>
       </div>
     </div>
   );

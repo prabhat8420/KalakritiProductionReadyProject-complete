@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { ToastProvider } from '@/components/ui/Toast';
 
 export const metadata: Metadata = {
   title: 'Kalakriti (कलाकृति) | Authentic Indian Handcrafted Marketplace',
@@ -16,12 +17,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased min-h-screen flex flex-col bg-[#faf8f5] text-[#1c1917] font-sans">
-        <Header />
-        <div className="flex-1">
-          {children}
-        </div>
-        <Footer />
+        <ToastProvider>
+          <Header />
+          <div className="flex-1">
+            {children}
+          </div>
+          <Footer />
+        </ToastProvider>
       </body>
     </html>
   );
 }
+

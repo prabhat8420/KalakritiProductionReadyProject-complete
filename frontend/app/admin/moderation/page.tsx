@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { productService } from '@/services/product.service';
+import { Skeleton } from '@/components/ui/Skeleton';
+import { AdminGuard } from '@/components/admin/AdminGuard';
 
 export default function AdminModerationPage() {
   const [pendingProducts, setPendingProducts] = useState<any[]>([]);
@@ -28,7 +30,8 @@ export default function AdminModerationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] p-8 max-w-6xl mx-auto">
+    <AdminGuard>
+      <div className="min-h-screen bg-[#faf8f5] p-8 max-w-6xl mx-auto">
       <div className="mb-8 pb-4 border-b border-stone-200">
         <span className="text-xs font-semibold uppercase text-stone-500">Admin Control Center</span>
         <h1 className="text-2xl font-serif font-bold text-stone-900 mt-1">Product Moderation Queue</h1>
@@ -42,7 +45,23 @@ export default function AdminModerationPage() {
       )}
 
       {loading ? (
-        <p className="text-stone-500 text-sm">Loading moderation queue...</p>
+        <div className="space-y-4 animate-pulse">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="bg-white border border-stone-200 rounded-xl p-6 shadow-sm flex flex-col md:flex-row gap-6 items-start">
+              <div className="w-32 h-32 bg-stone-200 rounded-lg" />
+              <div className="flex-1 space-y-3 w-full">
+                <Skeleton className="h-4 w-36" />
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-3.5 w-full" />
+                <Skeleton className="h-3.5 w-2/3" />
+              </div>
+              <div className="w-full md:w-36 space-y-2">
+                <Skeleton className="h-9 w-full rounded-lg" />
+                <Skeleton className="h-9 w-full rounded-lg" />
+              </div>
+            </div>
+          ))}
+        </div>
       ) : pendingProducts.length === 0 ? (
         <div className="bg-white border border-stone-200 rounded-xl p-12 text-center">
           <h3 className="font-semibold text-stone-800 mb-1">Queue is Clear</h3>
@@ -95,5 +114,6 @@ export default function AdminModerationPage() {
         </div>
       )}
     </div>
+    </AdminGuard>
   );
 }

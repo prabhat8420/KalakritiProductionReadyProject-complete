@@ -2,8 +2,10 @@
 
 import { useState, useRef } from 'react';
 import { apiClient, uploadImage } from '@/services/api-client';
+import { useToast } from '@/components/ui/Toast';
 
 export default function CraftDoctorPage() {
+  const toast = useToast();
   const [photoUrl, setPhotoUrl] = useState('');
   const [previewUrl, setPreviewUrl] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -38,13 +40,16 @@ export default function CraftDoctorPage() {
       setUploading(false);
       if (res.error || !res.url) {
         setError(res.error || 'Failed to upload photo to storage');
+        toast.error(res.error || 'Failed to upload photo', 'Storage Error');
       } else {
         setPhotoUrl(res.url);
         setUploadSuccess(true);
+        toast.success('Photo ready for AI damage diagnostics.', 'Photo Uploaded');
       }
     } catch (err: any) {
       setUploading(false);
       setError(err.message || 'Upload failed');
+      toast.error(err.message || 'Upload failed', 'Upload Error');
     }
   };
 
@@ -66,13 +71,16 @@ export default function CraftDoctorPage() {
       setUploading(false);
       if (res.error || !res.url) {
         setError(res.error || 'Failed to upload photo to storage');
+        toast.error(res.error || 'Failed to upload photo', 'Storage Error');
       } else {
         setPhotoUrl(res.url);
         setUploadSuccess(true);
+        toast.success('Photo ready for AI damage diagnostics.', 'Photo Uploaded');
       }
     } catch (err: any) {
       setUploading(false);
       setError(err.message || 'Upload failed');
+      toast.error(err.message || 'Upload failed', 'Upload Error');
     }
   };
 
@@ -83,12 +91,14 @@ export default function CraftDoctorPage() {
     setPreviewUrl(url);
     setPhotoUrl(url);
     setUploadSuccess(true);
+    toast.info('Sample damaged craft selected.', 'Craft Selected');
   };
 
   const handleDiagnose = async () => {
     const targetUrl = photoUrl || previewUrl;
     if (!targetUrl) {
       setError('Please upload a damage photo or select a sample craft first.');
+      toast.error('Please upload a damage photo first.', 'Missing Photo');
       return;
     }
 
@@ -108,23 +118,29 @@ export default function CraftDoctorPage() {
 
     if (res.data) {
       setDiagnosis(res.data);
+      toast.success(
+        `Diagnostic ticket ${res.data.ticket_number} created with matched restoration guild!`,
+        'Diagnosis Complete'
+      );
     } else {
       const errMsg = res.error || 'Failed to get diagnosis from AI Craft Doctor.';
       if (errMsg.includes("doesn't appear to be a photo") || errMsg.includes('screenshot') || errMsg.includes('handcrafted')) {
         setRejectionError(errMsg);
+        toast.error(errMsg, 'Craft Verification Failed');
       } else {
         setError(errMsg);
+        toast.error(errMsg, 'Diagnosis Error');
       }
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] py-12 px-4 max-w-4xl mx-auto">
-      <div className="text-center max-w-2xl mx-auto mb-10">
+    <div className="min-h-screen bg-[#faf8f5] py-8 sm:py-12 px-3.5 sm:px-4 max-w-4xl mx-auto">
+      <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
         <span className="px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full text-xs font-bold uppercase tracking-wider">
           Circular Economy & Heritage Restoration
         </span>
-        <h1 className="text-4xl font-serif font-bold text-stone-900 mt-3 mb-3">
+        <h1 className="text-2xl sm:text-4xl font-serif font-bold text-stone-900 mt-3 mb-3">
           Craft Doctor (शिल्प चिकित्सक)
         </h1>
         <p className="text-xs text-stone-600 leading-relaxed">
@@ -132,9 +148,9 @@ export default function CraftDoctorPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
         {/* Upload & Damage Submission */}
-        <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm space-y-4">
+        <div className="bg-white border border-stone-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
           <h3 className="font-bold text-stone-900 text-sm uppercase tracking-wider">1. Upload Damaged Craft Photo</h3>
 
           {error && (
@@ -157,7 +173,7 @@ export default function CraftDoctorPage() {
               onClick={() => fileInputRef.current?.click()}
               onDragOver={(e) => e.preventDefault()}
               onDrop={handleDrop}
-              className="border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/40 rounded-xl p-5 text-center cursor-pointer transition flex flex-col items-center justify-center gap-2 group"
+              className="border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/40 rounded-xl p-4 sm:p-5 text-center cursor-pointer transition flex flex-col items-center justify-center gap-2 group"
             >
               <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-lg group-hover:scale-110 transition">
                 📷
@@ -182,9 +198,9 @@ export default function CraftDoctorPage() {
           )}
 
           {uploadSuccess && photoUrl && (
-            <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg text-[11px] text-emerald-900 flex items-center justify-between">
-              <span className="font-semibold">✓ Photo uploaded to Cloudinary</span>
-              <span className="font-mono text-[10px] text-emerald-700 truncate max-w-[150px]">{photoUrl}</span>
+            <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg text-[11px] text-emerald-900 flex flex-wrap items-center justify-between gap-1">
+              <span className="font-semibold">✓ Photo uploaded</span>
+              <span className="font-mono text-[10px] text-emerald-700 truncate max-w-[140px] sm:max-w-[200px]">{photoUrl}</span>
             </div>
           )}
 
@@ -223,7 +239,7 @@ export default function CraftDoctorPage() {
             type="button"
             disabled={loading || uploading || (!photoUrl && !previewUrl)}
             onClick={handleDiagnose}
-            className="w-full py-3.5 bg-emerald-800 text-white rounded-xl font-bold text-xs hover:bg-emerald-900 transition shadow-sm disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-3.5 bg-emerald-800 text-white rounded-xl font-bold text-xs hover:bg-emerald-900 transition shadow-sm disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
           >
             {loading ? (
               <>
@@ -237,7 +253,7 @@ export default function CraftDoctorPage() {
         </div>
 
         {/* Diagnosis & Matching Results */}
-        <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm space-y-4">
+        <div className="bg-white border border-stone-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
           <h3 className="font-bold text-stone-900 text-sm uppercase tracking-wider">2. Diagnostic Certificate & Partner Match</h3>
 
           {/* Non-Craft Photo Rejection Message */}

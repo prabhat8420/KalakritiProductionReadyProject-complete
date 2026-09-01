@@ -1,6 +1,9 @@
 import { notFound } from 'next/navigation';
 import { ProductPriceBreakdown } from '@/components/products/ProductPrice';
 import { AuthenticityCertificate } from '@/components/products/AuthenticityCertificate';
+import { AddToCartButton } from '@/components/products/AddToCartButton';
+import { ProductReviews } from '@/components/products/ProductReviews';
+import { CraftImage } from '@/components/ui/CraftImage';
 import { API_BASE_URL } from '@/lib/config';
 import { SEED_PRODUCTS } from '@/lib/catalog';
 
@@ -24,15 +27,20 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
   const product = await getProduct(params.slug);
   if (!product) notFound();
 
+  const primaryImage =
+    product.images?.[0]?.image_url ||
+    'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=800&q=80';
+
   return (
-    <div className="min-h-screen bg-[#faf8f5] py-10 px-4 max-w-6xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* Gallery */}
+    <div className="min-h-screen bg-[#faf8f5] py-8 sm:py-10 px-4 max-w-6xl mx-auto space-y-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+        {/* Gallery with Image Fallback & Ratio */}
         <div>
-          <div className="aspect-square bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm">
-            <img
-              src={product.images?.[0]?.image_url || 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=800&q=80'}
+          <div className="bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm">
+            <CraftImage
+              src={primaryImage}
               alt={product.title}
+              aspectRatioClass="aspect-square"
               className="w-full h-full object-cover"
             />
           </div>
@@ -41,7 +49,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
         {/* Product Story & Purchase Block */}
         <div className="space-y-6">
           <div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className="px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-900 text-xs font-bold uppercase">
                 {product.tradition?.name || 'Heritage Craft'}
               </span>
@@ -55,12 +63,20 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
             </p>
           </div>
 
-          <p className="text-sm text-stone-700 leading-relaxed">{product.description_en}</p>
+          <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">{product.description_en}</p>
           {product.description_hi && (
             <p className="text-xs text-stone-600 bg-stone-100 p-3 rounded-lg border border-stone-200 italic font-serif">
               "{product.description_hi}"
             </p>
           )}
+
+          {/* Add to Basket Action */}
+          <AddToCartButton
+            productId={product.id}
+            variantId={product.variants?.[0]?.id || product.id}
+            productTitle={product.title}
+            price={product.total_price || product.base_price || 2500}
+          />
 
           {/* Transparent Price Breakdown */}
           <ProductPriceBreakdown
@@ -86,6 +102,10 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
           )}
         </div>
       </div>
+
+      {/* Customer Reviews & Feedback Section with Empty State */}
+      <ProductReviews productId={product.id} />
     </div>
   );
 }
+
