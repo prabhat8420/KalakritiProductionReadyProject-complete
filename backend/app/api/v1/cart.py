@@ -22,10 +22,11 @@ async def get_cart(
     user_id = current_user["sub"] if current_user else None
     cart = await repo.get_or_create_cart(user_id=user_id)
 
-    if not cart.items:
+    items = getattr(cart, "items", []) or []
+    if not items:
         return {"id": cart.id, "groups": [], "total_items": 0, "grand_total": 0.0, "total_artisan_share": 0.0}
 
-    variant_ids = [item.product_variant_id for item in cart.items]
+    variant_ids = [item.product_variant_id for item in items]
     stmt = select(ProductVariant).options(
         selectinload(ProductVariant.product).selectinload(Product.artisan),
         selectinload(ProductVariant.product).selectinload(Product.images)
@@ -38,7 +39,7 @@ async def get_cart(
     grand_total = 0.0
     total_artisan_share = 0.0
 
-    for item in cart.items:
+    for item in items:
         variant = variants_by_id.get(item.product_variant_id)
         if not variant:
             continue

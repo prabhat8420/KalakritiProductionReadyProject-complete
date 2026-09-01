@@ -30,6 +30,7 @@ class CartRepository:
 
         # Create new cart
         cart = Cart(user_id=user_id)
+        cart.items = []
         self.db.add(cart)
         await self.db.flush()
         return cart
