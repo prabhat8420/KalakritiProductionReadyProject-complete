@@ -31,12 +31,14 @@ class AuthenticationService:
         # Cache session in Redis
         await cache_set(f"session:{user.id}", {"email": user.email, "roles": role_names}, ttl_seconds=3600*24)
 
+        artisan_id = user.artisan_profile.id if user.artisan_profile else None
+
         user_data = {
             "id": user.id,
             "email": user.email,
             "full_name": user.full_name,
             "roles": role_names,
-            "artisan_id": None
+            "artisan_id": artisan_id
         }
 
         return {**token_info, "user": user_data}

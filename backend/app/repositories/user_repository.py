@@ -43,4 +43,21 @@ class UserRepository:
                 user.roles.append(role)
         self.db.add(user)
         await self.db.flush()
-        return user
+
+        if role_names and "artisan" in [r.lower() for r in role_names]:
+            from app.models.artisan import Artisan
+            artisan = Artisan(
+                user_id=user.id,
+                display_name=full_name,
+                bio=f"Master artisan preserving authentic handcrafted heritage traditions.",
+                region="India",
+                craft_tradition="Heritage Handcraft",
+                verification_status="verified",
+                years_active=10,
+                avg_rating=5.0,
+                review_count=0
+            )
+            self.db.add(artisan)
+            await self.db.flush()
+
+        return await self.get_by_id(user.id)
