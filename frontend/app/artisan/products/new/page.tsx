@@ -110,27 +110,66 @@ export default function NewProductPage() {
         )}
 
         {/* AI Vision Photo Uploader */}
-        <div className="bg-orange-50/50 border-2 border-dashed border-orange-200 rounded-xl p-6 mb-8 text-center">
-          <h3 className="text-sm font-bold text-stone-900 mb-2">📸 Step 1: Upload Craft Photograph</h3>
-          <p className="text-xs text-stone-600 mb-4">Paste an image URL or choose a sample photo to run AI cataloging</p>
+        <div className="bg-orange-50/50 border-2 border-dashed border-orange-200 rounded-xl p-6 mb-8 text-center space-y-4">
+          <div>
+            <h3 className="text-sm font-bold text-stone-900 mb-1">📸 Step 1: Upload Craft Photograph</h3>
+            <p className="text-xs text-stone-600">Select a real photo from your device/camera or paste an image URL to run AI cataloging</p>
+          </div>
 
-          <div className="flex gap-2 max-w-xl mx-auto mb-4">
+          <div className="max-w-xl mx-auto">
+            <input
+              type="file"
+              id="artisan-craft-file"
+              accept="image/*"
+              className="hidden"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                setError('');
+                setAnalyzing(true);
+                const { uploadImage } = await import('@/services/api-client');
+                const uploadRes = await uploadImage(file);
+                if (uploadRes.error || !uploadRes.url) {
+                  setAnalyzing(false);
+                  setError(uploadRes.error || 'Failed to upload photo');
+                  return;
+                }
+                setImageUrl(uploadRes.url);
+                await handleAIAnalysis(uploadRes.url);
+              }}
+            />
+            <label
+              htmlFor="artisan-craft-file"
+              className="border border-dashed border-[#c55337] bg-white hover:bg-orange-50/80 rounded-xl p-4 cursor-pointer transition flex items-center justify-center gap-3 text-xs font-semibold text-[#c55337] shadow-sm"
+            >
+              <span className="text-lg">📷</span>
+              <span>Click to select craft photo from device or camera</span>
+            </label>
+          </div>
+
+          <div className="flex gap-2 max-w-xl mx-auto">
             <input
               type="url"
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="https://example.com/craft-photo.jpg"
-              className="flex-1 px-3.5 py-2.5 rounded-lg border border-stone-300 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-[#c55337]"
+              placeholder="Or paste image URL: https://example.com/craft.jpg"
+              className="flex-1 px-3.5 py-2 rounded-lg border border-stone-300 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-[#c55337]"
             />
             <button
               type="button"
               onClick={() => handleAIAnalysis()}
               disabled={analyzing || !imageUrl}
-              className="px-5 py-2.5 bg-[#c55337] text-white rounded-lg text-xs font-semibold hover:bg-[#a5402a] transition disabled:opacity-50"
+              className="px-4 py-2 bg-[#c55337] text-white rounded-lg text-xs font-semibold hover:bg-[#a5402a] transition disabled:opacity-50"
             >
-              {analyzing ? 'Analyzing with AI...' : '✨ Run AI Vision'}
+              {analyzing ? 'Analyzing...' : '✨ Run AI Vision'}
             </button>
           </div>
+
+          {imageUrl && (
+            <div className="max-w-xs mx-auto h-36 rounded-lg overflow-hidden border border-stone-200 bg-white">
+              <img src={imageUrl} alt="Uploaded Craft" className="w-full h-full object-cover" />
+            </div>
+          )}
 
           <div className="flex flex-wrap justify-center items-center gap-2 text-xs text-stone-500">
             <span>Or try sample:</span>
@@ -150,7 +189,7 @@ export default function NewProductPage() {
           </div>
 
           {confidenceScore && (
-            <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold">
               <span>✓ AI Vision Classified with {(confidenceScore * 100).toFixed(0)}% Confidence</span>
             </div>
           )}

@@ -5,23 +5,29 @@ export async function apiClient<T>(
   options: RequestInit = {}
 ): Promise<{ data?: T; error?: string }> {
   const token = typeof window !== 'undefined' ? localStorage.getItem('kalakriti_token') : null;
+  const isFormData = options.body instanceof FormData;
 
-  const headers: HeadersInit = {
-    'Content-Type': 'application/json',
+  const headers: Record<string, string> = {
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    ...options.headers,
   };
+
+  if (!isFormData) {
+    headers['Content-Type'] = 'application/json';
+  }
 
   try {
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
     const response = await fetch(`${API_BASE_URL}${cleanEndpoint}`, {
       ...options,
-      headers,
+      headers: {
+        ...headers,
+        ...(options.headers as Record<string, string>),
+      },
     });
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      return { error: errorData.message || `Request failed with status ${response.status}` };
+      return { error: errorData.detail?.message || errorData.message || `Request failed with status ${response.status}` };
     }
 
     const data = await response.json();
@@ -30,3 +36,18 @@ export async function apiClient<T>(
     return { error: err.message || 'Network error occurred' };
   }
 }
+
+export async function uploadImage(file: File): Promise<{ url?: string; secure_url?: string; error?: string }> {
+  const formData = new FormData();
+  formData.append('file', file);
+  const res = await apiClient<{ secure_url: string; url: string; public_id: string }>('/uploads/image', {
+    method: 'POST',
+    body: formData,
+  });
+  if (res.error) {
+    return { error: res.error };
+  }
+  const url = res.data?.secure_url || res.data?.url;
+  return { url, secure_url: url };
+}
+
