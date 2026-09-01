@@ -12,7 +12,7 @@ class CertificationService:
     def generate_craft_provenance(product: Product) -> ProductCertification:
         state_code = product.artisan.region[:3].upper().strip()
         trad_code = product.tradition.slug[:3].upper()
-        now = datetime.now(timezone.utc)
+        now = datetime.utcnow()
         unique_suffix = product.id[:8].upper()
         cert_id = f"KLK-CERT-{state_code}-{trad_code}-{now.strftime('%Y%m')}-{unique_suffix}"
 

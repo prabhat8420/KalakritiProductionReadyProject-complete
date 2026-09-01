@@ -71,7 +71,7 @@ class OrderSplitService:
                 "delivery_fee": product.delivery_fee
             })
 
-        now = datetime.now(timezone.utc)
+        now = datetime.utcnow()
         order_num = f"KLK-ORD-{now.strftime('%Y%m')}-{str(uuid.uuid4())[:8].upper()}"
 
         # Calculate Grand Total
