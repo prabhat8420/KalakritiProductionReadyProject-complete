@@ -19,6 +19,7 @@ from app.api.v1.reviews import router as reviews_router
 from app.api.v1.repair import router as repair_router
 from app.api.v1.admin import router as admin_router
 from app.api.v1.metrics import router as metrics_router
+from app.api.v1.ai_assistant import router as ai_router
 
 api_v1_router = APIRouter(prefix="/v1")
 
@@ -58,3 +59,5 @@ api_v1_router.include_router(reviews_router)
 api_v1_router.include_router(repair_router)
 api_v1_router.include_router(admin_router)
 api_v1_router.include_router(metrics_router)
+api_v1_router.include_router(ai_router)
+

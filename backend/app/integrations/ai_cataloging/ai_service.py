@@ -1,7 +1,7 @@
 import json
 import logging
-import httpx
 from app.config import settings
+from app.integrations.gemini.client import GeminiClient
 
 logger = logging.getLogger("kalakriti.ai_cataloging")
 
@@ -9,57 +9,35 @@ class AICatalogingService:
     @staticmethod
     async def analyze_craft_image(image_url: str, available_categories: list, available_traditions: list) -> dict:
         """
-        Analyzes the uploaded craft photograph and returns:
+        Analyzes the uploaded craft photograph using Google GenAI (Gemini 3.7 Flash) and returns:
         - Classified Category & Tradition with AI confidence score
         - Bilingual Title & Rich Description (English and Hindi)
         - Recommended base artisan price based on complexity
         """
-        # If Anthropic or external LLM API key is configured, invoke vision model
-        if settings.ANTHROPIC_API_KEY and not settings.ANTHROPIC_API_KEY.startswith("placeholder"):
-            try:
-                headers = {
-                    "x-api-key": settings.ANTHROPIC_API_KEY,
-                    "anthropic-version": "2023-06-01",
-                    "content-type": "application/json"
-                }
-                prompt = f"""
-                You are a master Indian handicraft curator and heritage expert for Kalakriti marketplace.
-                Analyze this craft photo: {image_url}
-                Match against available categories: {[c['name'] for c in available_categories]}
-                and traditions: {[t['name'] for t in available_traditions]}.
+        prompt = f"""
+        You are a master Indian handicraft curator and heritage expert for Kalakriti marketplace.
+        Analyze this craft photo: {image_url}
+        Match against available categories: {[c['name'] for c in available_categories]}
+        and traditions: {[t['name'] for t in available_traditions]}.
 
-                Respond ONLY with a valid JSON object matching this structure:
-                {{
-                    "category_name": "<matched category>",
-                    "tradition_name": "<matched tradition>",
-                    "suggested_title_en": "<engaging craft title>",
-                    "suggested_title_hi": "<hindi title in Devanagari script>",
-                    "description_en": "<deep narrative about motifs, natural materials, and heritage>",
-                    "description_hi": "<hindi narrative in Devanagari script>",
-                    "recommended_base_price": 2400.0,
-                    "confidence_score": 0.95
-                }}
-                """
-                async with httpx.AsyncClient(timeout=15.0) as client:
-                    resp = await client.post(
-                        "https://api.anthropic.com/v1/messages",
-                        headers=headers,
-                        json={
-                            "model": "claude-3-haiku-20240307",
-                            "max_tokens": 800,
-                            "messages": [{"role": "user", "content": prompt}]
-                        }
-                    )
-                    if resp.status_code == 200:
-                        data = resp.json()
-                        text_content = data["content"][0]["text"].strip()
-                        # Extract JSON safely
-                        if "{" in text_content and "}" in text_content:
-                            json_str = text_content[text_content.find("{"):text_content.rfind("}")+1]
-                            parsed = json.loads(json_str)
-                            return AICatalogingService._map_to_entities(parsed, available_categories, available_traditions)
-            except Exception as e:
-                logger.warning(f"External AI Vision request failed ({e}), using built-in heritage classifier")
+        Respond ONLY with a valid JSON object matching this structure:
+        {{
+            "category_name": "<matched category>",
+            "tradition_name": "<matched tradition>",
+            "suggested_title_en": "<engaging craft title>",
+            "suggested_title_hi": "<hindi title in Devanagari script>",
+            "description_en": "<deep narrative about motifs, natural materials, and heritage>",
+            "description_hi": "<hindi narrative in Devanagari script>",
+            "recommended_base_price": 2400.0,
+            "confidence_score": 0.95
+        }}
+        """
+
+        # Invoke Gemini 3.7 Flash Interactions API
+        parsed = GeminiClient.create_json_interaction(prompt=prompt, model="gemini-3.7-flash")
+        if parsed:
+            return AICatalogingService._map_to_entities(parsed, available_categories, available_traditions)
+
 
         # Built-in High-Fidelity Indian Heritage Multimodal Classifier & Expert Cataloger
         # Infers from image filename, keywords, or visual craft signatures

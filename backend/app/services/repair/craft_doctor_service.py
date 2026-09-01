@@ -14,6 +14,7 @@ from app.models.product import Product
 from app.models.user import User
 from app.config import settings
 from app.core.exceptions import AppException
+from app.integrations.gemini.client import GeminiClient
 
 logger = logging.getLogger("kalakriti.craft_doctor")
 
@@ -41,46 +42,22 @@ class CraftDoctorService:
         if any(keyword in url_lower for keyword in disallowed_keywords):
             return False, "This appears to be a digital screenshot or document rather than a handcrafted item."
 
-        # If Anthropic Claude Vision API is configured
-        if settings.ANTHROPIC_API_KEY and not settings.ANTHROPIC_API_KEY.startswith("placeholder"):
-            try:
-                headers = {
-                    "x-api-key": settings.ANTHROPIC_API_KEY,
-                    "anthropic-version": "2023-06-01",
-                    "content-type": "application/json"
-                }
-                prompt = f"""
-                You are a strict quality validator for the Kalakriti Craft Doctor clinic.
-                Inspect this image URL: {image_url}
+        # Gemini 3.7 Flash Craft Validation Check
+        prompt = f"""
+        You are a strict quality validator for the Kalakriti Craft Doctor clinic.
+        Inspect this image URL: {image_url}
 
-                Task: Determine whether this image is a photo of a physical, handcrafted art/craft object (such as pottery, painting, woven goods, metal craft, wood carving, sculpture, etc.), possibly showing damage.
-                Answer strictly as JSON:
-                {{
-                    "is_valid_craft_photo": true or false,
-                    "reason": "<brief explanation>"
-                }}
-                """
-                async with httpx.AsyncClient(timeout=15.0) as client:
-                    resp = await client.post(
-                        "https://api.anthropic.com/v1/messages",
-                        headers=headers,
-                        json={
-                            "model": "claude-3-haiku-20240307",
-                            "max_tokens": 250,
-                            "messages": [{"role": "user", "content": prompt}]
-                        }
-                    )
-                    if resp.status_code == 200:
-                        data = resp.json()
-                        text_content = data["content"][0]["text"].strip()
-                        if "{" in text_content and "}" in text_content:
-                            json_str = text_content[text_content.find("{"):text_content.rfind("}")+1]
-                            parsed = json.loads(json_str)
-                            is_valid = bool(parsed.get("is_valid_craft_photo", False))
-                            reason = str(parsed.get("reason", ""))
-                            return is_valid, reason
-            except Exception as e:
-                logger.warning(f"Claude Vision validation check failed ({e}), using built-in heritage filter")
+        Task: Determine whether this image is a photo of a physical, handcrafted art/craft object (such as pottery, painting, woven goods, metal craft, wood carving, sculpture, etc.), possibly showing damage.
+        Reject screenshots, software UIs, text documents, charts, memes, and non-craft photos.
+        Answer strictly as JSON:
+        {{
+            "is_valid_craft_photo": true or false,
+            "reason": "<brief explanation>"
+        }}
+        """
+        parsed = GeminiClient.create_json_interaction(prompt=prompt, model="gemini-3.7-flash")
+        if parsed and "is_valid_craft_photo" in parsed:
+            return bool(parsed["is_valid_craft_photo"]), str(parsed.get("reason", ""))
 
         # Built-in heuristic check for test/demo environments
         return True, "Valid craft photo verified."
@@ -89,8 +66,8 @@ class CraftDoctorService:
         """
         CRAFT DOCTOR AI FLOW:
         1. Relevance & Authenticity Gatekeeper (Rejects screenshots/non-crafts)
-        2. Analyzes damage photo using Multimodal AI
-        3. Classifies damage severity & repairability score (0.0 - 1.0)
+        2. Analyzes damage photo using Google GenAI (Gemini 3.7 Flash)
+        3. Classifies damage severity & structural recovery score (0.0 - 1.0)
         4. Generates specialized heritage restoration recommendation
         5. Matches against registered local craft repair partners
         """
@@ -135,53 +112,30 @@ class CraftDoctorService:
             if user_obj:
                 user_id = user_obj.id
 
-        # AI Multimodal Damage Diagnosis with Claude Vision if configured
+        # AI Multimodal Damage Diagnosis with Gemini 3.7 Flash
         damage_type = "Surface hairline fracture along rim & enamel chip"
         severity = "Medium"
         repairability_score = 0.88
         assessment = "Easily restorable. Traditional quartz-paste infill and turquoise re-glazing will restore full structural integrity."
 
-        if settings.ANTHROPIC_API_KEY and not settings.ANTHROPIC_API_KEY.startswith("placeholder"):
-            try:
-                headers = {
-                    "x-api-key": settings.ANTHROPIC_API_KEY,
-                    "anthropic-version": "2023-06-01",
-                    "content-type": "application/json"
-                }
-                prompt = f"""
-                You are a master Indian craft restorer and materials diagnostic scientist for the Kalakriti Craft Doctor clinic.
-                Analyze this damaged handcrafted item photo: {damage_photo_url}
+        diag_prompt = f"""
+        You are a master Indian craft restorer and materials diagnostic scientist for the Kalakriti Craft Doctor clinic.
+        Analyze this damaged handcrafted item photo: {damage_photo_url}
 
-                Respond ONLY with a valid JSON object:
-                {{
-                    "damage_type": "<concise description of fracture, tear, crack, or degradation>",
-                    "severity": "Low" | "Medium" | "High",
-                    "repairability_score": <float between 0.1 and 1.0>,
-                    "assessment": "<expert restoration guidance using traditional authentic techniques>"
-                }}
-                """
-                async with httpx.AsyncClient(timeout=15.0) as client:
-                    resp = await client.post(
-                        "https://api.anthropic.com/v1/messages",
-                        headers=headers,
-                        json={
-                            "model": "claude-3-haiku-20240307",
-                            "max_tokens": 500,
-                            "messages": [{"role": "user", "content": prompt}]
-                        }
-                    )
-                    if resp.status_code == 200:
-                        data = resp.json()
-                        text_content = data["content"][0]["text"].strip()
-                        if "{" in text_content and "}" in text_content:
-                            json_str = text_content[text_content.find("{"):text_content.rfind("}")+1]
-                            parsed = json.loads(json_str)
-                            damage_type = parsed.get("damage_type", damage_type)
-                            severity = parsed.get("severity", severity)
-                            repairability_score = float(parsed.get("repairability_score", repairability_score))
-                            assessment = parsed.get("assessment", assessment)
-            except Exception as e:
-                logger.warning(f"Claude Vision diagnosis failed ({e}), using built-in heritage classifier")
+        Respond ONLY with a valid JSON object:
+        {{
+            "damage_type": "<concise description of fracture, tear, crack, or degradation>",
+            "severity": "Low" | "Medium" | "High",
+            "repairability_score": <float between 0.1 and 1.0>,
+            "assessment": "<expert restoration guidance using traditional authentic techniques>"
+        }}
+        """
+        diag_parsed = GeminiClient.create_json_interaction(prompt=diag_prompt, model="gemini-3.7-flash")
+        if diag_parsed:
+            damage_type = diag_parsed.get("damage_type", damage_type)
+            severity = diag_parsed.get("severity", severity)
+            repairability_score = float(diag_parsed.get("repairability_score", repairability_score))
+            assessment = diag_parsed.get("assessment", assessment)
 
         # Built-in Multimodal Damage Diagnostics
         photo_lower = damage_photo_url.lower()
