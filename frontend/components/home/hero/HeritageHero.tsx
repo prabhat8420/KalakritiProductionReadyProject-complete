@@ -14,7 +14,12 @@ export default function HeritageHero() {
       style={{ backgroundImage: "url('/images/hero/hero-mural-bg.jpg')" }}
     >
       {/* Dark Heritage Vignette & Texture Overlay for Luxury Depth & Contrast */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#14100C]/94 via-[#1C1611]/88 to-[#14100C]/82 backdrop-blur-[2px]" />
+      <div
+        className="absolute inset-0 backdrop-blur-[1px]"
+        style={{
+          background: 'linear-gradient(to right, rgba(14, 10, 7, 0.93) 0%, rgba(22, 16, 11, 0.86) 55%, rgba(14, 10, 7, 0.80) 100%)'
+        }}
+      />
       <div className="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:24px_24px]" />
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-6 sm:p-10 lg:p-12">
@@ -28,13 +33,13 @@ export default function HeritageHero() {
 
           {/* Master Headline with MagicUI TextAnimate & Nasyhama Font */}
           <div className="space-y-2">
-            <h1 className="font-nasyhama text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08] text-[#F7F2E7] drop-shadow-md">
+            <h1 className="font-nasyhama text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08] text-[#F7F2E7] drop-shadow-lg">
               <TextAnimate
                 animation="blurInUp"
                 by="character"
-                duration={6}
+                duration={5}
                 loop={true}
-                className="inline-block bg-gradient-to-r from-[#FFFDF9] via-[#F3E5AB] via-[#D4AF37] to-[#FFFDF9] bg-[length:200%_auto] animate-shimmer-text bg-clip-text text-transparent font-nasyhama"
+                className="inline-block text-[#FFFDF9] font-nasyhama"
               >
                 Direct From Master Studios.
               </TextAnimate>
