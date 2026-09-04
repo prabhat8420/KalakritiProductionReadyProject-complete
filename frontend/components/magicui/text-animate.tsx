@@ -46,9 +46,9 @@ const defaultItemVariants: Record<
 > = {
   blurInUp: {
     hidden: () => ({
-      opacity: 0.75,
+      opacity: 0.35,
       filter: 'blur(3px)',
-      y: 8,
+      y: 6,
     }),
     show: ({ duration, loop }) => ({
       opacity: 1,
@@ -59,7 +59,7 @@ const defaultItemVariants: Record<
         ease: 'easeInOut',
         repeat: loop ? Infinity : 0,
         repeatType: 'reverse',
-        repeatDelay: 1.5,
+        repeatDelay: 2.2,
       },
     }),
   },
