@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cinzel+Decorative:wght@700;900&family=Rozha+One&family=Yatra+One&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,9 +6,11 @@
 
 :root {
   --font-cinzel: 'Cinzel', serif;
+  --font-nasyhama: 'Nasyhama', 'Rozha One', 'Yatra One', 'Cinzel Decorative', 'Cinzel', Georgia, serif;
   --font-cormorant: 'Cormorant Garamond', serif;
   --font-jakarta: 'Plus Jakarta Sans', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
 
   /* Material Warm Beige Palette Tokens */
   --bg-paper: #F7F2E7;

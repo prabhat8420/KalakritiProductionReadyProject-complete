@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import CraftRelic3D from './CraftRelic3D';
+import { TextAnimate } from '@/registry/magicui/text-animate';
 
 export default function HeritageHero() {
   const [activeMaterial, setActiveMaterial] = useState<'glazed_blue' | 'bronze' | 'terracotta'>('glazed_blue');
@@ -21,15 +22,23 @@ export default function HeritageHero() {
             <span>LIVING ARCHIVES • 100% MASTER ARTISAN OWNED</span>
           </div>
 
-          {/* Master Headline with Shimmer Animation */}
+          {/* Master Headline with MagicUI TextAnimate & Nasyhama Font */}
           <div className="space-y-2">
-            <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08] bg-gradient-to-r from-[#FFFDF9] via-[#F3E5AB] via-[#D4AF37] to-[#FFFDF9] bg-[length:200%_auto] animate-shimmer-text bg-clip-text text-transparent drop-shadow-sm">
-              Direct From Master Studios.
+            <h1 className="font-nasyhama text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08] text-[#F7F2E7] drop-shadow-sm">
+              <TextAnimate
+                animation="blurInUp"
+                by="character"
+                duration={5}
+                className="inline-block bg-gradient-to-r from-[#FFFDF9] via-[#F3E5AB] via-[#D4AF37] to-[#FFFDF9] bg-[length:200%_auto] animate-shimmer-text bg-clip-text text-transparent"
+              >
+                Direct From Master Studios.
+              </TextAnimate>
             </h1>
             <p className="font-serif italic text-2xl sm:text-3xl text-[#D4AF37] font-normal leading-snug">
               Pure Ancestral Lineage, Mathematically Fair.
             </p>
           </div>
+
 
           {/* Action CTAs */}
           <div className="flex flex-wrap items-center gap-3 pt-2">
