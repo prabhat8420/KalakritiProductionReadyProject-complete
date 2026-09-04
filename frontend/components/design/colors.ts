@@ -1,49 +1,49 @@
 /**
- * Kalakriti Material-Grounded Color Token Architecture
- * Derived directly from Indian mineral pigments, natural dye vats, metallurgical alloys, and handmade paper.
+ * Kalakriti Warm Heritage Beige Color Token Architecture
+ * Derived directly from Indian raw linen, sandalwood, mineral pigments, natural dye vats, and handmade parchment.
  */
 export const CraftColors = {
-  // Surfaces & Backgrounds
+  // Surfaces & Backgrounds (Warm Heritage Beige)
   paper: {
-    mulberry: '#F5F0EB',      // Unbleached handmade rag paper & Kutch raw cotton canvas
-    parchment: '#EBE5DC',     // Sun-dried palm leaf & treated handmade paper
-    rawSilk: '#FDFBF7',       // Wild Tussar silk off-white
-    card: '#FFFFFF',          // High-purity specimen surface
-    border: '#E2DAD0',        // Architectural line rule
-    borderDark: '#C9BEB0',    // Focused border rule
+    mulberry: '#F7F2E7',      // Primary warm beige canvas
+    parchment: '#EFE7DA',     // Secondary warm sand/parchment surface
+    rawSilk: '#FAF6EE',       // Card surface off-white warm beige
+    card: '#FAF6EE',          // High-purity warm beige specimen card
+    border: '#E3DACB',        // Soft architectural beige line rule
+    borderDark: '#CFC3B0',    // Focused border rule
   },
 
   // Inks & Typography
   ink: {
-    kohl: '#141312',          // Lampblack soot from earthen mustard-oil lamps (Kajal)
-    charcoal: '#2D2B28',      // Crushed charcoal & mineral graphite
-    slate: '#5C5852',         // Secondary descriptive ink
-    muted: '#8A847C',         // Micro-captions & timestamps
+    kohl: '#1C1917',          // Warm lampblack kohl
+    charcoal: '#2D2824',      // Deep bistre ink
+    slate: '#5C554E',         // Secondary descriptive warm slate
+    muted: '#8C8379',         // Micro-captions & timestamps
   },
 
   // Pigments & Accents (Natural Vats & Minerals)
   pigment: {
-    manjistha: '#842A1C',     // Fermented Rubia cordifolia (Madder root) natural crimson
-    manjisthaDark: '#671E13', // Deep boiled madder root
-    neel: '#1B2738',          // Indigofera tinctoria fermented vat blue (Ajrakh / Blue Pottery)
-    neelLight: '#2A3C54',     // Light indigo wash
-    dhokraBrass: '#C29B38',   // Lost-wax cast copper-tin-zinc bell metal gold
-    dhokraDark: '#997624',    // Antique oxidized brass
-    haldiTurmeric: '#D99B26', // Raw Kasturi turmeric yellow
-    verdigris: '#2D5A43',     // Copper patina & neem botanical green (Craft Doctor)
+    manjistha: '#8C3826',     // Warm Madder root crimson
+    manjisthaDark: '#6E2819', // Deep boiled madder
+    neel: '#1E2C3D',          // Indigo vat blue
+    neelLight: '#2F435C',     // Indigo wash
+    dhokraBrass: '#B8860B',   // Antique brass / Dhokra bell metal gold
+    dhokraDark: '#8F6808',    // Oxidized brass
+    haldiTurmeric: '#D49726', // Raw Kasturi turmeric yellow
+    verdigris: '#2D5A43',     // Copper patina & neem green (Craft Doctor)
     terracottaKutch: '#B85D38', // Fired Kutch earthenware clay
   },
 
   // Status & Provenance Badges
   status: {
-    verifiedBg: '#EAF3ED',
-    verifiedText: '#1E4834',
-    verifiedBorder: '#BBD8C5',
-    giBg: '#F8F3E6',
-    giText: '#7B5E1A',
-    giBorder: '#E2CF9F',
-    artisanShareBg: '#FBF0ED',
-    artisanShareText: '#732115',
-    artisanShareBorder: '#EFCAC2',
+    verifiedBg: '#E8F0EA',
+    verifiedText: '#1B432E',
+    verifiedBorder: '#BDD4C3',
+    giBg: '#F5EFE0',
+    giText: '#7A5B15',
+    giBorder: '#DEC997',
+    artisanShareBg: '#F7EDE9',
+    artisanShareText: '#7A2617',
+    artisanShareBorder: '#E8BFB6',
   }
 } as const;

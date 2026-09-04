@@ -18,9 +18,9 @@ export default function CraftDoctorPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const sampleDamagedCrafts = [
-    { label: 'Broken Jaipur Urn', url: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80' },
-    { label: 'Scuffed Bronze Figurine', url: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=800&q=80' },
-    { label: 'Faded Madhubani Scroll', url: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=800&q=80' }
+    { label: 'Broken Jaipur Urn', url: '/images/crafts/craft-15.jpg' },
+    { label: 'Scuffed Bronze Figurine', url: '/images/crafts/craft-8.jpg' },
+    { label: 'Faded Madhubani Scroll', url: '/images/crafts/craft-14.jpg' }
   ];
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,26 +135,28 @@ export default function CraftDoctorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] py-8 sm:py-12 px-3.5 sm:px-4 max-w-4xl mx-auto">
-      <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
-        <span className="px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full text-xs font-bold uppercase tracking-wider">
+    <div className="min-h-screen bg-[#F7F2E7] py-8 sm:py-12 px-3.5 sm:px-4 max-w-[1280px] mx-auto space-y-10">
+      <div className="border-b border-[#E3DACB] pb-6">
+        <span className="text-[10px] font-mono tracking-widest uppercase text-[#2D5A43] font-semibold bg-[#E8F0EA] px-2.5 py-1 rounded">
           Circular Economy & Heritage Restoration
         </span>
-        <h1 className="text-2xl sm:text-4xl font-serif font-bold text-stone-900 mt-3 mb-3">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-[#1C1917] mt-3 tracking-tight">
           Craft Doctor (शिल्प चिकित्सक)
         </h1>
-        <p className="text-xs text-stone-600 leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#5C554E] font-mono mt-2 max-w-2xl leading-relaxed">
           Accidents happen to delicate handcrafted items. Instead of discarding, our Multimodal AI analyzes damage from your photo, verifies craft authenticity, and connects you directly to registered heritage restoration masters.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
         {/* Upload & Damage Submission */}
-        <div className="bg-white border border-stone-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
-          <h3 className="font-bold text-stone-900 text-sm uppercase tracking-wider">1. Upload Damaged Craft Photo</h3>
+        <div className="bg-[#FAF6EE] border border-[#E3DACB] rounded-xl p-5 sm:p-6 shadow-xs space-y-4">
+          <h3 className="font-display font-bold text-[#1C1917] text-sm uppercase tracking-wider">
+            1. Upload Damaged Craft Photo
+          </h3>
 
           {error && (
-            <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl">
+            <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-mono">
               {error}
             </div>
           )}
@@ -173,16 +175,16 @@ export default function CraftDoctorPage() {
               onClick={() => fileInputRef.current?.click()}
               onDragOver={(e) => e.preventDefault()}
               onDrop={handleDrop}
-              className="border-2 border-dashed border-emerald-300 hover:border-emerald-500 bg-emerald-50/40 rounded-xl p-4 sm:p-5 text-center cursor-pointer transition flex flex-col items-center justify-center gap-2 group"
+              className="border-2 border-dashed border-[#2D5A43]/40 hover:border-[#2D5A43] bg-[#E8F0EA]/40 rounded-xl p-5 text-center cursor-pointer transition flex flex-col items-center justify-center gap-2 group"
             >
-              <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-lg group-hover:scale-110 transition">
+              <div className="w-10 h-10 rounded-full bg-[#E8F0EA] text-[#2D5A43] flex items-center justify-center text-lg group-hover:scale-110 transition">
                 📷
               </div>
               <div>
-                <p className="text-xs font-bold text-stone-800">
+                <p className="text-xs font-bold text-[#1C1917] font-mono">
                   Click to select photo from device or camera
                 </p>
-                <p className="text-[11px] text-stone-500 mt-0.5">
+                <p className="text-[11px] text-[#5C554E] font-mono mt-0.5">
                   Drag & drop image file here (PNG, JPG, WEBP)
                 </p>
               </div>
@@ -191,43 +193,43 @@ export default function CraftDoctorPage() {
 
           {/* Upload Status Indicator */}
           {uploading && (
-            <div className="flex items-center justify-center gap-2 text-xs font-semibold text-emerald-800 bg-emerald-50 py-2 rounded-lg border border-emerald-200">
-              <span className="inline-block w-3 h-3 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></span>
-              Uploading photo to Cloudinary storage...
+            <div className="flex items-center justify-center gap-2 text-xs font-mono font-semibold text-[#2D5A43] bg-[#E8F0EA] py-2 rounded-lg border border-[#BDD4C3]">
+              <span className="inline-block w-3 h-3 border-2 border-[#2D5A43] border-t-transparent rounded-full animate-spin"></span>
+              Uploading photo to secure storage...
             </div>
           )}
 
           {uploadSuccess && photoUrl && (
-            <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg text-[11px] text-emerald-900 flex flex-wrap items-center justify-between gap-1">
-              <span className="font-semibold">✓ Photo uploaded</span>
-              <span className="font-mono text-[10px] text-emerald-700 truncate max-w-[140px] sm:max-w-[200px]">{photoUrl}</span>
+            <div className="p-2.5 bg-[#E8F0EA] border border-[#BDD4C3] rounded-lg text-[11px] font-mono text-[#1B432E] flex flex-wrap items-center justify-between gap-1">
+              <span className="font-semibold">✓ Photo ready for analysis</span>
+              <span className="text-[10px] text-[#2D5A43] truncate max-w-[140px] sm:max-w-[200px]">{photoUrl}</span>
             </div>
           )}
 
           {/* Photo Preview */}
           {(previewUrl || photoUrl) && (
-            <div className="relative h-48 rounded-xl overflow-hidden border border-stone-200 bg-stone-50">
+            <div className="relative h-48 rounded-xl overflow-hidden border border-[#E3DACB] bg-[#EFE7DA]">
               <img
                 src={previewUrl || photoUrl}
                 alt="Damage Preview"
                 className="w-full h-full object-cover"
               />
-              <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-stone-900/80 text-white rounded text-[10px] font-medium backdrop-blur-sm">
+              <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-[#1C1917]/90 text-white rounded text-[10px] font-mono backdrop-blur-sm">
                 Photo Preview
               </span>
             </div>
           )}
 
           {/* Sample damaged items */}
-          <div className="pt-2 border-t border-stone-100">
-            <span className="block text-[11px] text-stone-500 mb-1.5">Or try with sample damaged items:</span>
+          <div className="pt-2 border-t border-[#E3DACB]">
+            <span className="block text-[11px] font-mono text-[#5C554E] mb-1.5">Or try with sample damaged items:</span>
             <div className="flex flex-wrap gap-1.5">
               {sampleDamagedCrafts.map((s, idx) => (
                 <button
                   key={idx}
                   type="button"
                   onClick={() => handleSelectSample(s.url)}
-                  className="px-2 py-1 bg-stone-100 hover:bg-emerald-50 hover:text-emerald-900 border border-stone-200 rounded text-[10px] text-stone-700 transition"
+                  className="px-2 py-1 bg-[#F7F2E7] hover:bg-[#E8F0EA] hover:text-[#1B432E] border border-[#E3DACB] rounded text-[10px] font-mono text-[#2D2824] transition"
                 >
                   {s.label}
                 </button>
@@ -239,7 +241,7 @@ export default function CraftDoctorPage() {
             type="button"
             disabled={loading || uploading || (!photoUrl && !previewUrl)}
             onClick={handleDiagnose}
-            className="w-full py-3.5 bg-emerald-800 text-white rounded-xl font-bold text-xs hover:bg-emerald-900 transition shadow-sm disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-3.5 bg-[#2D5A43] text-white rounded-lg font-mono font-bold text-xs hover:bg-[#1E3E2E] transition shadow-xs disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
           >
             {loading ? (
               <>
@@ -253,25 +255,27 @@ export default function CraftDoctorPage() {
         </div>
 
         {/* Diagnosis & Matching Results */}
-        <div className="bg-white border border-stone-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
-          <h3 className="font-bold text-stone-900 text-sm uppercase tracking-wider">2. Diagnostic Certificate & Partner Match</h3>
+        <div className="bg-[#FAF6EE] border border-[#E3DACB] rounded-xl p-5 sm:p-6 shadow-xs space-y-4">
+          <h3 className="font-display font-bold text-[#1C1917] text-sm uppercase tracking-wider">
+            2. Diagnostic Certificate & Partner Match
+          </h3>
 
           {/* Non-Craft Photo Rejection Message */}
           {rejectionError && (
-            <div className="p-5 bg-rose-50 border border-rose-200 text-rose-900 rounded-xl space-y-2 animate-in fade-in duration-300">
-              <div className="flex items-center gap-2 font-bold text-xs text-rose-800">
+            <div className="p-5 bg-[#F7EDE9] border border-[#E8BFB6] text-[#7A2617] rounded-xl space-y-2 animate-in fade-in duration-300">
+              <div className="flex items-center gap-2 font-mono font-bold text-xs">
                 <span className="text-base">⚠️</span>
                 <span>Craft Photo Validation Failed</span>
               </div>
-              <p className="text-xs leading-relaxed text-rose-700">{rejectionError}</p>
-              <div className="pt-2 text-[11px] text-rose-600 border-t border-rose-200">
+              <p className="text-xs leading-relaxed font-mono">{rejectionError}</p>
+              <div className="pt-2 text-[11px] font-mono border-t border-[#E8BFB6]/60">
                 Please upload a photo showing a physical handcrafted artifact (e.g. pottery, painting, metal idol, handloom).
               </div>
             </div>
           )}
 
           {!diagnosis && !rejectionError && (
-            <div className="p-12 text-center text-stone-400 text-xs border border-dashed border-stone-200 rounded-xl space-y-2">
+            <div className="p-12 text-center text-[#8C8379] text-xs border border-dashed border-[#E3DACB] rounded-xl space-y-2 font-mono">
               <div className="text-2xl">🩺</div>
               <p>Upload a photo from your device to run AI damage classification, material preservation scoring, and certified repair guild matching.</p>
             </div>
@@ -279,29 +283,28 @@ export default function CraftDoctorPage() {
 
           {diagnosis && (
             <div className="space-y-4 animate-in fade-in duration-300">
-              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl space-y-2.5">
+              <div className="p-4 bg-[#E8F0EA] border border-[#BDD4C3] rounded-xl space-y-2.5">
                 <div className="flex justify-between items-center">
-                  <span className="font-mono text-[10px] text-emerald-800 font-bold bg-emerald-100 px-2 py-0.5 rounded">
+                  <span className="font-mono text-[10px] text-[#1B432E] font-bold bg-[#BDD4C3]/40 px-2 py-0.5 rounded">
                     {diagnosis.ticket_number}
                   </span>
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
-                    diagnosis.ai_severity === 'High' ? 'bg-amber-200 text-amber-950' : 'bg-emerald-200 text-emerald-950'
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase ${
+                    diagnosis.ai_severity === 'High' ? 'bg-[#F5EFE0] text-[#7A5B15]' : 'bg-[#E8F0EA] text-[#1B432E]'
                   }`}>
                     Severity: {diagnosis.ai_severity}
                   </span>
                 </div>
-                <h4 className="font-bold text-stone-900 text-xs">{diagnosis.ai_damage_type}</h4>
-                <p className="text-xs text-stone-700 leading-relaxed">{diagnosis.ai_assessment_text}</p>
+                <h4 className="font-display font-bold text-[#1C1917] text-sm">{diagnosis.ai_damage_type}</h4>
+                <p className="text-xs text-[#2D2824] leading-relaxed font-normal">{diagnosis.ai_assessment_text}</p>
                 
-                {/* Diagnostic Repairability Assessment - Clear Diagnostic Format, No Stars */}
-                <div className="pt-3 border-t border-emerald-200 space-y-1.5">
+                <div className="pt-3 border-t border-[#BDD4C3] space-y-1.5 font-mono">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="font-semibold text-emerald-950">Structural Integrity Recovery Index:</span>
-                    <span className="text-emerald-800 font-bold font-mono">
+                    <span className="font-semibold text-[#1B432E]">Structural Integrity Recovery Index:</span>
+                    <span className="text-[#1B432E] font-bold">
                       {(diagnosis.ai_repairability_score * 100).toFixed(0)}%
                     </span>
                   </div>
-                  <div className="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-200 text-emerald-900">
+                  <div className="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold bg-[#BDD4C3]/60 text-[#1B432E]">
                     {diagnosis.ai_repairability_score >= 0.8
                       ? '✓ Full Heritage Restoration Feasible'
                       : diagnosis.ai_repairability_score >= 0.5
@@ -312,29 +315,29 @@ export default function CraftDoctorPage() {
               </div>
 
               {diagnosis.matched_repair_partner && (
-                <div className="p-4 bg-stone-50 border border-stone-200 rounded-xl space-y-2">
+                <div className="p-4 bg-[#F7F2E7] border border-[#E3DACB] rounded-xl space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-bold uppercase text-[#c55337] tracking-wider">
+                    <span className="text-[10px] font-mono font-bold uppercase text-[#8C3826] tracking-wider">
                       Matched Heritage Restoration Guild
                     </span>
-                    <span className="px-2 py-0.5 bg-stone-200 text-stone-800 rounded text-[10px] font-semibold">
+                    <span className="px-2 py-0.5 bg-[#EFE7DA] text-[#1C1917] rounded text-[10px] font-mono font-semibold">
                       ✓ Master Guild Accredited
                     </span>
                   </div>
-                  <h4 className="font-serif font-bold text-stone-900 text-sm">
+                  <h4 className="font-display font-bold text-[#1C1917] text-sm">
                     {diagnosis.matched_repair_partner.name}
                   </h4>
                   {diagnosis.matched_repair_partner.specialties && (
-                    <p className="text-xs text-stone-600">
-                      <span className="font-semibold text-stone-700">Specialties:</span> {diagnosis.matched_repair_partner.specialties}
+                    <p className="text-xs text-[#5C554E] font-mono">
+                      <span className="font-semibold text-[#1C1917]">Specialties:</span> {diagnosis.matched_repair_partner.specialties}
                     </p>
                   )}
-                  <p className="text-xs text-stone-600">
-                    <span className="font-semibold text-stone-700">Region:</span> {diagnosis.matched_repair_partner.region}
+                  <p className="text-xs text-[#5C554E] font-mono">
+                    <span className="font-semibold text-[#1C1917]">Region:</span> {diagnosis.matched_repair_partner.region}
                   </p>
-                  <div className="pt-2 border-t border-stone-200 flex justify-between items-center text-xs text-stone-600">
+                  <div className="pt-2 border-t border-[#E3DACB] flex justify-between items-center text-xs text-[#5C554E] font-mono">
                     <span>Direct Clinic Contact:</span>
-                    <span className="font-mono text-[11px] text-emerald-800 font-bold">
+                    <span className="text-[11px] text-[#2D5A43] font-bold">
                       {diagnosis.matched_repair_partner.contact_info}
                     </span>
                   </div>
@@ -347,5 +350,3 @@ export default function CraftDoctorPage() {
     </div>
   );
 }
-
-

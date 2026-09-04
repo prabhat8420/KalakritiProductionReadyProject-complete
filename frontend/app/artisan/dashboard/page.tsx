@@ -21,30 +21,32 @@ export default function ArtisanDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] p-6 max-w-6xl mx-auto">
+    <div className="min-h-screen bg-[#F7F2E7] p-6 sm:p-10 max-w-6xl mx-auto space-y-8">
       {/* Top Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-stone-200 mb-8">
+      <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[#E3DACB]">
         <div>
-          <span className="text-xs font-semibold uppercase text-orange-800 tracking-wider">Artisan Portal</span>
-          <h1 className="text-2xl font-serif font-bold text-stone-900">
-            {profile?.display_name || 'Artisan Studio Dashboard'}
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8C3826]">
+            Artisan Registry • Studio Portal
+          </span>
+          <h1 className="font-serif text-3xl font-bold text-[#1C1917] mt-1">
+            {profile?.display_name || 'Master Artisan Studio'}
           </h1>
-          <p className="text-xs text-stone-600">
-            Tradition: <span className="font-semibold text-stone-800">{profile?.craft_tradition || 'Master Artisan'}</span> • Region: {profile?.region || 'India'}
+          <p className="font-mono text-xs text-[#6E655F] mt-1">
+            Tradition: <span className="font-semibold text-[#1C1917]">{profile?.craft_tradition || 'Heritage Craft'}</span> • Region: {profile?.region || 'India'}
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <Link
             href="/artisan/products/new"
-            className="px-4 py-2 bg-[#c55337] text-white rounded-lg text-xs font-semibold hover:bg-[#a5402a] transition"
+            className="px-4 py-2.5 bg-[#8C3826] hover:bg-[#722D1E] text-white rounded-lg font-mono text-xs uppercase tracking-wider transition shadow-sm"
           >
-            + Add Product (AI Cataloging)
+            + Add Craft Specimen (AI Vision)
           </Link>
-          <span className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+          <span className={`px-3 py-1.5 rounded-full font-mono text-[11px] font-bold uppercase tracking-wider ${
             profile?.verification_status === 'verified'
-              ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-              : 'bg-amber-100 text-amber-800 border border-amber-200'
+              ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+              : 'bg-amber-100 text-amber-900 border border-amber-300'
           }`}>
             {profile?.verification_status || 'Pending Verification'}
           </span>
@@ -52,72 +54,72 @@ export default function ArtisanDashboardPage() {
       </div>
 
       {/* Metrics Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
-          <span className="text-xs text-stone-500 font-medium">Total Products</span>
-          <h2 className="text-2xl font-bold text-stone-900 mt-1">0</h2>
-          <span className="text-[11px] text-stone-400">0 published, 0 in moderation</span>
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div className="bg-[#FAF6EE] border border-[#E3DACB] rounded-xl p-5 shadow-xs">
+          <span className="font-mono text-[11px] uppercase tracking-wider text-[#6E655F]">Total Masterworks</span>
+          <h2 className="font-serif text-2xl font-bold text-[#1C1917] mt-1">0</h2>
+          <span className="font-mono text-[10px] text-[#6E655F]">0 certified, 0 in queue</span>
         </div>
 
-        <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
-          <span className="text-xs text-stone-500 font-medium">Suborders Received</span>
-          <h2 className="text-2xl font-bold text-stone-900 mt-1">0</h2>
-          <span className="text-[11px] text-stone-400">All fulfilled</span>
+        <div className="bg-[#FAF6EE] border border-[#E3DACB] rounded-xl p-5 shadow-xs">
+          <span className="font-mono text-[11px] uppercase tracking-wider text-[#6E655F]">Suborders Received</span>
+          <h2 className="font-serif text-2xl font-bold text-[#1C1917] mt-1">0</h2>
+          <span className="font-mono text-[10px] text-[#6E655F]">100% direct fulfillment</span>
         </div>
 
-        <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
-          <span className="text-xs text-stone-500 font-medium">Artisan Net Earnings</span>
-          <h2 className="text-2xl font-bold text-[#c55337] mt-1">₹0.00</h2>
-          <span className="text-[11px] text-stone-400">Escrow maturation: 7 days</span>
+        <div className="bg-[#FAF6EE] border border-[#E3DACB] rounded-xl p-5 shadow-xs">
+          <span className="font-mono text-[11px] uppercase tracking-wider text-[#6E655F]">Artisan Net Escrow</span>
+          <h2 className="font-serif text-2xl font-bold text-[#8C3826] mt-1">₹0.00</h2>
+          <span className="font-mono text-[10px] text-[#6E655F]">85% direct payout guarantee</span>
         </div>
 
-        <div className="bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
-          <span className="text-xs text-stone-500 font-medium">Verified Craft Rating</span>
-          <h2 className="text-2xl font-bold text-amber-600 mt-1">★ {profile?.avg_rating || '5.0'}</h2>
-          <span className="text-[11px] text-stone-400">{profile?.review_count || 0} verified reviews</span>
+        <div className="bg-[#FAF6EE] border border-[#E3DACB] rounded-xl p-5 shadow-xs">
+          <span className="font-mono text-[11px] uppercase tracking-wider text-[#6E655F]">Lineage Rating</span>
+          <h2 className="font-serif text-2xl font-bold text-[#B8860B] mt-1">★ {profile?.avg_rating || '5.0'}</h2>
+          <span className="font-mono text-[10px] text-[#6E655F]">{profile?.review_count || 0} verified patron reviews</span>
         </div>
       </div>
 
       {/* Studio Quick Actions */}
-      <div className="bg-white border border-stone-200 rounded-xl p-6 shadow-sm mb-8">
-        <h3 className="text-sm font-bold text-stone-800 uppercase tracking-wider mb-4">Quick Studio Actions</h3>
+      <div className="bg-[#FAF6EE] border border-[#E3DACB] rounded-xl p-6 shadow-xs">
+        <h3 className="font-mono text-xs font-bold text-[#1C1917] uppercase tracking-[0.2em] mb-4">Studio Actions</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Link
             href="/artisan/products/new"
-            className="p-4 border border-stone-200 rounded-lg hover:border-[#c55337] transition group"
+            className="p-4 bg-[#F7F2E7] border border-[#E3DACB] rounded-lg hover:border-[#8C3826] transition group"
           >
-            <h4 className="font-semibold text-stone-900 group-hover:text-[#c55337] text-sm">📸 AI Product Cataloging</h4>
-            <p className="text-xs text-stone-500 mt-1">Upload a photo to auto-generate bilingual title & description.</p>
+            <h4 className="font-serif font-bold text-[#1C1917] group-hover:text-[#8C3826] text-sm">📸 AI Multimodal Cataloging</h4>
+            <p className="font-mono text-[11px] text-[#6E655F] mt-1">Upload a photo to generate bilingual provenance & fair price breakdown.</p>
           </Link>
           <Link
             href="/artisan/orders"
-            className="p-4 border border-stone-200 rounded-lg hover:border-[#c55337] transition group"
+            className="p-4 bg-[#F7F2E7] border border-[#E3DACB] rounded-lg hover:border-[#8C3826] transition group"
           >
-            <h4 className="font-semibold text-stone-900 group-hover:text-[#c55337] text-sm">📦 Manage Suborders</h4>
-            <p className="text-xs text-stone-500 mt-1">Track suborders assigned specifically to your craft studio.</p>
+            <h4 className="font-serif font-bold text-[#1C1917] group-hover:text-[#8C3826] text-sm">📦 Manage Patron Suborders</h4>
+            <p className="font-mono text-[11px] text-[#6E655F] mt-1">Fulfill and track suborders assigned directly to your studio.</p>
           </Link>
           <Link
             href="/artisan/earnings"
-            className="p-4 border border-stone-200 rounded-lg hover:border-[#c55337] transition group"
+            className="p-4 bg-[#F7F2E7] border border-[#E3DACB] rounded-lg hover:border-[#8C3826] transition group"
           >
-            <h4 className="font-semibold text-stone-900 group-hover:text-[#c55337] text-sm">💳 Bank Payouts</h4>
-            <p className="text-xs text-stone-500 mt-1">View transparent revenue breakdown and scheduled transfers.</p>
+            <h4 className="font-serif font-bold text-[#1C1917] group-hover:text-[#8C3826] text-sm">💳 Bank Escrow Settlements</h4>
+            <p className="font-mono text-[11px] text-[#6E655F] mt-1">Inspect transparent 85% revenue shares and scheduled transfers.</p>
           </Link>
         </div>
       </div>
 
       {/* Studio Crafts Inventory Empty State */}
-      <div className="bg-white border border-stone-200 rounded-xl p-8 shadow-sm text-center">
-        <div className="w-14 h-14 bg-orange-50 text-[#c55337] rounded-full flex items-center justify-center text-2xl mx-auto mb-3 shadow-2xs">
+      <div className="bg-[#FAF6EE] border border-[#E3DACB] rounded-xl p-10 shadow-xs text-center">
+        <div className="w-14 h-14 bg-[#8C3826]/10 text-[#8C3826] rounded-full flex items-center justify-center text-2xl mx-auto mb-3">
           🎨
         </div>
-        <h3 className="font-serif font-bold text-stone-900 text-base mb-1">No Crafts Listed in Studio Yet</h3>
-        <p className="text-xs text-stone-600 max-w-md mx-auto mb-5 leading-relaxed">
+        <h3 className="font-serif font-bold text-[#1C1917] text-lg mb-1">No Crafts Cataloged in Studio Yet</h3>
+        <p className="text-xs text-[#6E655F] max-w-md mx-auto mb-6 leading-relaxed">
           Upload your handcrafted creations with AI-assisted cataloging. Automatic GI certification tags, bilingual descriptions, and 85% net earnings guarantee.
         </p>
         <Link
           href="/artisan/products/new"
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#c55337] text-white rounded-lg text-xs font-bold hover:bg-[#a5402a] transition shadow-sm"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#8C3826] hover:bg-[#722D1E] text-white rounded-lg font-mono text-xs uppercase tracking-wider font-bold transition shadow-sm"
         >
           <span>📸</span> + List First Heritage Craft
         </Link>

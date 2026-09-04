@@ -8,6 +8,13 @@ export const orderService = {
     });
   },
 
+  async createOrder(addressId: string) {
+    return apiClient<any>('/orders/checkout', {
+      method: 'POST',
+      body: JSON.stringify({ address_id: addressId }),
+    });
+  },
+
   async verifyPayment(paymentData: {
     order_id: string;
     razorpay_order_id: string;

@@ -47,39 +47,48 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-[#faf8f5]">
-      <div className="w-full max-w-md bg-white border border-stone-200 rounded-2xl p-8 shadow-sm">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#F7F2E7] relative overflow-hidden">
+      {/* Background Decorative Rings */}
+      <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full border border-[#E3DACB]/50 pointer-events-none" />
+      <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full border border-[#E3DACB]/50 pointer-events-none" />
+
+      <div className="w-full max-w-md bg-[#FAF6EE] border border-[#E3DACB] rounded-2xl p-8 sm:p-10 shadow-sm relative z-10">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-block font-serif text-2xl font-bold text-[#c55337] mb-2">
-            कलाकृति Kalakriti
+          <Link href="/" className="inline-block font-serif text-2xl tracking-[0.2em] font-semibold text-[#1C1917] hover:text-[#8C3826] transition mb-3">
+            KALAKRITI
           </Link>
-          <h1 className="text-xl font-bold text-stone-900">Welcome Back</h1>
-          <p className="text-sm text-stone-600">Access your artisan or patron account</p>
+          <div className="w-8 h-[1.5px] bg-[#8C3826] mx-auto mb-4" />
+          <h1 className="font-serif text-xl font-bold text-[#1C1917]">Patron & Artisan Portal</h1>
+          <p className="font-mono text-[11px] uppercase tracking-wider text-[#6E655F] mt-1">Authenticate verified lineage account</p>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg">
+          <div className="mb-5 p-3.5 bg-red-50/80 border border-red-200 text-red-800 text-xs rounded-lg font-mono">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold uppercase text-stone-600 mb-1">Email Address</label>
+            <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6E655F] mb-1.5 font-medium">
+              Registered Email
+            </label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              className="w-full px-3.5 py-2.5 rounded-lg border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#c55337]"
+              placeholder="patron@kalakriti.org"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-[#E3DACB] bg-[#F7F2E7] text-sm text-[#1C1917] placeholder:text-[#6E655F]/50 focus:outline-none focus:ring-1 focus:ring-[#8C3826] focus:border-[#8C3826] transition"
             />
           </div>
 
           <div>
-            <div className="flex justify-between items-center mb-1">
-              <label className="text-xs font-semibold uppercase text-stone-600">Password</label>
-              <Link href="/auth/forgot-password" className="text-xs text-[#c55337] hover:underline">
+            <div className="flex justify-between items-center mb-1.5">
+              <label className="font-mono text-[10px] uppercase tracking-wider text-[#6E655F] font-medium">
+                Password
+              </label>
+              <Link href="/auth/forgot-password" className="font-mono text-[10px] text-[#8C3826] hover:underline uppercase tracking-wider">
                 Forgot?
               </Link>
             </div>
@@ -89,22 +98,22 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-3.5 py-2.5 rounded-lg border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#c55337]"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-[#E3DACB] bg-[#F7F2E7] text-sm text-[#1C1917] placeholder:text-[#6E655F]/50 focus:outline-none focus:ring-1 focus:ring-[#8C3826] focus:border-[#8C3826] transition"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-[#c55337] text-white rounded-lg font-medium text-sm hover:bg-[#a5402a] transition disabled:opacity-50"
+            className="w-full py-3 bg-[#8C3826] hover:bg-[#722D1E] text-white rounded-lg font-medium text-xs uppercase tracking-widest transition duration-200 shadow-sm disabled:opacity-50 cursor-pointer"
           >
-            {loading ? 'Authenticating...' : 'Sign In'}
+            {loading ? 'Authenticating Heritage...' : 'Sign In to Archive'}
           </button>
         </form>
 
-        <div className="mt-6 pt-6 border-t border-stone-100 text-center text-xs text-stone-600">
-          New to Kalakriti?{' '}
-          <Link href="/auth/register" className="font-semibold text-[#c55337] hover:underline">
+        <div className="mt-8 pt-6 border-t border-[#E3DACB] text-center text-xs text-[#6E655F]">
+          New patron or master artisan?{' '}
+          <Link href="/auth/register" className="font-semibold text-[#8C3826] hover:underline">
             Create an Account
           </Link>
         </div>

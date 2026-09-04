@@ -68,26 +68,27 @@ export function ProductReviews({ productId, productTitle, initialReviews = [] }:
   };
 
   return (
-    <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-stone-100">
+    <div className="bg-[#FAF6EE] border border-[#E3DACB] rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#E3DACB]">
         <div>
-          <h3 className="font-serif font-bold text-stone-900 text-lg">Patron Reviews & Craft Stories</h3>
-          <p className="text-xs text-stone-500">{reviews.length} verified purchases</p>
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#8C3826] font-semibold">Patron Feedback</span>
+          <h3 className="font-serif font-bold text-[#1C1917] text-xl mt-0.5">Patron Reviews & Lineage Stories</h3>
+          <p className="font-mono text-xs text-[#6E655F]">{reviews.length} verified acquisitions</p>
         </div>
         <button
           type="button"
           onClick={() => setShowForm(!showForm)}
-          className="px-4 py-2 border border-stone-300 text-stone-700 hover:border-[#c55337] hover:text-[#c55337] rounded-lg text-xs font-semibold transition"
+          className="px-4 py-2 border border-[#E3DACB] bg-[#F7F2E7] text-[#1C1917] hover:border-[#8C3826] hover:text-[#8C3826] rounded-lg font-mono text-xs font-semibold transition cursor-pointer"
         >
-          {showForm ? 'Cancel' : '✍️ Write a Review'}
+          {showForm ? 'Cancel' : '✍️ Write Patron Review'}
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="p-4 bg-stone-50 rounded-xl border border-stone-200 space-y-3 animate-in fade-in duration-200">
+        <form onSubmit={handleSubmit} className="p-5 bg-[#F7F2E7] rounded-xl border border-[#E3DACB] space-y-3 animate-in fade-in duration-200">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-stone-700">Rating:</span>
-            <div className="flex gap-1 text-amber-500 text-base cursor-pointer">
+            <span className="font-mono text-xs font-semibold text-[#1C1917]">Rating:</span>
+            <div className="flex gap-1 text-[#B8860B] text-base cursor-pointer">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
                   key={star}
@@ -106,13 +107,13 @@ export function ProductReviews({ productId, productTitle, initialReviews = [] }:
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Share your appreciation of the craftsmanship, natural textures, and provenance..."
-              className="w-full px-3 py-2 text-xs border border-stone-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#c55337]"
+              className="w-full px-3.5 py-2.5 text-xs border border-[#E3DACB] rounded-lg bg-[#FAF6EE] text-[#1C1917] focus:outline-none focus:ring-1 focus:ring-[#8C3826] focus:border-[#8C3826]"
             />
           </div>
           <button
             type="submit"
             disabled={submitting}
-            className="px-5 py-2 bg-[#c55337] text-white rounded-lg text-xs font-bold hover:bg-[#a5402a] transition disabled:opacity-50"
+            className="px-5 py-2.5 bg-[#8C3826] hover:bg-[#722D1E] text-white rounded-lg font-mono text-xs font-bold uppercase tracking-wider transition disabled:opacity-50 cursor-pointer"
           >
             {submitting ? 'Submitting Review...' : 'Publish Patron Review'}
           </button>
@@ -120,22 +121,22 @@ export function ProductReviews({ productId, productTitle, initialReviews = [] }:
       )}
 
       {reviews.length === 0 ? (
-        <div className="p-8 text-center border border-dashed border-stone-200 rounded-xl space-y-2">
+        <div className="p-8 text-center border border-dashed border-[#E3DACB] rounded-xl space-y-2">
           <div className="text-2xl">✍️</div>
-          <h4 className="font-semibold text-stone-800 text-xs">No Patron Reviews Yet</h4>
-          <p className="text-[11px] text-stone-500 max-w-sm mx-auto leading-relaxed">
+          <h4 className="font-serif font-semibold text-[#1C1917] text-sm">No Patron Reviews Yet</h4>
+          <p className="text-xs text-[#6E655F] max-w-sm mx-auto leading-relaxed">
             Be the first patron to share your experience with this master craft piece and help preserve indigenous Indian traditions.
           </p>
         </div>
       ) : (
         <div className="space-y-4">
           {reviews.map((r) => (
-            <div key={r.id} className="pb-4 border-b border-stone-100 last:border-0 last:pb-0 space-y-1">
+            <div key={r.id} className="pb-4 border-b border-[#E3DACB]/50 last:border-0 last:pb-0 space-y-1">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-bold text-stone-900">{r.user_name}</span>
-                <span className="text-amber-500 font-bold">{'★'.repeat(r.rating)}</span>
+                <span className="font-bold text-[#1C1917]">{r.user_name}</span>
+                <span className="text-[#B8860B] font-bold">{'★'.repeat(r.rating)}</span>
               </div>
-              <p className="text-xs text-stone-700 leading-relaxed">{r.comment}</p>
+              <p className="text-xs text-[#6E655F] leading-relaxed">{r.comment}</p>
             </div>
           ))}
         </div>

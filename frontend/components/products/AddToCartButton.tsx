@@ -45,7 +45,7 @@ export function AddToCartButton({ variantId, productId, productTitle, price }: A
       type="button"
       disabled={loading}
       onClick={handleAddToCart}
-      className="w-full py-3.5 bg-[#c55337] text-white rounded-xl font-bold text-xs hover:bg-[#a5402a] transition shadow-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+      className="w-full py-4 bg-[#8C3826] hover:bg-[#722D1E] text-white rounded-xl font-mono text-xs uppercase tracking-widest font-bold transition shadow-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 duration-200"
     >
       {loading ? (
         <>
@@ -54,7 +54,7 @@ export function AddToCartButton({ variantId, productId, productTitle, price }: A
         </>
       ) : (
         <>
-          <span>🧺</span> Add to Artisan Basket • ₹{price.toLocaleString('en-IN')}
+          <span>🧺</span> Acquire Specimen • ₹{price.toLocaleString('en-IN')}
         </>
       )}
     </button>

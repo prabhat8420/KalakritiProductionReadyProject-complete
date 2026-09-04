@@ -16,21 +16,23 @@ export default async function ArtisanProfilePage({ params }: { params: { id: str
   if (!artisan) notFound();
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] py-12 px-4 max-w-5xl mx-auto space-y-8">
-      <div className="bg-white border border-stone-200 rounded-3xl p-8 shadow-sm flex flex-col sm:flex-row gap-6 items-center sm:items-start">
-        <div className="w-24 h-24 rounded-full bg-orange-100 flex items-center justify-center text-4xl border border-orange-200">
+    <div className="min-h-screen bg-[#F7F2E7] py-16 px-4 sm:px-6 max-w-5xl mx-auto space-y-8">
+      <div className="bg-[#FAF6EE] border border-[#E3DACB] rounded-3xl p-8 sm:p-12 shadow-sm flex flex-col sm:flex-row gap-8 items-center sm:items-start">
+        <div className="w-28 h-28 rounded-full bg-[#8C3826]/10 flex items-center justify-center text-4xl border border-[#8C3826]/30 shadow-inner">
           🏺
         </div>
-        <div className="space-y-2 text-center sm:text-left flex-1">
-          <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
-            <h1 className="font-serif text-3xl font-bold text-stone-900">{artisan.display_name}</h1>
-            <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-900 rounded-full text-xs font-bold uppercase">
+        <div className="space-y-3 text-center sm:text-left flex-1">
+          <div className="flex flex-wrap items-center gap-3 justify-center sm:justify-start">
+            <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#1C1917]">{artisan.display_name}</h1>
+            <span className="px-3 py-1 bg-emerald-100 text-emerald-900 border border-emerald-300 rounded-full font-mono text-[10px] font-bold uppercase tracking-wider">
               Verified Master
             </span>
           </div>
-          <p className="text-xs text-[#c55337] font-semibold">📍 {artisan.region} • {artisan.craft_tradition}</p>
-          <p className="text-xs text-stone-600 max-w-2xl leading-relaxed">{artisan.bio}</p>
-          <div className="pt-2 flex gap-6 text-xs text-stone-500">
+          <p className="font-mono text-xs text-[#8C3826] font-semibold uppercase tracking-wider">
+            📍 {artisan.region} • {artisan.craft_tradition}
+          </p>
+          <p className="text-sm text-[#6E655F] max-w-2xl leading-relaxed">{artisan.bio}</p>
+          <div className="pt-3 flex flex-wrap gap-6 font-mono text-xs text-[#6E655F]">
             <span>⭐ {artisan.avg_rating} Rating ({artisan.review_count} Reviews)</span>
             <span>🏛️ {artisan.years_active} Years Active</span>
           </div>

@@ -25,7 +25,7 @@ export default function LineageScrollSequence() {
       element: 'Indus Valley Lineage',
       desc: 'Master artisans draw freehand lines with frayed bamboo twigs or cast molten bell metal in beeswax moulds without industrial stencils or assembly lines.',
       tag: 'Phase 2 • Sacred Handcrafting',
-      color: '#C29B38',
+      color: '#B8860B',
       icon: '✍️',
       metrics: '42 to 90 Hours of Hereditary Labor Per Piece'
     },
@@ -35,7 +35,7 @@ export default function LineageScrollSequence() {
       element: 'Digital Authenticity',
       desc: 'Every completed specimen receives an immutable SHA-256 digital certificate, QR verification tag, and an automated 85% direct payout split to the artisan studio.',
       tag: 'Phase 3 • Fair Provenance',
-      color: '#842A1C',
+      color: '#8C3826',
       icon: '📜',
       metrics: 'SHA-256 Provenance Hash • 85% Escrow Release'
     }
@@ -46,7 +46,6 @@ export default function LineageScrollSequence() {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // Step trigger transitions
       steps.forEach((_, index) => {
         ScrollTrigger.create({
           trigger: `#lineage-card-${index}`,
@@ -63,24 +62,24 @@ export default function LineageScrollSequence() {
 
   return (
     <section ref={containerRef} className="my-16 space-y-8">
-      <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-[#E2DAD0] pb-4">
+      <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-[#E3DACB] pb-4">
         <div>
-          <span className="text-[10px] font-mono tracking-widest uppercase text-[#842A1C] font-semibold block">
+          <span className="text-[10px] font-mono tracking-widest uppercase text-[#8C3826] font-semibold block">
             Signature Lineage Sequence
           </span>
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#141312] mt-1 tracking-tight">
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#1C1917] mt-1 tracking-tight">
             Mitti Se Murti: The Three Sacred Stages
           </h2>
         </div>
-        <p className="text-xs text-[#5C5852] font-mono max-w-sm">
+        <p className="text-xs text-[#5C554E] font-mono max-w-sm">
           Scroll to explore the transformative lifecycle of GI-certified Indian crafts.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Sticky Progress Compass (4 cols) */}
-        <div className="lg:col-span-4 lg:sticky lg:top-24 bg-[#FFFFFF] border border-[#E2DAD0] rounded-xl p-6 shadow-sm space-y-6">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-[#5C5852] block">
+        <div className="lg:col-span-4 lg:sticky lg:top-24 bg-[#FAF6EE] border border-[#E3DACB] rounded-xl p-6 shadow-xs space-y-6">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-[#5C554E] block">
             Lineage Progression
           </span>
 
@@ -93,19 +92,19 @@ export default function LineageScrollSequence() {
                   onClick={() => setActiveStep(idx)}
                   className={`cursor-pointer p-3.5 rounded-lg border transition ${
                     isActive
-                      ? 'border-[#141312] bg-[#F5F0EB] shadow-xs'
-                      : 'border-transparent hover:bg-[#FDFBF7] text-[#5C5852]'
+                      ? 'border-[#1C1917] bg-[#F7F2E7] shadow-xs'
+                      : 'border-transparent hover:bg-[#FAF6EE] text-[#5C554E]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <span
                       className={`font-mono text-xs font-bold px-2 py-0.5 rounded ${
-                        isActive ? 'bg-[#141312] text-[#F5F0EB]' : 'bg-[#EBE5DC] text-[#5C5852]'
+                        isActive ? 'bg-[#1C1917] text-[#F7F2E7]' : 'bg-[#EFE7DA] text-[#5C554E]'
                       }`}
                     >
                       {s.num}
                     </span>
-                    <span className="font-display text-sm font-semibold text-[#141312]">
+                    <span className="font-display text-sm font-semibold text-[#1C1917]">
                       {s.element}
                     </span>
                   </div>
@@ -114,11 +113,11 @@ export default function LineageScrollSequence() {
             })}
           </div>
 
-          <div className="p-3 bg-[#FDFBF7] border border-[#E2DAD0] rounded-lg text-xs space-y-1">
-            <span className="font-mono text-[10px] uppercase text-[#842A1C] font-bold block">
+          <div className="p-3.5 bg-[#F7F2E7] border border-[#E3DACB] rounded-lg text-xs space-y-1">
+            <span className="font-mono text-[10px] uppercase text-[#8C3826] font-bold block">
               Direct Value Guarantee
             </span>
-            <p className="text-[11px] text-[#5C5852] leading-tight">
+            <p className="text-[11px] text-[#5C554E] leading-tight font-mono">
               Unlike industrial middlemen taking 70% markups, 85% of patron price transfers directly to the studio.
             </p>
           </div>
@@ -130,34 +129,34 @@ export default function LineageScrollSequence() {
             <div
               key={s.num}
               id={`lineage-card-${idx}`}
-              className={`p-6 sm:p-8 rounded-xl border transition-all duration-300 bg-[#FFFFFF] ${
+              className={`p-6 sm:p-8 rounded-xl border transition-all duration-300 bg-[#FAF6EE] ${
                 activeStep === idx
-                  ? 'border-[#141312] shadow-md'
-                  : 'border-[#E2DAD0] opacity-80'
+                  ? 'border-[#1C1917] shadow-xs'
+                  : 'border-[#E3DACB] opacity-80'
               }`}
             >
-              <div className="flex items-center justify-between gap-4 border-b border-[#E2DAD0] pb-4 mb-5">
+              <div className="flex items-center justify-between gap-4 border-b border-[#E3DACB] pb-4 mb-5">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{s.icon}</span>
                   <div>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#842A1C] font-bold">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#8C3826] font-bold">
                       {s.tag}
                     </span>
-                    <h3 className="font-display font-bold text-lg sm:text-xl text-[#141312]">
+                    <h3 className="font-display font-bold text-lg sm:text-xl text-[#1C1917]">
                       {s.title}
                     </h3>
                   </div>
                 </div>
-                <span className="font-mono text-xl font-bold text-[#EBE5DC]">{s.num}</span>
+                <span className="font-mono text-xl font-bold text-[#E3DACB]">{s.num}</span>
               </div>
 
-              <p className="text-sm text-[#2D2B28] leading-relaxed mb-6 font-normal">
+              <p className="text-sm text-[#2D2824] leading-relaxed mb-6 font-normal">
                 {s.desc}
               </p>
 
-              <div className="p-3.5 bg-[#F5F0EB] rounded-lg border border-[#E2DAD0] flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-                <span className="text-[#141312] font-semibold">{s.metrics}</span>
-                <span className="text-[#842A1C] font-bold">Verified Archival Standard</span>
+              <div className="p-3.5 bg-[#F7F2E7] rounded-lg border border-[#E3DACB] flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                <span className="text-[#1C1917] font-semibold">{s.metrics}</span>
+                <span className="text-[#8C3826] font-bold">Verified Archival Standard</span>
               </div>
             </div>
           ))}

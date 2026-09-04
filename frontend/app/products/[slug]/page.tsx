@@ -29,14 +29,14 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
 
   const primaryImage =
     product.images?.[0]?.image_url ||
-    'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=800&q=80';
+    '/images/crafts/craft-14.jpg';
 
   return (
-    <div className="min-h-screen bg-[#F5F0EB] py-8 sm:py-10 px-4 max-w-[1280px] mx-auto space-y-12">
+    <div className="min-h-screen bg-[#F7F2E7] py-10 sm:py-14 px-4 sm:px-6 max-w-[1280px] mx-auto space-y-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
         {/* Gallery with Image Fallback & Ratio */}
         <div className="md:sticky md:top-24">
-          <div className="bg-white border border-[#E2DAD0] rounded-xl overflow-hidden shadow-xs">
+          <div className="bg-[#FAF6EE] border border-[#E3DACB] rounded-2xl overflow-hidden shadow-xs">
             <CraftImage
               src={primaryImage}
               alt={product.title}
@@ -44,34 +44,34 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="mt-3 flex items-center justify-between text-[11px] font-mono text-[#5C5852] px-1">
+          <div className="mt-3 flex items-center justify-between font-mono text-[11px] text-[#6E655F] px-1">
             <span>Natural Pigment Specification</span>
-            <span className="text-[#842A1C] font-semibold">100% Handcrafted</span>
+            <span className="text-[#8C3826] font-semibold">100% Handcrafted</span>
           </div>
         </div>
 
         {/* Product Story & Purchase Block */}
         <div className="space-y-6">
-          <div className="space-y-2 border-b border-[#E2DAD0] pb-5">
+          <div className="space-y-2 border-b border-[#E3DACB] pb-5">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded bg-[#842A1C]/10 text-[#842A1C] text-[10px] font-mono font-bold uppercase tracking-wider">
+              <span className="px-3 py-1 rounded bg-[#8C3826]/10 text-[#8C3826] font-mono text-[10px] font-bold uppercase tracking-wider">
                 {product.tradition?.name || 'Heritage Craft'}
               </span>
-              <span className="text-xs font-mono text-[#5C5852]">• {product.artisan?.region || 'India'}</span>
+              <span className="font-mono text-xs text-[#6E655F]">• {product.artisan?.region || 'India'}</span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-[#141312] leading-tight tracking-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[#1C1917] leading-tight tracking-tight">
               {product.title}
             </h1>
 
-            <p className="text-xs font-mono text-[#5C5852]">
-              Artisan Studio: <span className="font-semibold text-[#141312]">{product.artisan?.display_name || 'Master Artisan'}</span>
+            <p className="font-mono text-xs text-[#6E655F]">
+              Artisan Studio: <span className="font-semibold text-[#1C1917]">{product.artisan?.display_name || 'Master Artisan'}</span>
             </p>
           </div>
 
-          <p className="text-sm text-[#2D2B28] leading-relaxed font-normal">{product.description_en}</p>
+          <p className="text-sm text-[#1C1917] leading-relaxed font-normal">{product.description_en}</p>
           {product.description_hi && (
-            <p className="text-xs text-[#5C5852] bg-[#FDFBF7] p-3.5 rounded-lg border border-[#E2DAD0] italic font-serif leading-relaxed">
+            <p className="text-xs text-[#6E655F] bg-[#FAF6EE] p-4 rounded-xl border border-[#E3DACB] italic font-serif leading-relaxed">
               "{product.description_hi}"
             </p>
           )}
@@ -110,7 +110,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
       </div>
 
       {/* Patron Reviews */}
-      <div className="pt-8 border-t border-[#E2DAD0]">
+      <div className="pt-8 border-t border-[#E3DACB]">
         <ProductReviews
           productId={product.id}
           productTitle={product.title}

@@ -40,19 +40,19 @@ export default function CuratorSidebar({
   return (
     <aside className="w-full lg:w-[260px] shrink-0 space-y-6">
       {/* Curator Box */}
-      <div className="bg-[#FFFFFF] border border-[#E2DAD0] rounded-xl p-5 shadow-sm space-y-5">
-        <div className="border-b border-[#E2DAD0] pb-3">
-          <span className="text-[10px] font-mono tracking-widest uppercase text-[#842A1C] font-semibold block">
+      <div className="bg-[#FAF6EE] border border-[#E3DACB] rounded-xl p-5 shadow-xs space-y-5">
+        <div className="border-b border-[#E3DACB] pb-3">
+          <span className="text-[10px] font-mono tracking-widest uppercase text-[#8C3826] font-semibold block">
             Archival Taxonomy
           </span>
-          <h3 className="font-display font-bold text-base text-[#141312] mt-0.5 tracking-tight">
+          <h3 className="font-display font-bold text-base text-[#1C1917] mt-0.5 tracking-tight">
             Heritage Curator Rail
           </h3>
         </div>
 
         {/* Material Lineages */}
         <div className="space-y-2">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-[#5C5852] block">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[#5C554E] block">
             Craft Materiality
           </span>
           <div className="space-y-1">
@@ -62,18 +62,18 @@ export default function CuratorSidebar({
                 <button
                   key={m.slug}
                   onClick={() => handleSelect(m.slug)}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition text-left ${
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-mono font-medium transition text-left ${
                     isSelected
-                      ? 'bg-[#1B2738] text-white shadow-sm'
-                      : 'text-[#2D2B28] hover:bg-[#F5F0EB]'
+                      ? 'bg-[#1C1917] text-[#F7F2E7] shadow-xs'
+                      : 'text-[#2D2824] hover:bg-[#EFE7DA]'
                   }`}
                 >
                   <span className="truncate">{m.label}</span>
                   <span
                     className={`font-mono text-[10px] px-1.5 py-0.5 rounded ${
                       isSelected
-                        ? 'bg-white/20 text-white'
-                        : 'bg-[#EBE5DC] text-[#5C5852]'
+                        ? 'bg-white/20 text-[#F7F2E7]'
+                        : 'bg-[#EFE7DA] text-[#5C554E]'
                     }`}
                   >
                     {m.count}
@@ -85,23 +85,23 @@ export default function CuratorSidebar({
         </div>
 
         {/* GI Cluster Pinpoints */}
-        <div className="space-y-2 pt-3 border-t border-[#E2DAD0]">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-[#5C5852] block">
+        <div className="space-y-2 pt-3 border-t border-[#E3DACB]">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[#5C554E] block">
             GI Artisan Clusters
           </span>
           <div className="space-y-2">
             {clusters.map((c) => (
               <div
                 key={c.gi}
-                className="p-2.5 rounded-lg border border-[#E2DAD0] bg-[#FDFBF7] space-y-1"
+                className="p-2.5 rounded-lg border border-[#E3DACB] bg-[#F7F2E7] space-y-1"
               >
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-medium text-[#141312]">{c.name}</span>
-                  <span className="text-[9px] font-mono font-bold text-[#842A1C] bg-[#842A1C]/10 px-1 py-0.5 rounded">
+                  <span className="font-medium text-[#1C1917]">{c.name}</span>
+                  <span className="text-[9px] font-mono font-bold text-[#8C3826] bg-[#8C3826]/10 px-1 py-0.5 rounded">
                     {c.gi}
                   </span>
                 </div>
-                <div className="text-[10px] text-[#5C5852] font-mono">
+                <div className="text-[10px] text-[#5C554E] font-mono">
                   {c.count} • Master Verified
                 </div>
               </div>
@@ -110,17 +110,17 @@ export default function CuratorSidebar({
         </div>
 
         {/* Payout Assurance Card */}
-        <div className="p-3 bg-[#141312] text-[#F5F0EB] rounded-lg space-y-1.5">
-          <div className="flex items-center gap-1.5 text-[10px] font-mono text-[#C29B38] font-bold">
+        <div className="p-3 bg-[#1C1917] text-[#F7F2E7] rounded-lg space-y-1.5">
+          <div className="flex items-center gap-1.5 text-[10px] font-mono text-[#D4AF37] font-bold">
             <span>⚖️</span>
             <span>85% DIRECT ESCROW</span>
           </div>
-          <p className="text-[11px] text-[#EBE5DC] leading-relaxed">
+          <p className="text-[11px] text-[#EFE7DA] leading-relaxed">
             Every transaction is mathematically bound to direct artisan studio bank accounts.
           </p>
           <Link
             href="/shop"
-            className="text-[10px] font-mono text-[#C29B38] hover:underline block pt-1"
+            className="text-[10px] font-mono text-[#D4AF37] hover:underline block pt-1"
           >
             View Live Escrow Ledger
           </Link>

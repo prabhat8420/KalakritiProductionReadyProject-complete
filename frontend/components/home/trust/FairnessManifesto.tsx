@@ -33,12 +33,12 @@ export default function FairnessManifesto() {
 
   return (
     <section className="my-16 space-y-8">
-      <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-[#E2DAD0] pb-4">
+      <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-[#E3DACB] pb-4">
         <div>
-          <span className="text-[10px] font-mono tracking-widest uppercase text-[#842A1C] font-semibold block">
+          <span className="text-[10px] font-mono tracking-widest uppercase text-[#8C3826] font-semibold block">
             The Kalakriti Manifesto
           </span>
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#141312] mt-1 tracking-tight">
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#1C1917] mt-1 tracking-tight">
             Built For Cultural Preservation & Direct Fairness
           </h2>
         </div>
@@ -48,31 +48,31 @@ export default function FairnessManifesto() {
         {pillars.map((p) => (
           <div
             key={p.num}
-            className="bg-[#FFFFFF] border border-[#E2DAD0] rounded-xl p-6 sm:p-7 flex flex-col justify-between space-y-5 shadow-xs hover:border-[#141312] transition-colors"
+            className="bg-[#FAF6EE] border border-[#E3DACB] rounded-xl p-6 sm:p-7 flex flex-col justify-between space-y-5 shadow-xs hover:border-[#1C1917] transition-colors"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono font-bold text-[#842A1C] bg-[#842A1C]/10 px-2 py-0.5 rounded uppercase">
+                <span className="text-[10px] font-mono font-bold text-[#8C3826] bg-[#8C3826]/10 px-2 py-0.5 rounded uppercase">
                   {p.badge}
                 </span>
-                <span className="font-mono text-base font-bold text-[#C9BEB0]">
+                <span className="font-mono text-base font-bold text-[#CFC3B0]">
                   {p.num}
                 </span>
               </div>
 
-              <h3 className="font-display font-bold text-lg text-[#141312]">
+              <h3 className="font-display font-bold text-lg text-[#1C1917]">
                 {p.title}
               </h3>
 
-              <p className="text-xs text-[#5C5852] leading-relaxed">
+              <p className="text-xs text-[#5C554E] leading-relaxed">
                 {p.desc}
               </p>
             </div>
 
-            <div className="pt-3 border-t border-[#E2DAD0]">
+            <div className="pt-3 border-t border-[#E3DACB]">
               <Link
                 href={p.actionHref}
-                className="text-xs font-mono font-semibold text-[#842A1C] hover:underline"
+                className="text-xs font-mono font-semibold text-[#8C3826] hover:underline"
               >
                 {p.actionText}
               </Link>

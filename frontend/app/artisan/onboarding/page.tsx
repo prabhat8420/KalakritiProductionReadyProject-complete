@@ -47,47 +47,47 @@ export default function ArtisanOnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] py-12 px-4">
-      <div className="max-w-2xl mx-auto bg-white border border-stone-200 rounded-2xl p-8 shadow-sm">
+    <div className="min-h-screen bg-[#F7F2E7] py-12 px-4 sm:px-6">
+      <div className="max-w-2xl mx-auto bg-[#FAF6EE] border border-[#E3DACB] rounded-2xl p-8 sm:p-10 shadow-sm">
         <div className="mb-8">
-          <span className="inline-block px-2.5 py-1 rounded bg-orange-100 text-orange-900 text-xs font-semibold uppercase mb-2">
-            Step 2 of 2 • Artisan Verification
+          <span className="inline-block px-3 py-1 rounded bg-[#8C3826]/10 text-[#8C3826] font-mono text-[10px] font-semibold uppercase tracking-wider mb-3">
+            Step 2 of 2 • Artisan Lineage Verification
           </span>
-          <h1 className="text-2xl font-serif font-bold text-stone-900">Artisan Studio Profile</h1>
-          <p className="text-sm text-stone-600">
-            Tell us about your heritage craft, regional roots, and payout preferences.
+          <h1 className="font-serif text-3xl font-bold text-[#1C1917]">Master Studio Profile</h1>
+          <p className="text-xs text-[#6E655F] mt-1.5 leading-relaxed">
+            Record your craft tradition, ancestral cluster, and direct bank settlement details.
           </p>
         </div>
 
         {error && (
-          <div className="mb-6 p-3.5 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg">
+          <div className="mb-6 p-3.5 bg-red-50/80 border border-red-200 text-red-800 text-xs rounded-lg font-mono">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
-            <h2 className="text-sm font-bold uppercase text-stone-800 tracking-wider">Craft Pedigree</h2>
+            <h2 className="font-mono text-xs font-bold uppercase tracking-[0.15em] text-[#1C1917]">Craft Pedigree</h2>
 
             <div>
-              <label className="block text-xs font-semibold uppercase text-stone-600 mb-1">Studio / Brand Name</label>
+              <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6E655F] mb-1.5 font-medium">Studio / Master Name</label>
               <input
                 type="text"
                 required
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 placeholder="e.g. Mithila Heritage Art Studio"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#c55337]"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-[#E3DACB] bg-[#F7F2E7] text-sm text-[#1C1917] focus:outline-none focus:ring-1 focus:ring-[#8C3826] focus:border-[#8C3826]"
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold uppercase text-stone-600 mb-1">Craft Tradition</label>
+                <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6E655F] mb-1.5 font-medium">Craft Tradition</label>
                 <select
                   value={craftTradition}
                   onChange={(e) => setCraftTradition(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-stone-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#c55337]"
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#E3DACB] bg-[#F7F2E7] text-sm text-[#1C1917] focus:outline-none focus:ring-1 focus:ring-[#8C3826] focus:border-[#8C3826]"
                 >
                   <option value="Madhubani Painting">Madhubani Painting (Bihar)</option>
                   <option value="Jaipur Blue Pottery">Jaipur Blue Pottery (Rajasthan)</option>
@@ -99,90 +99,90 @@ export default function ArtisanOnboardingPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase text-stone-600 mb-1">Region / Craft Village</label>
+                <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6E655F] mb-1.5 font-medium">Region / Craft Village</label>
                 <input
                   type="text"
                   required
                   value={region}
                   onChange={(e) => setRegion(e.target.value)}
                   placeholder="e.g. Madhubani, Bihar"
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#c55337]"
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#E3DACB] bg-[#F7F2E7] text-sm text-[#1C1917] focus:outline-none focus:ring-1 focus:ring-[#8C3826] focus:border-[#8C3826]"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold uppercase text-stone-600 mb-1">Years Practicing Craft</label>
+                <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6E655F] mb-1.5 font-medium">Years Practicing Craft</label>
                 <input
                   type="number"
                   min="1"
                   required
                   value={yearsActive}
                   onChange={(e) => setYearsActive(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#c55337]"
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#E3DACB] bg-[#F7F2E7] text-sm text-[#1C1917] focus:outline-none focus:ring-1 focus:ring-[#8C3826] focus:border-[#8C3826]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase text-stone-600 mb-1">Workshop Address</label>
+                <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6E655F] mb-1.5 font-medium">Workshop Address</label>
                 <input
                   type="text"
                   value={workshopAddress}
                   onChange={(e) => setWorkshopAddress(e.target.value)}
                   placeholder="Village / Cluster address"
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#c55337]"
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#E3DACB] bg-[#F7F2E7] text-sm text-[#1C1917] focus:outline-none focus:ring-1 focus:ring-[#8C3826] focus:border-[#8C3826]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase text-stone-600 mb-1">Craft Story & Artisan Bio</label>
+              <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6E655F] mb-1.5 font-medium">Lineage Story & Bio</label>
               <textarea
                 rows={4}
                 required
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
                 placeholder="Describe your lineage, how you learned the craft, and the traditional methods and natural materials you use..."
-                className="w-full px-3.5 py-2.5 rounded-lg border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#c55337]"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-[#E3DACB] bg-[#F7F2E7] text-sm text-[#1C1917] focus:outline-none focus:ring-1 focus:ring-[#8C3826] focus:border-[#8C3826]"
               />
             </div>
           </div>
 
-          <div className="pt-6 border-t border-stone-100 space-y-4">
-            <h2 className="text-sm font-bold uppercase text-stone-800 tracking-wider">Bank Account For Direct Payouts</h2>
+          <div className="pt-6 border-t border-[#E3DACB] space-y-4">
+            <h2 className="font-mono text-xs font-bold uppercase tracking-[0.15em] text-[#1C1917]">Bank Account For Direct Escrow Transfers</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-semibold uppercase text-stone-600 mb-1">Bank Name</label>
+                <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6E655F] mb-1.5 font-medium">Bank Name</label>
                 <input
                   type="text"
                   value={bankName}
                   onChange={(e) => setBankName(e.target.value)}
                   placeholder="e.g. State Bank of India"
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#c55337]"
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#E3DACB] bg-[#F7F2E7] text-sm text-[#1C1917] focus:outline-none focus:ring-1 focus:ring-[#8C3826] focus:border-[#8C3826]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase text-stone-600 mb-1">Account Number</label>
+                <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6E655F] mb-1.5 font-medium">Account Number</label>
                 <input
                   type="text"
                   value={accountNumber}
                   onChange={(e) => setAccountNumber(e.target.value)}
                   placeholder="•••• •••• ••••"
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#c55337]"
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#E3DACB] bg-[#F7F2E7] text-sm text-[#1C1917] focus:outline-none focus:ring-1 focus:ring-[#8C3826] focus:border-[#8C3826]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase text-stone-600 mb-1">IFSC Code</label>
+                <label className="block font-mono text-[10px] uppercase tracking-wider text-[#6E655F] mb-1.5 font-medium">IFSC Code</label>
                 <input
                   type="text"
                   value={ifscCode}
                   onChange={(e) => setIfscCode(e.target.value)}
                   placeholder="SBIN0001234"
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#c55337]"
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-[#E3DACB] bg-[#F7F2E7] text-sm text-[#1C1917] focus:outline-none focus:ring-1 focus:ring-[#8C3826] focus:border-[#8C3826]"
                 />
               </div>
             </div>
@@ -191,7 +191,7 @@ export default function ArtisanOnboardingPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 bg-[#c55337] text-white rounded-lg font-medium text-sm hover:bg-[#a5402a] transition disabled:opacity-50 shadow-sm"
+            className="w-full py-3.5 bg-[#8C3826] hover:bg-[#722D1E] text-white rounded-lg font-mono text-xs uppercase tracking-widest font-bold transition disabled:opacity-50 cursor-pointer shadow-sm"
           >
             {loading ? 'Submitting Verification...' : 'Submit Studio Profile for Verification'}
           </button>
