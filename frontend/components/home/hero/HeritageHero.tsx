@@ -9,9 +9,13 @@ export default function HeritageHero() {
   const [activeMaterial, setActiveMaterial] = useState<'glazed_blue' | 'bronze' | 'terracotta'>('glazed_blue');
 
   return (
-    <section className="relative overflow-hidden bg-[#241E19] text-[#F7F2E7] rounded-2xl border border-[#E3DACB]/20 shadow-sm">
-      {/* Background Architectural Warm Grid Pattern */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#B8860B_1px,transparent_1px)] [background-size:24px_24px]" />
+    <section
+      className="relative overflow-hidden text-[#F7F2E7] rounded-2xl border border-[#E3DACB]/30 shadow-2xl bg-cover bg-center"
+      style={{ backgroundImage: "url('/images/hero/hero-mural-bg.jpg')" }}
+    >
+      {/* Dark Heritage Vignette & Texture Overlay for Luxury Depth & Contrast */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#14100C]/94 via-[#1C1611]/88 to-[#14100C]/82 backdrop-blur-[2px]" />
+      <div className="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:24px_24px]" />
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-6 sm:p-10 lg:p-12">
         {/* Left Editorial Narrative (7 Columns) */}
@@ -24,12 +28,13 @@ export default function HeritageHero() {
 
           {/* Master Headline with MagicUI TextAnimate & Nasyhama Font */}
           <div className="space-y-2">
-            <h1 className="font-nasyhama text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08] text-[#F7F2E7] drop-shadow-sm">
+            <h1 className="font-nasyhama text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08] text-[#F7F2E7] drop-shadow-md">
               <TextAnimate
                 animation="blurInUp"
                 by="character"
-                duration={5}
-                className="inline-block bg-gradient-to-r from-[#FFFDF9] via-[#F3E5AB] via-[#D4AF37] to-[#FFFDF9] bg-[length:200%_auto] animate-shimmer-text bg-clip-text text-transparent"
+                duration={6}
+                loop={true}
+                className="inline-block bg-gradient-to-r from-[#FFFDF9] via-[#F3E5AB] via-[#D4AF37] to-[#FFFDF9] bg-[length:200%_auto] animate-shimmer-text bg-clip-text text-transparent font-nasyhama"
               >
                 Direct From Master Studios.
               </TextAnimate>
@@ -38,6 +43,7 @@ export default function HeritageHero() {
               Pure Ancestral Lineage, Mathematically Fair.
             </p>
           </div>
+
 
 
           {/* Action CTAs */}

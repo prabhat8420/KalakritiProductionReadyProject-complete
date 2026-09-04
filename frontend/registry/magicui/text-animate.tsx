@@ -26,134 +26,159 @@ export interface TextAnimateProps extends Omit<React.HTMLAttributes<HTMLElement>
   by?: ByType;
   startOnView?: boolean;
   once?: boolean;
+  loop?: boolean;
   animation?: AnimationType;
 }
 
 const staggerTimings: Record<ByType, number> = {
-  text: 0.06,
-  word: 0.08,
-  character: 0.035,
-  line: 0.12,
+  text: 0.1,
+  word: 0.12,
+  character: 0.045,
+  line: 0.18,
 };
 
 const defaultItemVariants: Record<
   AnimationType,
   {
-    hidden: (opts: { duration: number }) => TargetAndTransition;
-    show: (opts: { duration: number }) => TargetAndTransition;
+    hidden: (opts: { duration: number; loop: boolean }) => TargetAndTransition;
+    show: (opts: { duration: number; loop: boolean }) => TargetAndTransition;
   }
 > = {
   blurInUp: {
     hidden: () => ({
-      opacity: 0,
-      filter: 'blur(8px)',
-      y: 16,
+      opacity: 0.75,
+      filter: 'blur(3px)',
+      y: 8,
     }),
-    show: ({ duration }) => ({
+    show: ({ duration, loop }) => ({
       opacity: 1,
       filter: 'blur(0px)',
       y: 0,
       transition: {
-        duration: duration || 0.8,
-        ease: [0.22, 1, 0.36, 1],
+        duration: duration || 4.5,
+        ease: 'easeInOut',
+        repeat: loop ? Infinity : 0,
+        repeatType: 'reverse',
+        repeatDelay: 1.5,
       },
     }),
   },
   blurInDown: {
     hidden: () => ({
-      opacity: 0,
-      filter: 'blur(8px)',
-      y: -16,
+      opacity: 0.75,
+      filter: 'blur(3px)',
+      y: -8,
     }),
-    show: ({ duration }) => ({
+    show: ({ duration, loop }) => ({
       opacity: 1,
       filter: 'blur(0px)',
       y: 0,
       transition: {
-        duration: duration || 0.8,
-        ease: [0.22, 1, 0.36, 1],
+        duration: duration || 4.5,
+        ease: 'easeInOut',
+        repeat: loop ? Infinity : 0,
+        repeatType: 'reverse',
+        repeatDelay: 1.5,
       },
     }),
   },
   blurIn: {
     hidden: () => ({
-      opacity: 0,
-      filter: 'blur(10px)',
+      opacity: 0.75,
+      filter: 'blur(4px)',
     }),
-    show: ({ duration }) => ({
+    show: ({ duration, loop }) => ({
       opacity: 1,
       filter: 'blur(0px)',
       transition: {
-        duration: duration || 0.8,
-        ease: 'easeOut',
+        duration: duration || 4.5,
+        ease: 'easeInOut',
+        repeat: loop ? Infinity : 0,
+        repeatType: 'reverse',
+        repeatDelay: 1.5,
       },
     }),
   },
   fadeIn: {
     hidden: () => ({
-      opacity: 0,
+      opacity: 0.75,
     }),
-    show: ({ duration }) => ({
+    show: ({ duration, loop }) => ({
       opacity: 1,
       transition: {
-        duration: duration || 0.8,
-        ease: 'easeOut',
+        duration: duration || 4.5,
+        ease: 'easeInOut',
+        repeat: loop ? Infinity : 0,
+        repeatType: 'reverse',
+        repeatDelay: 1.5,
       },
     }),
   },
   slideUp: {
     hidden: () => ({
-      opacity: 0,
-      y: 20,
+      opacity: 0.75,
+      y: 10,
     }),
-    show: ({ duration }) => ({
+    show: ({ duration, loop }) => ({
       opacity: 1,
       y: 0,
       transition: {
-        duration: duration || 0.8,
-        ease: [0.22, 1, 0.36, 1],
+        duration: duration || 4.5,
+        ease: 'easeInOut',
+        repeat: loop ? Infinity : 0,
+        repeatType: 'reverse',
+        repeatDelay: 1.5,
       },
     }),
   },
   slideDown: {
     hidden: () => ({
-      opacity: 0,
-      y: -20,
+      opacity: 0.75,
+      y: -10,
     }),
-    show: ({ duration }) => ({
+    show: ({ duration, loop }) => ({
       opacity: 1,
       y: 0,
       transition: {
-        duration: duration || 0.8,
-        ease: [0.22, 1, 0.36, 1],
+        duration: duration || 4.5,
+        ease: 'easeInOut',
+        repeat: loop ? Infinity : 0,
+        repeatType: 'reverse',
+        repeatDelay: 1.5,
       },
     }),
   },
   scaleUp: {
     hidden: () => ({
-      opacity: 0,
-      scale: 0.85,
+      opacity: 0.75,
+      scale: 0.95,
     }),
-    show: ({ duration }) => ({
+    show: ({ duration, loop }) => ({
       opacity: 1,
       scale: 1,
       transition: {
-        duration: duration || 0.8,
-        ease: [0.22, 1, 0.36, 1],
+        duration: duration || 4.5,
+        ease: 'easeInOut',
+        repeat: loop ? Infinity : 0,
+        repeatType: 'reverse',
+        repeatDelay: 1.5,
       },
     }),
   },
   scaleDown: {
     hidden: () => ({
-      opacity: 0,
-      scale: 1.15,
+      opacity: 0.75,
+      scale: 1.05,
     }),
-    show: ({ duration }) => ({
+    show: ({ duration, loop }) => ({
       opacity: 1,
       scale: 1,
       transition: {
-        duration: duration || 0.8,
-        ease: [0.22, 1, 0.36, 1],
+        duration: duration || 4.5,
+        ease: 'easeInOut',
+        repeat: loop ? Infinity : 0,
+        repeatType: 'reverse',
+        repeatDelay: 1.5,
       },
     }),
   },
@@ -162,20 +187,21 @@ const defaultItemVariants: Record<
 export function TextAnimate({
   children,
   delay = 0,
-  duration = 0.8,
+  duration = 5,
   variants,
   className,
   as: Component = 'span',
-  by = 'word',
+  by = 'character',
   startOnView = true,
-  once = true,
-  animation = 'fadeIn',
+  once = false,
+  loop = true,
+  animation = 'blurInUp',
   ...props
 }: TextAnimateProps) {
   const MotionComponent = motion(Component as any);
 
   const containerVariants: Variants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0.9 },
     show: {
       opacity: 1,
       transition: {
@@ -186,8 +212,8 @@ export function TextAnimate({
   };
 
   const itemVariants: Variants = variants || {
-    hidden: defaultItemVariants[animation]?.hidden({ duration }) || { opacity: 0 },
-    show: defaultItemVariants[animation]?.show({ duration }) || { opacity: 1 },
+    hidden: defaultItemVariants[animation]?.hidden({ duration, loop }) || { opacity: 0.8 },
+    show: defaultItemVariants[animation]?.show({ duration, loop }) || { opacity: 1 },
   };
 
   if (by === 'character') {
