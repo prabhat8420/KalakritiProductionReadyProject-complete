@@ -14,41 +14,41 @@ export function ProductPriceBreakdown({
   totalPrice,
 }: PriceBreakdownProps) {
   return (
-    <div className="bg-stone-50 border border-stone-200 rounded-xl p-3.5 sm:p-4 text-xs space-y-2.5">
-      <div className="flex flex-wrap items-center justify-between gap-1.5 pb-2 border-b border-stone-200">
-        <span className="font-semibold text-stone-800 uppercase tracking-wider text-[11px]">
-          🌱 Transparent Price Composition
+    <div className="bg-[#FFFFFF] border border-[#E2DAD0] rounded-xl p-4 text-xs space-y-2.5 shadow-xs font-mono">
+      <div className="flex flex-wrap items-center justify-between gap-1.5 pb-2.5 border-b border-[#E2DAD0]">
+        <span className="font-bold text-[#141312] uppercase tracking-wider text-[11px] flex items-center gap-1">
+          <span>⚖️</span>
+          <span>Transparent Price Composition</span>
         </span>
-        <span className="text-emerald-700 font-bold text-[11px] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-          85% to Artisan
+        <span className="text-[#842A1C] font-bold text-[10px] bg-[#842A1C]/10 px-2 py-0.5 rounded">
+          85% to Master Studio
         </span>
       </div>
 
-      <div className="flex flex-wrap justify-between items-baseline gap-1 text-stone-600">
-        <span>Artisan Share (Direct Net Earning):</span>
-        <span className="font-semibold text-stone-900">₹{artisanShare.toLocaleString('en-IN')}</span>
+      <div className="flex flex-wrap justify-between items-baseline gap-1 text-[#5C5852]">
+        <span>Artisan Share (Direct Net Escrow):</span>
+        <span className="font-bold text-[#141312]">₹{artisanShare.toLocaleString('en-IN')}</span>
       </div>
 
-      <div className="flex flex-wrap justify-between items-baseline gap-1 text-stone-600">
+      <div className="flex flex-wrap justify-between items-baseline gap-1 text-[#5C5852]">
         <span>Raw Material & Crafting Base:</span>
         <span>₹{basePrice.toLocaleString('en-IN')}</span>
       </div>
 
-      <div className="flex flex-wrap justify-between items-baseline gap-1 text-stone-600">
-        <span>Kalakriti Platform & GI Verification:</span>
+      <div className="flex flex-wrap justify-between items-baseline gap-1 text-[#5C5852]">
+        <span>Kalakriti GI Verification & Platform:</span>
         <span>₹{platformFee.toLocaleString('en-IN')}</span>
       </div>
 
-      <div className="flex flex-wrap justify-between items-baseline gap-1 text-stone-600">
-        <span>Insured Fragile Craft Transit:</span>
+      <div className="flex flex-wrap justify-between items-baseline gap-1 text-[#5C5852]">
+        <span>Insured Fragile Transit & Insurance:</span>
         <span>₹{deliveryFee.toLocaleString('en-IN')}</span>
       </div>
 
-      <div className="pt-2 border-t border-stone-200 flex flex-wrap justify-between items-center gap-1 text-sm font-bold text-stone-900">
+      <div className="pt-2.5 border-t border-[#E2DAD0] flex flex-wrap justify-between items-center gap-1 text-sm font-bold text-[#141312]">
         <span>Final Patron Price:</span>
-        <span className="text-base text-[#c55337]">₹{totalPrice.toLocaleString('en-IN')}</span>
+        <span className="text-base text-[#842A1C] font-display">₹{totalPrice.toLocaleString('en-IN')}</span>
       </div>
     </div>
   );
 }
-

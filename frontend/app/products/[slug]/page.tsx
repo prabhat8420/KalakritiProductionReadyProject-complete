@@ -32,11 +32,11 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
     'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=800&q=80';
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] py-8 sm:py-10 px-4 max-w-6xl mx-auto space-y-12">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+    <div className="min-h-screen bg-[#F5F0EB] py-8 sm:py-10 px-4 max-w-[1280px] mx-auto space-y-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
         {/* Gallery with Image Fallback & Ratio */}
-        <div>
-          <div className="bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm">
+        <div className="md:sticky md:top-24">
+          <div className="bg-white border border-[#E2DAD0] rounded-xl overflow-hidden shadow-xs">
             <CraftImage
               src={primaryImage}
               alt={product.title}
@@ -44,28 +44,34 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
               className="w-full h-full object-cover"
             />
           </div>
+          <div className="mt-3 flex items-center justify-between text-[11px] font-mono text-[#5C5852] px-1">
+            <span>Natural Pigment Specification</span>
+            <span className="text-[#842A1C] font-semibold">100% Handcrafted</span>
+          </div>
         </div>
 
         {/* Product Story & Purchase Block */}
         <div className="space-y-6">
-          <div>
-            <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-900 text-xs font-bold uppercase">
+          <div className="space-y-2 border-b border-[#E2DAD0] pb-5">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded bg-[#842A1C]/10 text-[#842A1C] text-[10px] font-mono font-bold uppercase tracking-wider">
                 {product.tradition?.name || 'Heritage Craft'}
               </span>
-              <span className="text-xs text-stone-500">• {product.artisan?.region || 'India'}</span>
+              <span className="text-xs font-mono text-[#5C5852]">• {product.artisan?.region || 'India'}</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-serif font-bold text-stone-900 leading-tight">
+
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-[#141312] leading-tight tracking-tight">
               {product.title}
             </h1>
-            <p className="text-xs text-stone-600 mt-2">
-              Artisan Studio: <span className="font-semibold text-stone-800">{product.artisan?.display_name || 'Master Artisan'}</span>
+
+            <p className="text-xs font-mono text-[#5C5852]">
+              Artisan Studio: <span className="font-semibold text-[#141312]">{product.artisan?.display_name || 'Master Artisan'}</span>
             </p>
           </div>
 
-          <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">{product.description_en}</p>
+          <p className="text-sm text-[#2D2B28] leading-relaxed font-normal">{product.description_en}</p>
           {product.description_hi && (
-            <p className="text-xs text-stone-600 bg-stone-100 p-3 rounded-lg border border-stone-200 italic font-serif">
+            <p className="text-xs text-[#5C5852] bg-[#FDFBF7] p-3.5 rounded-lg border border-[#E2DAD0] italic font-serif leading-relaxed">
               "{product.description_hi}"
             </p>
           )}
@@ -87,7 +93,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
             totalPrice={product.total_price}
           />
 
-          {/* Authenticity Certificate Modal/Trigger */}
+          {/* Authenticity Certificate */}
           {product.certification && (
             <AuthenticityCertificate
               certificateId={product.certification.certificate_id}
@@ -103,9 +109,13 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
         </div>
       </div>
 
-      {/* Customer Reviews & Feedback Section with Empty State */}
-      <ProductReviews productId={product.id} />
+      {/* Patron Reviews */}
+      <div className="pt-8 border-t border-[#E2DAD0]">
+        <ProductReviews
+          productId={product.id}
+          productTitle={product.title}
+        />
+      </div>
     </div>
   );
 }
-

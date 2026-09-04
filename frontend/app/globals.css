@@ -1,23 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #faf8f5;
-  --foreground: #1c1917;
-  --primary: #c55337;
-  --primary-foreground: #ffffff;
-  --secondary: #1b2d44;
-  --secondary-foreground: #ffffff;
-  --accent: #e5a93c;
-  --muted: #f4efe8;
-  --muted-foreground: #78716c;
-  --border: #e7e0d6;
+  --font-cinzel: 'Cinzel', serif;
+  --font-cormorant: 'Cormorant Garamond', serif;
+  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Material Palette Tokens */
+  --bg-paper: #F5F0EB;
+  --bg-parchment: #EBE5DC;
+  --bg-card: #FFFFFF;
+  --ink-kohl: #141312;
+  --ink-charcoal: #2D2B28;
+  --ink-slate: #5C5852;
+  --ink-muted: #8A847C;
+  --border-subtle: #E2DAD0;
+  --border-dark: #141312;
+  
+  --pigment-manjistha: #842A1C;
+  --pigment-neel: #1B2738;
+  --pigment-dhokra: #C29B38;
+  --pigment-verdigris: #2D5A43;
+
+  /* Compatibility mappings */
+  --background: #F5F0EB;
+  --foreground: #141312;
+  --primary: #842A1C;
+  --primary-foreground: #FFFFFF;
+  --secondary: #1B2738;
+  --secondary-foreground: #FFFFFF;
+  --accent: #C29B38;
+  --muted: #EBE5DC;
+  --muted-foreground: #5C5852;
+  --border: #E2DAD0;
 }
 
 body {
-  color: var(--foreground);
-  background-color: var(--background);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  color: var(--ink-kohl);
+  background-color: var(--bg-paper);
+  font-family: var(--font-jakarta);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle raw paper texture overlay */
+.paper-texture {
+  background-color: #F5F0EB;
+  background-image: radial-gradient(#E2DAD0 0.75px, transparent 0.75px);
+  background-size: 16px 16px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #EBE5DC;
+}
+::-webkit-scrollbar-thumb {
+  background: #C9BEB0;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #842A1C;
 }

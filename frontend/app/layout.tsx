@@ -5,7 +5,7 @@ import Footer from '@/components/layout/Footer';
 import { ToastProvider } from '@/components/ui/Toast';
 
 export const metadata: Metadata = {
-  title: 'Kalakriti (कलाकृति) | Authentic Indian Handcrafted Marketplace',
+  title: 'Kalakriti (कलाकृति) | Living Indian Craft Archives & Direct Marketplace',
   description: 'Connecting genuine Indian craft artisans directly with global patrons. Experience authentic provenance, transparent pricing, and circular care.',
 };
 
@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased min-h-screen flex flex-col bg-[#faf8f5] text-[#1c1917] font-sans">
+      <body className="antialiased min-h-screen flex flex-col bg-[#F5F0EB] text-[#141312] font-sans selection:bg-[#842A1C] selection:text-white">
         <ToastProvider>
           <Header />
           <div className="flex-1">
@@ -28,4 +28,3 @@ export default function RootLayout({
     </html>
   );
 }
-
