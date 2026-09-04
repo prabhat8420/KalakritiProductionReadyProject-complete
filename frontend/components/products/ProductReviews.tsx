@@ -14,10 +14,11 @@ interface ReviewItem {
 
 interface ProductReviewsProps {
   productId: string;
+  productTitle?: string;
   initialReviews?: ReviewItem[];
 }
 
-export function ProductReviews({ productId, initialReviews = [] }: ProductReviewsProps) {
+export function ProductReviews({ productId, productTitle, initialReviews = [] }: ProductReviewsProps) {
   const toast = useToast();
   const [reviews, setReviews] = useState<ReviewItem[]>(initialReviews);
   const [rating, setRating] = useState(5);
