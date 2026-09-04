@@ -4,12 +4,14 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useCartStore } from '@/store/cart.store';
 import { useAuthStore } from '@/store/auth.store';
+import CuratorSidebar from '@/components/home/sidebar/CuratorSidebar';
 
 export default function Header() {
   const { cart, fetchCart } = useCartStore();
   const { user, isAuthenticated, logout, checkSession } = useAuthStore();
   const [lang, setLang] = useState<'EN' | 'HI'>('EN');
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,31 +35,52 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#F5F0EB]/95 backdrop-blur-md border-b border-[#E2DAD0]">
-      {/* Top Banner: Direct Artisan Pledge */}
-      <div className="bg-[#1B2738] text-[#EBE5DC] text-[11px] font-mono py-1.5 px-4 text-center tracking-wide border-b border-[#E2DAD0]/10">
-        🏺 <span className="font-semibold text-[#C29B38]">DIRECT ARTISAN GUARANTEE:</span> 85% of item price transfers directly to master artisan studio bank accounts. Free GI cryptographic verification on all orders.
-      </div>
+    <>
+      <header className="sticky top-0 z-50 bg-[#F5F0EB]/95 backdrop-blur-md border-b border-[#E2DAD0]">
+        {/* Top Banner: Direct Artisan Pledge */}
+        <div className="bg-[#1B2738] text-[#EBE5DC] text-[11px] font-mono py-1.5 px-4 text-center tracking-wide border-b border-[#E2DAD0]/10">
+          🏺 <span className="font-semibold text-[#C29B38]">DIRECT ARTISAN GUARANTEE:</span> 85% of item price transfers directly to master artisan studio bank accounts. Free GI cryptographic verification on all orders.
+        </div>
 
-      {/* Main Navigation Bar */}
-      <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <span className="text-2xl transition-transform group-hover:scale-105">🏺</span>
-          <div>
-            <span className="font-display text-2xl font-bold tracking-tight text-[#842A1C]">कलाकृति</span>
-            <span className="text-[10px] font-mono tracking-widest text-[#5C5852] block -mt-1 uppercase">
-              KALAKRITI • LIVING ARCHIVES
-            </span>
+        {/* Main Navigation Bar */}
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+          {/* Left: Hamburger Three-Line Menu & Brand Logo */}
+          <div className="flex items-center gap-3">
+            {/* Top-Left Hamburger Three-Line Button */}
+            <button
+              type="button"
+              onClick={() => setSidebarOpen(true)}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#E2DAD0] bg-white text-[#141312] hover:bg-[#EBE5DC] hover:text-[#842A1C] hover:border-[#842A1C]/40 transition-all duration-200 cursor-pointer shadow-xs group"
+              aria-label="Open Living Archives Directory and Categories"
+              title="All Categories & Lineages"
+            >
+              <span className="text-base leading-none font-bold text-[#141312] group-hover:text-[#842A1C] transition-colors">
+                ☰
+              </span>
+              <span className="text-xs font-mono font-bold tracking-wider uppercase text-[#141312] group-hover:text-[#842A1C]">
+                All
+              </span>
+            </button>
+
+            {/* Brand Logo */}
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <span className="text-2xl transition-transform group-hover:scale-105">🏺</span>
+              <div>
+                <span className="font-display text-2xl font-bold tracking-tight text-[#842A1C]">कलाकृति</span>
+                <span className="text-[10px] font-mono tracking-widest text-[#5C5852] block -mt-1 uppercase">
+                  KALAKRITI • LIVING ARCHIVES
+                </span>
+              </div>
+            </Link>
           </div>
-        </Link>
 
-        {/* Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6 text-xs font-mono font-medium uppercase tracking-wider text-[#141312]">
-          <Link href="/shop" className="hover:text-[#842A1C] transition-colors">
-            {lang === 'EN' ? 'Craft Catalog' : 'शिल्प संग्रह'}
-          </Link>
-          <Link href="/traditions" className="hover:text-[#842A1C] transition-colors">
+          {/* Navigation Links */}
+          <nav className="hidden md:flex items-center gap-6 text-xs font-mono font-medium uppercase tracking-wider text-[#141312]">
+            <Link href="/shop" className="hover:text-[#842A1C] transition-colors">
+              {lang === 'EN' ? 'Craft Catalog' : 'शिल्प संग्रह'}
+            </Link>
+            <Link href="/traditions" className="hover:text-[#842A1C] transition-colors">
+
             {lang === 'EN' ? 'Heritage Traditions' : 'धरोहर परंपराएं'}
           </Link>
           <Link href="/craft-doctor" className="flex items-center gap-1 text-[#2D5A43] hover:text-[#1E3E2E] font-semibold">
@@ -170,5 +193,13 @@ export default function Header() {
         </div>
       </div>
     </header>
+
+    {/* Top-Left Hamburger Activated Slide-Over Drawer */}
+    <CuratorSidebar
+      isOpen={sidebarOpen}
+      onClose={() => setSidebarOpen(false)}
+    />
+  </>
   );
 }
+
