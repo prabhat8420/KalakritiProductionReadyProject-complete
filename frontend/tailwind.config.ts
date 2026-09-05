@@ -67,11 +67,17 @@ const config: Config = {
         }
       },
       fontFamily: {
-        display: ['var(--font-cinzel)', 'Georgia', 'serif'],
-        nasyhama: ['var(--font-nasyhama)', 'Nasyhama', 'Rozha One', 'Yatra One', 'Cinzel', 'Georgia', 'serif'],
-        serif: ['var(--font-cormorant)', 'Georgia', 'serif'],
-        sans: ['var(--font-jakarta)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-mono)', 'monospace'],
+        /*
+         * All roles use Fraunces — contrast comes from weight + opsz axes, not family.
+         * Existing utility classes (font-display, font-nasyhama, font-serif, font-sans)
+         * still work and now all resolve to Fraunces.
+         * font-mono remains JetBrains Mono, scoped to SHA-256/provenance/numeric labels.
+         */
+        display:  ['var(--font-fraunces)', 'Georgia', 'serif'],
+        nasyhama: ['var(--font-fraunces)', 'Georgia', 'serif'],
+        serif:    ['var(--font-fraunces)', 'Georgia', 'serif'],
+        sans:     ['var(--font-fraunces)', 'Georgia', 'serif'],
+        mono:     ['var(--font-mono)', 'Courier New', 'monospace'],
       },
     },
   },

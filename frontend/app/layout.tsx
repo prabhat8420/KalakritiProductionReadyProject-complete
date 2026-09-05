@@ -19,7 +19,7 @@ export default function RootLayout({
       <body className="antialiased min-h-screen flex flex-col bg-[#F5F0EB] text-[#141312] font-sans selection:bg-[#842A1C] selection:text-white">
         <ToastProvider>
           <Header />
-          <div className="flex-1">
+          <div className="flex-1 pt-0">
             {children}
           </div>
           <Footer />

@@ -1,16 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cinzel+Decorative:wght@700;900&family=Rozha+One&family=Yatra+One&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+/*
+ * TYPOGRAPHY — Single variable typeface: Fraunces
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Fraunces covers the full weight range (100–900) and optical size axis (9–144).
+ * Low opsz + low weight = clean, readable body text.
+ * High opsz + high weight = punchy display headline.
+ * Italic axis included for the gold subtitle role.
+ *
+ * JetBrains Mono is the ONLY second family — scoped strictly to font-mono
+ * for SHA-256 hashes, provenance codes, and tabular numeric metrics.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-cinzel: 'Cinzel', serif;
-  --font-nasyhama: 'Nasyhama', 'Rozha One', 'Yatra One', 'Cinzel Decorative', 'Cinzel', Georgia, serif;
-  --font-cormorant: 'Cormorant Garamond', serif;
-  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  /* Single font family — Fraunces, with JetBrains Mono for mono-specific labels */
+  --font-fraunces: 'Fraunces', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
+  /*
+   * Typography scale — same family, differentiated by weight + optical size.
+   * Use font-variation-settings in components for precise axis control.
+   *
+   * display  : wght 800, opsz 72  → hero h1
+   * heading  : wght 650, opsz 36  → h2–h4
+   * subhead  : wght 400, opsz 36, italic → gold italic subtitles
+   * body     : wght 360, opsz 18  → paragraphs, descriptions
+   * ui       : wght 500, opsz 12  → nav, buttons, labels
+   * micro    : wght 600, opsz 9   → badges, caps labels
+   */
 
   /* Material Warm Beige Palette Tokens */
   --bg-paper: #F7F2E7;
@@ -22,7 +43,7 @@
   --ink-muted: #8C8379;
   --border-subtle: #E3DACB;
   --border-dark: #1C1917;
-  
+
   --pigment-manjistha: #8C3826;
   --pigment-neel: #1E2C3D;
   --pigment-dhokra: #B8860B;
@@ -44,7 +65,11 @@
 body {
   color: var(--ink-kohl);
   background-color: var(--bg-paper);
-  font-family: var(--font-jakarta);
+  /* Fraunces everywhere — opsz auto lets the browser use the right optical size */
+  font-family: var(--font-fraunces);
+  font-optical-sizing: auto;
+  font-weight: 360;
+  line-height: 1.65;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

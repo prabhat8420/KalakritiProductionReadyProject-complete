@@ -10,18 +10,21 @@ export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   return (
-    <main className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-12">
-      {/* Central Editorial Hero Canvas */}
+    <main className="flex flex-col w-full">
+      {/* Full-bleed Hero — escapes all container constraints */}
       <HeritageHero />
 
-      {/* Verified Living Craft Specimen Grid */}
-      <SpecimenGrid categoryFilter={selectedCategory} />
+      {/* Below-fold content — contained with standard max-width */}
+      <div className="max-w-[1360px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+        {/* Verified Living Craft Specimen Grid */}
+        <SpecimenGrid categoryFilter={selectedCategory} />
 
-      {/* Signature GSAP Pinned Lineage Story */}
-      <LineageScrollSequence />
+        {/* Signature GSAP Pinned Lineage Story */}
+        <LineageScrollSequence />
 
-      {/* Trust & Direct Fairness Manifesto */}
-      <FairnessManifesto />
+        {/* Trust & Direct Fairness Manifesto */}
+        <FairnessManifesto />
+      </div>
     </main>
   );
 }
