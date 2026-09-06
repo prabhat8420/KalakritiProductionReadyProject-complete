@@ -10,7 +10,12 @@ export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   return (
-    <main className="flex flex-col w-full">
+    /*
+     * -mt-16 cancels the global pt-16 from layout.tsx so the full-bleed
+     * hero starts at the very top of the page, behind the transparent header.
+     * Inner pages don't use this component so they keep their pt-16 offset.
+     */
+    <main className="flex flex-col w-full -mt-16">
       {/* Full-bleed Hero — escapes all container constraints */}
       <HeritageHero />
 

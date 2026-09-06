@@ -1,24 +1,27 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useCartStore } from '@/store/cart.store';
 import { useAuthStore } from '@/store/auth.store';
 import CuratorSidebar from '@/components/home/sidebar/CuratorSidebar';
 
 /*
- * THREE-STATE SCROLL MACHINE
+ * SCROLL-REACTIVE HEADER — HOME PAGE ONLY
  * ─────────────────────────────────────────────────────────────────────────────
- * at-top  : scrollY < 60px  → fully transparent, no bg, no border, no shadow
- * hidden  : scrolling down past 80px delta  → translateY(-100%), slides off screen
- * visible : any upward scroll > 10px delta  → slides back, blurred bg (if past hero)
+ * The transparent/at-top behavior is scoped ONLY to the home page (pathname '/').
+ * On all other pages, the header is always solid (visible state).
  *
- * z-index: [9999] — explicitly above the Three.js WebGL canvas compositing layer.
- * Three.js canvases can create their own GPU compositing layer. A z-index alone
- * is not always sufficient without also ensuring the header's stacking context
- * is established by `transform` or `will-change`. The CSS `translate` on the
- * header (from the slide animation) already creates an isolated stacking context
- * which resolves any canvas layer conflict.
+ * Three states (home page only):
+ *   at-top  → transparent, white nav text, overlays the hero
+ *   hidden  → translateY(-100%), slides off on downward scroll
+ *   visible → solid beige bg, dark nav text, on upward scroll
+ *
+ * On all other pages: always 'visible' (solid beige, never transparent).
+ *
+ * z-index [9999] + will-change:transform ensures header stacks above
+ * any Three.js WebGL canvas compositing layer.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 type HeaderState = 'at-top' | 'hidden' | 'visible';
@@ -29,14 +32,16 @@ export default function Header() {
   const [lang, setLang] = useState<'EN' | 'HI'>('EN');
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [headerState, setHeaderState] = useState<HeaderState>('at-top');
+  const [headerState, setHeaderState] = useState<HeaderState>('visible');
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
-  // Scroll tracking refs — never trigger re-renders, only used in rAF callback
+  // Transparent behavior ONLY on home page
+  const isHomePage = pathname === '/';
+
+  // Scroll tracking refs — no re-renders, only used in rAF
   const lastScrollY = useRef(0);
-  const lastScrollDir = useRef<'up' | 'down'>('down');
   const ticking = useRef(false);
-  const heroHeight = useRef(typeof window !== 'undefined' ? window.innerHeight : 800);
 
   useEffect(() => {
     fetchCart();
@@ -53,106 +58,98 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Scroll state machine — uses rAF to batch updates and prevent jitter
+  // On route change: immediately reset to correct state
+  useEffect(() => {
+    if (!isHomePage) {
+      setHeaderState('visible');
+      lastScrollY.current = 0;
+    } else {
+      // On home page, check initial scroll position
+      const currentY = window.scrollY;
+      setHeaderState(currentY < 60 ? 'at-top' : 'visible');
+      lastScrollY.current = currentY;
+    }
+  }, [isHomePage]);
+
   const handleScroll = useCallback(() => {
+    // Non-home pages: header always stays visible
+    if (!isHomePage) return;
+
     if (ticking.current) return;
     ticking.current = true;
 
     requestAnimationFrame(() => {
       const currentY = window.scrollY;
       const delta = currentY - lastScrollY.current;
-      const isScrollingDown = delta > 0;
-      const isScrollingUp = delta < 0;
 
       if (currentY < 60) {
-        // Always at-top when near the very top of the page
         setHeaderState('at-top');
-      } else if (isScrollingDown && Math.abs(delta) > 8) {
-        // Hide on meaningful downward scroll (8px threshold prevents jitter)
+      } else if (delta > 8) {
+        // Meaningful downward scroll → hide
         setHeaderState('hidden');
-        lastScrollDir.current = 'down';
-      } else if (isScrollingUp && Math.abs(delta) > 5) {
-        // Reappear on any genuine upward intent (5px — low, intentional)
+      } else if (delta < -5) {
+        // Any upward intent → show with solid bg
         setHeaderState('visible');
-        lastScrollDir.current = 'up';
       }
 
       lastScrollY.current = currentY;
       ticking.current = false;
     });
-  }, []);
+  }, [isHomePage]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
-  // Update heroHeight on resize
-  useEffect(() => {
-    const onResize = () => { heroHeight.current = window.innerHeight; };
-    window.addEventListener('resize', onResize, { passive: true });
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
-
   const handleLogout = () => {
     logout();
     setUserDropdownOpen(false);
   };
 
-  // Derive CSS classes from the 3-state machine
   const isAtTop = headerState === 'at-top';
   const isHidden = headerState === 'hidden';
-  // "past hero" = scrolled more than one viewport height down
-  const isPastHero = lastScrollY.current >= heroHeight.current;
 
-  const headerBgClass = isAtTop
-    ? 'bg-transparent border-transparent shadow-none'
-    : 'bg-[#F5F0EB]/92 backdrop-blur-md border-b border-[#E2DAD0] shadow-sm';
-
-  const headerTransformClass = isHidden
-    ? '-translate-y-full'
-    : 'translate-y-0';
-
-  // Top banner: hide when at-top (transparent) so it doesn't fight the hero visually
-  const bannerClass = isAtTop
-    ? 'opacity-0 pointer-events-none'
-    : 'opacity-100';
+  // Background: transparent at-top (home only), solid everywhere else
+  const headerBgStyle = isAtTop
+    ? { backgroundColor: 'transparent', borderColor: 'transparent', boxShadow: 'none' }
+    : { backgroundColor: 'rgba(245,240,235,0.96)', borderBottom: '1px solid #E2DAD0', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' };
 
   return (
     <>
       {/*
        * FIXED HEADER — z-[9999]
-       * This z-index explicitly places the header above any Three.js canvas.
-       * The `transform` property on this element (from the slide animation)
-       * ensures the stacking context is isolated, preventing the WebGL canvas
-       * from bleeding over the header regardless of GPU compositing.
+       * will-change:transform creates an isolated stacking context,
+       * which guarantees this header renders above the Three.js WebGL
+       * canvas compositing layer on the home page.
        */}
       <header
-        className={`fixed top-0 left-0 right-0 w-full z-[9999] transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${headerBgClass} ${headerTransformClass}`}
-        style={{ willChange: 'transform' }}
+        className={`fixed top-0 left-0 right-0 w-full z-[9999] transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${isHidden ? '-translate-y-full' : 'translate-y-0'}`}
+        style={{ ...headerBgStyle, willChange: 'transform' }}
       >
-        {/* Top Banner: Direct Artisan Pledge */}
-        <div className={`bg-[#1B2738] text-[#EBE5DC] text-[11px] font-mono py-1.5 px-4 text-center tracking-wide border-b border-[#E2DAD0]/10 transition-opacity duration-300 ${bannerClass}`}>
-          🏺 <span className="font-semibold text-[#C29B38]">DIRECT ARTISAN GUARANTEE:</span> 85% of item price transfers directly to master artisan studio bank accounts. Free GI cryptographic verification on all orders.
-        </div>
+        {/* Top Banner — hidden when transparent (at-top on home) */}
+        {!isAtTop && (
+          <div className="bg-[#1B2738] text-[#EBE5DC] text-[11px] font-mono py-1.5 px-4 text-center tracking-wide border-b border-[#E2DAD0]/10">
+            🏺 <span className="font-semibold text-[#C29B38]">DIRECT ARTISAN GUARANTEE:</span> 85% of item price transfers directly to master artisan studio bank accounts. Free GI cryptographic verification on all orders.
+          </div>
+        )}
 
         {/* Main Navigation Bar */}
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-          {/* Left: Hamburger Three-Line Menu & Brand Logo */}
+
+          {/* Left: Hamburger & Brand Logo */}
           <div className="flex items-center gap-3">
-            {/* Top-Left Hamburger Three-Line Button */}
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
               className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all duration-200 cursor-pointer shadow-xs group ${
                 isAtTop
-                  ? 'border-white/20 bg-white/10 text-white hover:bg-white/20 hover:border-white/40'
+                  ? 'border-white/25 bg-white/10 text-white hover:bg-white/20 hover:border-white/50'
                   : 'border-[#E2DAD0] bg-white text-[#141312] hover:bg-[#EBE5DC] hover:text-[#842A1C] hover:border-[#842A1C]/40'
               }`}
               aria-label="Open Living Archives Directory and Categories"
-              title="All Categories & Lineages"
             >
-              <span className={`text-base leading-none font-bold transition-colors ${isAtTop ? 'text-white' : 'text-[#141312] group-hover:text-[#842A1C]'}`}>
+              <span className={`text-base leading-none font-bold ${isAtTop ? 'text-white' : 'text-[#141312] group-hover:text-[#842A1C]'}`}>
                 ☰
               </span>
               <span className={`text-xs font-bold tracking-wider uppercase ${isAtTop ? 'text-white' : 'text-[#141312] group-hover:text-[#842A1C]'}`}>
@@ -160,7 +157,6 @@ export default function Header() {
               </span>
             </button>
 
-            {/* Brand Logo */}
             <Link href="/" className="flex items-center gap-2.5 group">
               <span className="text-2xl transition-transform group-hover:scale-105">🏺</span>
               <div>
@@ -198,22 +194,19 @@ export default function Header() {
             )}
           </nav>
 
-          {/* Right Actions: Lang Switcher, User Menu, Cart */}
+          {/* Right Actions */}
           <div className="flex items-center gap-3">
-            {/* Language Switcher */}
             <button
               onClick={() => setLang(lang === 'EN' ? 'HI' : 'EN')}
               className={`text-[11px] font-mono font-semibold px-2 py-1 rounded border transition-all ${
                 isAtTop
-                  ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+                  ? 'border-white/25 bg-white/10 text-white hover:bg-white/20'
                   : 'border-[#E2DAD0] bg-white text-[#141312] hover:bg-[#EBE5DC]'
               }`}
-              title="Toggle English / हिन्दी"
             >
               {lang === 'EN' ? '🇮🇳 हिन्दी' : '🇬🇧 English'}
             </button>
 
-            {/* User Sign In / Profile Dropdown */}
             {isAuthenticated && user ? (
               <div className="relative" ref={dropdownRef}>
                 <button
@@ -221,7 +214,7 @@ export default function Header() {
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                   className={`text-xs font-mono font-semibold transition px-3 py-1.5 rounded-lg border shadow-xs flex items-center gap-1.5 cursor-pointer ${
                     isAtTop
-                      ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+                      ? 'border-white/25 bg-white/10 text-white hover:bg-white/20'
                       : 'text-[#141312] hover:text-[#842A1C] border-[#E2DAD0] bg-white'
                   }`}
                 >
@@ -239,23 +232,19 @@ export default function Header() {
                         {user.roles?.[0] || 'Patron'}
                       </span>
                     </div>
-
                     {user.roles?.includes('artisan') && (
                       <Link href="/artisan/dashboard" onClick={() => setUserDropdownOpen(false)} className="flex items-center gap-2 px-3.5 py-2 text-xs text-[#2D2B28] hover:bg-[#F5F0EB] hover:text-[#842A1C] font-medium">
                         <span>🎨</span> Artisan Studio
                       </Link>
                     )}
-
                     {user.roles?.includes('admin') && (
                       <Link href="/admin/dashboard" onClick={() => setUserDropdownOpen(false)} className="flex items-center gap-2 px-3.5 py-2 text-xs text-[#2D2B28] hover:bg-[#F5F0EB] hover:text-[#842A1C] font-medium">
                         <span>🛡️</span> Admin Moderation
                       </Link>
                     )}
-
                     <Link href="/cart" onClick={() => setUserDropdownOpen(false)} className="flex items-center gap-2 px-3.5 py-2 text-xs text-[#2D2B28] hover:bg-[#F5F0EB] font-medium">
                       <span>🧺</span> My Basket & Orders
                     </Link>
-
                     <button
                       type="button"
                       onClick={handleLogout}
@@ -271,7 +260,7 @@ export default function Header() {
                 href="/auth/login"
                 className={`text-xs font-mono font-semibold transition px-3 py-1.5 rounded-lg border shadow-xs ${
                   isAtTop
-                    ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+                    ? 'border-white/25 bg-white/10 text-white hover:bg-white/20'
                     : 'text-[#141312] hover:text-[#842A1C] border-[#E2DAD0] bg-white'
                 }`}
               >
@@ -279,7 +268,6 @@ export default function Header() {
               </Link>
             )}
 
-            {/* Multi-Vendor Cart Drawer Link */}
             <Link
               href="/cart"
               className="relative px-3.5 py-1.5 bg-[#842A1C] text-white rounded-lg font-mono font-bold text-xs hover:bg-[#671E13] transition flex items-center gap-1.5 shadow-xs"
@@ -296,11 +284,7 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Top-Left Hamburger Activated Slide-Over Drawer */}
-      <CuratorSidebar
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      />
+      <CuratorSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
     </>
   );
 }

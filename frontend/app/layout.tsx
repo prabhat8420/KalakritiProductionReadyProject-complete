@@ -19,7 +19,18 @@ export default function RootLayout({
       <body className="antialiased min-h-screen flex flex-col bg-[#F5F0EB] text-[#141312] font-sans selection:bg-[#842A1C] selection:text-white">
         <ToastProvider>
           <Header />
-          <div className="flex-1 pt-0">
+          {/*
+           * pt-16 = 64px = height of the fixed nav bar.
+           * The home page hero is designed to start at top-0 behind the transparent
+           * header, so it would look wrong with this padding — but it's applied here
+           * globally because the hero section uses w-screen / translate-x trick to
+           * escape. All inner pages need this offset so content doesn't hide behind
+           * the fixed header.
+           *
+           * NOTE: The hero's own pt-20 on the mobile text column handles the
+           * header offset inside the full-bleed section itself.
+           */}
+          <div className="flex-1 pt-16">
             {children}
           </div>
           <Footer />
